@@ -1,21 +1,21 @@
 #include "../Inc/MenuView.hpp"
 #include <cstdlib>
-
+#include <iomanip> // Để sử dụng setw()
 void MenuView::display_menu()
 {
-    cout << "                             Menu                            " << endl;
+    cout << "                                  Menu                                  " << endl;
     cout << "==============================================================================\n" << endl;
-    cout << "1. Media List";
-    cout << "\t\t\t 2. Playlist";
-    cout << "\t\t\t 3. Play Music\n\n";
-    cout << "0. Exit\n" << endl;
-    // cout << "==============================================================================\n" << endl;
+    cout << left << setw(30) << "1. Media List"
+         << left << setw(30) << "2. Play list"
+         << left << setw(30) << "3. Play music"<<endl;
+    cout << left<<"\n0. Exit\n";
+    cout << "==============================================================================\n" << endl;
     // cout << "Choose page to show: " << endl;
 }
 
 void MenuView::check_choice(){
     display_menu();
-    cout << "==============================================================================\n" << endl;
+
     cout << "Choose action : " ;
     size_t choice;
     do {

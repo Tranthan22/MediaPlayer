@@ -14,8 +14,8 @@ void MediaFileView::display_MediaFile()
 }
 
 // Hàm để hiển thị danh sách bài hát trên một trang
-void MediaFileView::displaySongsPerPage(const vector<Song>& songs, int page) {
-    int startIndex = (page - 1) * 25;
+void MediaFileView::displaySongsPerPage(const vector<Song>& songs, size_t currentpage) {
+    int startIndex = (currentpage - 1) * 25;
     int endIndex = min(startIndex + 25, static_cast<int>(songs.size()) - 1);
     // static_cast<int> chuyen doi sang so int
     for (size_t i = startIndex; i < endIndex; ++i) {
@@ -25,17 +25,17 @@ void MediaFileView::displaySongsPerPage(const vector<Song>& songs, int page) {
              << left << setw(15) << truncate(songs[i].duration, 15)
              << left << setw(20) << truncate(songs[i].publisher, 15) << endl;
     }
-    cout << "\n============================================================================================\n" << endl;
-    cout<< "Page: "<<page;
+    cout << "\n============================================================================================" << endl;
+    cout<< "Total Media list: "<<songs.size()<<"\n"<<endl;
+    cout<< "Page: "<<currentpage;
     cout<<setw(10)<<" "<<left << setw(25) << "P. Previous"
          << left << setw(25) << "N. Next"
          << left << setw(25) << "E. Exit" << endl;
 }
 
 
-void MediaFileView::check_choice(const vector<Song>& songs, int& currentPage) {
-    string userInput;
-    
+void MediaFileView::check_choice(const vector<Song>& songs, size_t& currentPage) {
+        string userInput;    
         display_MediaFile();
         displaySongsPerPage(songs, currentPage);
         cout << "\nChoose page to show : ";
@@ -105,7 +105,7 @@ void MediaFileView::check_choice(const vector<Song>& songs, int& currentPage) {
 int main()
 {
     
-    vector<Song> songs = {
+    vector<MediaFileView::Song> songs = {
         {"Song 1", "Artist 1", "3:45", "Publisher 1"},
         {"Song 2", "Artist 2", "4:12", "Publisher 2"},
         {"Song 3", "Artist 3", "2:58", "Publisher 3"},
@@ -167,7 +167,7 @@ int main()
     };
 
     // Số trang hiện tại
-    int currentPage = 1;
+    size_t currentPage = 1;
 
     MediaFileView a;
     a.check_choice(songs,currentPage);
