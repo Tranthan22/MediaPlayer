@@ -3,82 +3,104 @@
 
 void MediaFileView::display_MediaFile()
 {
-    std::cout << "                                          Media List                                   " << endl;
-    cout << "==========================================================================================\n" << endl;
-    cout << "No.";
-    cout << "\t Name";
-    cout << "\t\t\t\t Artist";
-    cout << "\t\t Duration";
-    cout << "\t\t Publisher \n";
+    std::cout << "                                           Media List                                   " << endl;
+    cout << "============================================================================================\n" << endl;
+    cout << left << setw(5) << "No."
+         << left << setw(30) << "Name"
+         << left << setw(25) << "Artist"
+         << left << setw(15) << "Duration"
+         << left << setw(20) << "Publisher" << endl;
     // in thong tin các bài hat 
 }
-void MediaFileView::get_Mediafile()
-{
-    cout<<"deo hieu kieu gi\n";   
-    cout << "==========================================================================================\n" << endl;
-}
-void MediaFileView::choice_page()
-{
-    cout << "Page: " << MediaFileView::get_page();
-    cout << "\t\t P. Previous";
-    cout << "\t\t N. Next";
-    cout << "\t\t E. Exit\n\n";
-}
-
-void MediaFileView::check_choice(const vector<Song>& songs, int page){
-    display_MediaFile();
-    displaySongsPerPage(songs,page);
-    get_Mediafile();
-    choice_page();
-    cout << "Choose page to show: " ;
-    size_t choice;
-    do {
-        cin >> choice;
-        set_choice(choice);
-        switch (choice) {
-            case 1:
-                // mediaList();
-                system("clear");
-                cout << "hello." << endl;
-                break;
-            case 2:
-                // playlist();
-                system("clear");
-                cout << "hello." << endl;
-                break;
-            case 3:
-                // playMusic();
-                system("clear");
-                cout << "hello." << endl;
-                break;
-            case 0:
-                cout << "Exiting..." << endl;
-                cin.ignore(); // Để chờ người dùng nhấn Enter trước khi tiếp tục
-                system("clear");
-                // cin.get();
-                break;
-            default:
-                system("clear");
-                display_MediaFile();
-                cout << "Invalid choice. Please enter a valid option." << endl;
-        }
-    } while (choice != 0);
-}
-
 
 // Hàm để hiển thị danh sách bài hát trên một trang
 void MediaFileView::displaySongsPerPage(const vector<Song>& songs, int page) {
     int startIndex = (page - 1) * 25;
     int endIndex = min(startIndex + 25, static_cast<int>(songs.size()) - 1);
-
-    // cout << "==========================================================================================" << endl;
-    // cout << "No." << setw(10) << "Name" << setw(30) << "Artist" << setw(20) << "Duration" << setw(20) << "Publisher" << endl;
-    // cout << "==========================================================================================" << endl;
-    for (int i = startIndex; i <= endIndex; ++i) {
-        cout << setw(3) << i + 1 << setw(30) << songs[i].name << setw(30) << songs[i].artist << setw(20) << songs[i].duration << setw(20) << songs[i].publisher << endl;
+    // static_cast<int> chuyen doi sang so int
+    for (size_t i = startIndex; i < endIndex; ++i) {
+        cout << left << setw(5) << i + 1
+             << left << setw(30) << truncate(songs[i].name, 30)
+             << left << setw(25) << truncate(songs[i].artist, 20)
+             << left << setw(15) << truncate(songs[i].duration, 15)
+             << left << setw(20) << truncate(songs[i].publisher, 15) << endl;
     }
+    cout << "\n============================================================================================\n" << endl;
+    cout<< "Page: "<<page;
+    cout<<setw(10)<<" "<<left << setw(25) << "P. Previous"
+         << left << setw(25) << "N. Next"
+         << left << setw(25) << "E. Exit" << endl;
 }
 
+
+void MediaFileView::check_choice(const vector<Song>& songs, int& currentPage) {
+    string userInput;
+    
+        display_MediaFile();
+        displaySongsPerPage(songs, currentPage);
+        cout << "\nChoose page to show : ";
+    do {    
+        getline(cin, userInput);
+
+        if (!userInput.empty()) {
+            stringstream ss(userInput);
+            size_t pageChoice;
+            if (ss >> pageChoice) {
+                if (pageChoice > 0 && pageChoice <= (songs.size()/25)+1) {
+                    currentPage = pageChoice; // Cập nhật trang hiện tại
+                    system("clear");
+                    display_MediaFile();
+                    displaySongsPerPage(songs, currentPage);
+                    cout << "\nChoose page to show : ";
+                } else {
+                    system("clear");
+                    display_MediaFile();
+                    displaySongsPerPage(songs, currentPage);
+                    cout << "\nChoose page to show : "; 
+                    cout << "Invalid page number. Media list number between 1 and " << (songs.size()/25)+1<< "." << endl;
+                }
+            } else {
+                char command = userInput[0];
+                switch (command) {
+                    case 'N':
+                    case 'n':
+                    if(currentPage<(songs.size()/25)+1){
+                        currentPage++;
+                    }
+                        system("clear");
+                        display_MediaFile();
+                        displaySongsPerPage(songs, currentPage);
+                        cout << "\nChoose page to show : "; 
+                        break;
+                    case 'P':
+                    case 'p':
+                        if (currentPage > 1) {
+                            currentPage--;
+                        }
+                        system("clear");
+                        display_MediaFile();
+                        displaySongsPerPage(songs, currentPage);
+                        cout << "\nChoose page to show : "; 
+                        break;
+                    case 'E':
+                    case 'e':
+                        return;
+                    default:
+                        system("clear");
+                        display_MediaFile();
+                        displaySongsPerPage(songs, currentPage);
+                        cout << "\nChoose page to show : "; 
+                        cout << "Invalid choice. Please enter a valid option." << endl;
+                }
+            }
+        } else {
+            system("clear");
+            display_MediaFile();
+            displaySongsPerPage(songs, currentPage);
+            cout << "\nChoose page to show : ";
+        }
+    } while (true);
+}
 
 int main()
 {
@@ -104,13 +126,44 @@ int main()
         {"Song 17", "Artist 17", "4:15", "Publisher 17"},
         {"Song 18", "Artist 18", "3:25", "Publisher 18"},
         {"Song 19", "Artist 19", "3:48", "Publisher 19"},
-        {"Song 20", "Artist 20", "4:02", "Publisher 20"},
+        {"Song 20", "Artisaaaaaaaaaaaaaaaaaaaaaaaaaat 20", "4:02", "Publishaaaaaaaaaaaaaaaaaaaer 20"},
         // Thêm các bài hát khác vào đây...
         {"Song 21", "Artist 21", "3:33", "Publisher 21"},
         {"Song 22", "Artist 22", "3:18", "Publisher 22"},
         {"Song 23", "Artist 23", "4:10", "Publisher 23"},
         {"Song 24", "Artist 24", "3:28", "Publisher 24"},
         {"Song 25", "Artist 25", "3:52", "Publisher 25"},
+        {"Song 26", "Artist 21", "3:33", "Publisher 21"},
+        {"Song 27", "Artist 22", "3:18", "Publisher 22"},
+        {"Song 28", "Artist 23", "4:10", "Publisher 23"},
+        {"Song 29", "Artist 24", "3:28", "Publisher 24"},
+        {"Song 30", "Artist 25", "3:52", "Publisher 25"},
+        {"Song 31", "Artist 21", "3:33", "Publisher 21"},
+        {"Song 32", "Artist 22", "3:18", "Publisher 22"},
+        {"Song 33", "Artist 23", "4:10", "Publisher 23"},
+        {"Song 34", "Artist 24", "3:28", "Publisher 24"},
+        {"Song 35", "Artist 25", "3:52", "Publisher 25"},
+        {"Song 36", "Artist 21", "3:33", "Publisher 21"},
+        {"Song 37", "Artist 22", "3:18", "Publisher 22"},
+        {"Song 38", "Artist 23", "4:10", "Publisher 23"},
+        {"Song 39", "Artist 24", "3:28", "Publisher 24"},
+        {"Song 40", "Artist 25", "3:52", "Publisher 25"},
+        {"Song 41", "Artist 21", "3:33", "Publisher 21"},
+        {"Song 42", "Artist 22", "3:18", "Publisher 22"},
+        {"Song 43", "Artist 23", "4:10", "Publisher 23"},
+        {"Song 44", "Artist 24", "3:28", "Publisher 24"},
+        {"Song 45", "Artist 25", "3:52", "Publisher 25"},
+        {"Song 46", "Artist 21", "3:33", "Publisher 21"},
+        {"Song 47", "Artist 22", "3:18", "Publisher 22"},
+        {"Song 48", "Artist 23", "4:10", "Publisher 23"},
+        {"Song 49", "Artist 24", "3:28", "Publisher 24"},
+        {"Song 50", "Artist 25", "3:52", "Publisher 25"},
+        {"Song 51", "Artist 21", "3:33", "Publisher 21"},
+        {"Song 52", "Artist 22", "3:18", "Publisher 22"},
+        {"Song 53", "Artist 23", "4:10", "Publisher 23"},
+        {"Song 54", "Artist 24", "3:28", "Publisher 24"},
+        {"Song 55", "Artist 25", "3:52", "Publisher 25"},
+
     };
 
     // Số trang hiện tại
