@@ -1,7 +1,7 @@
 Create a CLI application for Linux that serves as a basic media files and video files browser/player(advance) using C/C++ player(advance) using C/C++
 [BASIC]
-1. Your application should be able to runs :
-  1- From any directory on your computer
+1. Your application should be able to runs :\n
+  1- From any directory on your computer\n
   2- From external: USB ( must to mount device and parse file in USB) 
 2. Avaiable options:
   1 - View list of media files in that folder and all sub-folder (audio and video)
