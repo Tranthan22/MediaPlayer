@@ -1,9 +1,17 @@
 #include "MediaFile.hpp"
+using namespace std;
 
-MediaFile::MediaFile(/* args */)
-{
+
+MediaFile::MediaFile(const string& n, const string &p) : name(n), path(p)
+{ 
 }
 
-MediaFile::~MediaFile()
-{
+string MediaFile::getName(){
+    return name;
+}
+string MediaFile::getPath(){
+    return path;
+}
+int MediaFile::getType(){
+    return type;
 }
