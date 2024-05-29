@@ -1,4 +1,4 @@
-#include "../Inc/MenuView.hpp"
+#include "MenuView.hpp"
 #include <cstdlib>
 #include <iomanip> // Để sử dụng setw()
 void MenuView::display_menu()
