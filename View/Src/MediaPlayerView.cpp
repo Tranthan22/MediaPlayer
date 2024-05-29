@@ -1,4 +1,4 @@
-#include "../Inc/MediaPlayerView.hpp"
+#include "MediaPlayerView.hpp"
 
 void MediaPlayerView::display_MediaPlayer()
 {

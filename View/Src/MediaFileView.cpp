@@ -1,4 +1,4 @@
-#include "../Inc/MediaFileView.hpp"
+#include "MediaFileView.hpp"
 #include <cstdlib>
 
 void MediaFileView::display_MediaFile()

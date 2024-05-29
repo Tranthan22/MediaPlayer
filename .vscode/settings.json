@@ -1,8 +1,10 @@
 {
     "files.associations": {
+        "*.json": "json",
         "ostream": "cpp",
         "iostream": "cpp",
         "cstdlib": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "iomanip": "cpp"
     }
 }
