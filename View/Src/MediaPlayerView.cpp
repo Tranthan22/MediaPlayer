@@ -7,11 +7,8 @@ void MediaPlayerView::display_MediaPlayer()
     cout << "============================================================================================\n\n\n" << endl;
     cout <<setw(70) << "Please, input your media path you want to play"<< endl;\
     cout << "\n\n\n============================================================================================\n" << endl;
-    // in thong tin các bài hat 
-
 }
 void MediaPlayerView::checkFilesInDirectory(ViewInteract &ViewInteract, string& directoryPath) {
-
     // Kiểm tra xem tệp tồn tại hay không
     std::ifstream file(directoryPath);
     if (file.is_open()) {

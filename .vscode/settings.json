@@ -5,6 +5,7 @@
         "iostream": "cpp",
         "cstdlib": "cpp",
         "string": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "iosfwd": "cpp"
     }
 }

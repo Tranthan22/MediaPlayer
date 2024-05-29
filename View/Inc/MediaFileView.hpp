@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
 #include <iomanip> // Để sử dụng setw()
 using namespace std;
 
