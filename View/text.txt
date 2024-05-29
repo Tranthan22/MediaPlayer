@@ -1,5 +1,0 @@
-
-
-
-- hàm sử lý nhận nút ấn
-trong hàm gọi đến method của controller
