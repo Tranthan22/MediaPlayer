@@ -96,3 +96,7 @@ int PlaylistController:: VolumeDown()
     Mix_VolumeMusic(SysVolume);
     return SysVolume;
 }
+vector<MediaFile *> PlaylistController::getMediaFiles()
+{
+    return mediaFiles;
+}

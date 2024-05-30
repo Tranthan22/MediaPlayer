@@ -1,6 +1,7 @@
 
 #include <vector>
 #include <string>
+#include "MediaFile.hpp"
 
 #ifndef MIX_MAX_VOLUME
 #define MIX_MAX_VOLUME 128
@@ -21,4 +22,5 @@ public:
     int getVolume();
     int VolumeUp();
     int VolumeDown();
+    vector<MediaFile *> getMediaFiles();
 };

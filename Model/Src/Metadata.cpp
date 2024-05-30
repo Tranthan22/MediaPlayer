@@ -1,31 +1,40 @@
-#ifndef __METADATA_
-#define __METADATA_
+#include "Metadata.hpp"
+#include "PlaylistController.hpp"
 
-#include "MediaFileView.hpp"
-#include "MenuView.hpp"
-#include "MetadataView.hpp"
-
-class PlaylistController;
-
-class Metadata
+void Metadata::viewMetadata(PlaylistController *ptr_ctr, int file_idx)
 {
-private:
-    string file_name;
-    string file_path;
-    int file_type;
-    MetadataView view_metadata;
-    MenuView view_menu;
-    MediaFileView view_file;
+    file_name = ptr_ctr->getMediaFiles()[file_idx - 1]->getName();
+    file_path = ptr_ctr->getMediaFiles()[file_idx - 1]->getPath();
+    file_type = ptr_ctr->getMediaFiles()[file_idx - 1]->getType();
+    TagLib::FileRef fileRef(file_path.c_str());
+    if (!fileRef.isNull() && fileRef.tag())
+    {
+        TagLib::Tag *tag = fileRef.tag();
+        switch (file_type)
+        {
+        case '1':
+            view_mediafile.displayAudioFileMetadata(tag, fileRef);
+            break;
+        case '2':
+            view_mediafile.displayVideoFileMetadata(tag, fileRef, file_path);
+            break;
+        default:
+            view_mediafile.getMediaFileTypeError();
+        }
+    }
+    else
+    {
+        view_metadata.getMetadataError();
+    }
+}
 
-public:
-    Metadata() = default;
-    ~Metadata() = default;
-
-    void viewMetadata(PlaylistController *ptr_control, int file_idx);
-
-    void updateMetadata(PlaylistController *ptr_control, int file_idx);
-};
-
-#endif
-
-
+void Metadata::updateMetadata(PlaylistController *ptr_ctr1, int file_idx)
+{
+    getline(cin, new_value);
+    file_name = ptr_ctr1->getMediaFiles()[file_idx - 1]->getName();
+    file_path = ptr_ctr1->getMediaFiles()[file_idx - 1]->getPath();
+    file_type = ptr_ctr1->getMediaFiles()[file_idx - 1]->getType();
+    TagLib::FileRef fileRef(file_path.c_str());
+    TagLib::Tag *tag = fileRef.tag();
+    
+}

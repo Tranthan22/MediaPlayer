@@ -1,5 +1,5 @@
-#ifndef MENUVIEW_HPP
-#define MENUVIEW_HPP
+#ifndef MEDIAFILEVIEW_HPP
+#define MEDIAFILEVIEW_HPP
 
 #include <iostream>
 #include <vector>
@@ -34,5 +34,5 @@ public:
     void displaySongsPerPage(const vector<Song>& songs, size_t currentpage);
 };
 
-#endif
+#endif /*MEDIAFILEVIEW_HPP*/
 

@@ -14,8 +14,8 @@ private:
     string file_path;
     int file_type;
     MetadataView view_metadata;
-    // MenuView view_menu;
-    MediaFileView view_file;
+    MenuView view_menu;
+    MediaFileView view_mediafile;
 
 public:
     Metadata() = default;
