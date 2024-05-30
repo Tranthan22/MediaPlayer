@@ -13,7 +13,7 @@ private:
     vector<MediaFile> files;
 
 public:
-    Playlist(const string &n) : name(n) {}
+    Playlist(const string &n);
     ~Playlist() = default;
 
     void addFile(MediaFile *file);

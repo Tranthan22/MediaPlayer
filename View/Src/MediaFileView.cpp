@@ -32,8 +32,6 @@ void MediaFileView::displaySongsPerPage(const vector<Song>& songs, size_t curren
          << left << setw(25) << "N. Next"
          << left << setw(25) << "E. Exit" << endl;
 }
-
-
 void MediaFileView::check_choice(const vector<Song>& songs, size_t& currentPage) {
         string userInput;    
         display_MediaFile();

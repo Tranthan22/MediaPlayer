@@ -31,6 +31,7 @@ public:
             string duration;
             string publisher;
         };
+    
     void display_MediaFile();
     void check_choice(const vector<Song>& songs, size_t& currentPage);
     void displaySongsPerPage(const vector<Song>& songs, size_t currentpage);
