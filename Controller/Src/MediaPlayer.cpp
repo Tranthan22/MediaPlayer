@@ -3,7 +3,7 @@
 #include <iostream>
 
 Mix_Music *bgm;
-
+bool MediaPlayer::Playing = false;
 
 MediaPlayer::MediaPlayer(/* args */)
 {
@@ -43,6 +43,9 @@ int MediaPlayer::playMusic(const char* file)
         return -1;
     }
 
+    Playing = true;
+    
+
     // std::cout << "Press Enter to stop the music and quit..." << std::endl;
     // std::cin.get();
     // Mix_FreeMusic(bgm);
@@ -50,19 +53,30 @@ int MediaPlayer::playMusic(const char* file)
     return 0;
 }
 
-void MediaPlayer:: pauseMusic()
+void MediaPlayer:: ResumePause()
 {
-    Mix_HaltMusic();
+    if(Playing == true)
+    {
+        Mix_PauseMusic();
+        Playing = false;
+    }
+    else
+    {
+        Mix_ResumeMusic();
+        Playing = true;
+    }
 }
 
 void MediaPlayer:: nextMusic(std::vector<char*>& list)
 {
     static size_t fileIndexInList = 0;
     fileIndexInList++;
-    pauseMusic();
+    Mix_HaltMusic();
     playMusic(list[fileIndexInList]);
 }
 
+
+/*================ Volume ================== */
 int MediaPlayer:: getVolume()
 {
     return SysVolume;

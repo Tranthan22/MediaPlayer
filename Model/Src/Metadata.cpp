@@ -16,24 +16,25 @@ void Metadata::viewMetadata(MediaPlayer *ptr_ctr, int file_idx)
         switch (file_type)
         {
         case '1':
-            view_mediafile.displayAudioFileMetadata(tag, fileRef);
+            // view_mediafile.displayAudioFileMetadata(tag, fileRef);
             break;
         case '2':
-            view_mediafile.displayVideoFileMetadata(tag, fileRef, file_path);
+            // view_mediafile.displayVideoFileMetadata(tag, fileRef, file_path);
             break;
         default:
-            view_mediafile.getMediaFileTypeError();
+            // view_mediafile.getMediaFileTypeError();
+            break;
         }
     }
     else
     {
-        view_metadata.getMetadataError();
+        // view_metadata.getMetadataError();
     }
 }
 
 void Metadata::updateMetadata(MediaPlayer *ptr_ctr1, int file_idx)
 {
-    getline(cin, new_value);
+    // getline(cin, new_value);
     file_name = ptr_ctr1->getMediaFiles()[file_idx - 1]->getName();
     file_path = ptr_ctr1->getMediaFiles()[file_idx - 1]->getPath();
     file_type = ptr_ctr1->getMediaFiles()[file_idx - 1]->getType();

@@ -54,12 +54,3 @@ void MenuView::check_choice(){
     } while (choice != 0);
 }
 
-
-
-int main()
-{
-    MenuView a;
-    a.check_choice();
-    return 0;
-}
-

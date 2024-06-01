@@ -11,14 +11,19 @@ class MediaPlayer
 {
 private:
     int SysVolume = MIX_MAX_VOLUME / 2;
+    static bool Playing;
+
 public:
     MediaPlayer(/* args */);
     ~MediaPlayer();
-    int listUpdate();
-    void pauseMusic();
-    void nextMusic(std::vector<char*>& list);
-    int playMusic(const char* file);
 
+    /* Media Player */
+    int playMusic(const char* file);
+    void ResumePause();
+    void nextMusic(std::vector<char*>& list);
+    // PlayerStatus isPlaying();
+
+    /* Volume */
     int getVolume();
     int VolumeUp();
     int VolumeDown();
