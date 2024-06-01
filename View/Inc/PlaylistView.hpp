@@ -39,11 +39,13 @@ class PlaylistView
         
         PlaylistView()=default;
         ~PlaylistView()=default;
-        void display_Playlist();
-        void display_PlaylistName();
+        void display_Playlist(const vector<play_list>& plists, size_t currentpage);
         void display_PlaylistPerPage(const vector<play_list>& plists, size_t currentpage);
+
+        void display_PlaylistName(const vector<playlist_name>& plist_name, size_t currentpage);
         void display_PlaylistNamePerPage(const vector<playlist_name>& plists, size_t currentpage);
-        void choose_Playlist(const vector<play_list>& plists, size_t& currentPage);
-        void choose_PlaylistName(const vector<playlist_name>& plists, size_t& currentPage);
+
+        void display_PlayNameAdd(const vector<playlist_name>& plist_name, size_t currentPage);
+        void display_PlayNameRemove(const vector<playlist_name>& plists_name, size_t& currentPage);
 };
 #endif

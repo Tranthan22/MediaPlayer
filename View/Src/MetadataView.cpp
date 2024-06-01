@@ -1,23 +1,16 @@
 #include "MetadataView.hpp"
 
 
-void MetadataView::display_MediaList()
+void MetadataView::display_MediaList(const vector<Media_list>& lists, size_t currentpage)
 {
     std::cout << "                                       Media play list                                   " << endl;
     cout << "============================================================================================\n" << endl;
     cout << left << setw(10) << "No."
          << left << setw(40) << "List"
          << left << setw(40) << "Last modified" << endl;
-}
-void MetadataView::display_MedialistPerPage(const vector<Media_list>& lists, size_t currentpage) {
-    int startIndex = (currentpage - 1) * 10;
-    int endIndex = min(startIndex + 10, static_cast<int>(lists.size()) - 1);
-    // static_cast<int> chuyen doi sang so int
-    for (size_t i = startIndex; i < endIndex; ++i) {
-        cout << left << setw(10) << i + 1
-             << left << setw(40) << truncate(lists[i].list, 40)
-             << left << setw(40) << truncate(lists[i].Lastmodified, 40) << endl;
-    }
+
+    display_MedialistPerPage(lists,currentpage);
+    
     cout << "\n============================================================================================" << endl;
     cout<< "Total Media list: "<<lists.size()<<"\n"<<endl;
     cout<< "Page: "<<currentpage;
@@ -28,12 +21,26 @@ void MetadataView::display_MedialistPerPage(const vector<Media_list>& lists, siz
         << left << setw(10)<<"100%"
         << left << setw(25) << "U. Up"
         << left << setw(25) << "D. Down" << endl; 
+    cout << "\nChoose list to play : ";
 }
 
+// Hien thi data doc duoc va hien thi ra
+void MetadataView::display_MedialistPerPage(const vector<Media_list>& lists, size_t currentpage) {
+    int startIndex = (currentpage - 1) * 10;
+    int endIndex = min(startIndex + 10, static_cast<int>(lists.size()) - 1);
+    // static_cast<int> chuyen doi sang so int
+    for (size_t i = startIndex; i < endIndex; ++i) {
+        cout << left << setw(10) << i + 1
+             << left << setw(40) << truncate(lists[i].list, 40)
+             << left << setw(40) << truncate(lists[i].Lastmodified, 40) << endl;
+    }
+}
+
+
+// Ham dung cho he thong phia duoi controll de xac nhan thong tin
 void MetadataView::choose_list(const vector<Media_list>& lists, size_t& currentPage) {
         string userInput;    
-        display_MediaList();
-        display_MedialistPerPage(lists, currentPage);
+        display_MediaList(lists, currentPage);
         cout << "\nChoose list to play : ";
     do {    
         getline(cin, userInput);
@@ -58,18 +65,14 @@ void MetadataView::choose_list(const vector<Media_list>& lists, size_t& currentP
                         currentPage++;
                     }
                         system("clear");
-                         display_MediaList();
-                        display_MedialistPerPage(lists, currentPage);
-                        cout << "\nChoose list to play : ";
+                         display_MediaList(lists, currentPage);
                         break;
                     case 'P':
                     case 'p':
                         if (currentPage > 1) {
                             currentPage--;
                         }
-                        display_MediaList();
-                        display_MedialistPerPage(lists, currentPage);
-                        cout << "\nChoose list to play : ";
+                        display_MediaList(lists, currentPage);
                         break;
                     case 'E':
                     case 'e':
@@ -96,18 +99,13 @@ void MetadataView::choose_list(const vector<Media_list>& lists, size_t& currentP
                         
                         break;
                     default:
-                        display_MediaList();
-                        display_MedialistPerPage(lists, currentPage);
-                        cout << "\nChoose list to play : ";
-                        cout << "\nChoose page to show : "; 
+                        display_MediaList(lists, currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
                 }
             }
         } else {
             system("clear");
-            display_MediaList();
-            display_MedialistPerPage(lists, currentPage);
-            cout << "\nChoose list to play : ";
+            display_MediaList(lists, currentPage);
         }
     } while (true);
 }

@@ -33,7 +33,7 @@ public:
     
     MetadataView()=default;
     ~MetadataView()=default;
-    void display_MediaList();
+    void display_MediaList(const vector<Media_list>& lists, size_t currentpage);
     void display_MedialistPerPage(const vector<Media_list>& lists, size_t currentpage);
     void choose_list(const vector<Media_list>& lists, size_t& currentPage);
 };
