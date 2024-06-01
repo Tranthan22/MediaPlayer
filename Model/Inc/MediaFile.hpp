@@ -10,7 +10,7 @@ private:
     string path;
     int type;
 public:
-    MediaFile::MediaFile(const string& n, const string &p) : name(n), path(p){}
+    MediaFile(const string& n, const string &p);
     string getName();
     string getPath();
     int getType();

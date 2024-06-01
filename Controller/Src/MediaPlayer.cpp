@@ -1,13 +1,11 @@
 // #include "../Controller/Inc/PlaylistController.hpp"
-#include "PlaylistController.hpp"
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include "MediaPlayer.hpp"
 #include <iostream>
 
 Mix_Music *bgm;
 
 
-PlaylistController::PlaylistController(/* args */)
+MediaPlayer::MediaPlayer(/* args */)
 {
     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
         std::cerr << "SDL could not initialize! SDL Error: " << SDL_GetError() << std::endl;
@@ -20,13 +18,13 @@ PlaylistController::PlaylistController(/* args */)
     }
 }
 
-PlaylistController::~PlaylistController()
+MediaPlayer::~MediaPlayer()
 {
     Mix_CloseAudio();
     SDL_Quit();
 }
 
-int PlaylistController::playMusic(const char* file)
+int MediaPlayer::playMusic(const char* file)
 {
     bgm = Mix_LoadMUS(file);
     if (bgm == NULL) {
@@ -52,12 +50,12 @@ int PlaylistController::playMusic(const char* file)
     return 0;
 }
 
-void PlaylistController:: pauseMusic()
+void MediaPlayer:: pauseMusic()
 {
     Mix_HaltMusic();
 }
 
-void PlaylistController:: nextMusic(std::vector<char*>& list)
+void MediaPlayer:: nextMusic(std::vector<char*>& list)
 {
     static size_t fileIndexInList = 0;
     fileIndexInList++;
@@ -65,11 +63,11 @@ void PlaylistController:: nextMusic(std::vector<char*>& list)
     playMusic(list[fileIndexInList]);
 }
 
-int PlaylistController:: getVolume()
+int MediaPlayer:: getVolume()
 {
     return SysVolume;
 }
-int PlaylistController:: VolumeUp()
+int MediaPlayer:: VolumeUp()
 {
     if(SysVolume > 123)
     {
@@ -83,7 +81,7 @@ int PlaylistController:: VolumeUp()
     return SysVolume;
 }
 
-int PlaylistController:: VolumeDown()
+int MediaPlayer:: VolumeDown()
 {
     if(SysVolume < 5)
     {
@@ -96,7 +94,9 @@ int PlaylistController:: VolumeDown()
     Mix_VolumeMusic(SysVolume);
     return SysVolume;
 }
-vector<MediaFile *> PlaylistController::getMediaFiles()
+vector<MediaFile *> MediaPlayer::getMediaFiles()
 {
-    return mediaFiles;
+    vector<MediaFile *> a;
+    return a;
+    // return mediaFiles;
 }

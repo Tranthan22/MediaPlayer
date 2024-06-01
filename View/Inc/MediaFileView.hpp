@@ -14,7 +14,7 @@ class MediaFileView
 private:
     // fix size
     string truncate(const string& text, int width) {
-    if (text.length() <= width) {
+    if ((int)text.length() <= width) {
         return text;
     } else {
         return text.substr(0, width - 3) + "...";

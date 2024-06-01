@@ -1,7 +1,10 @@
 #include "Metadata.hpp"
-#include "PlaylistController.hpp"
+#include "MediaPlayer.hpp"
+#include <taglib/fileref.h>
+#include <taglib/tag.h>
+#include <iostream>
 
-void Metadata::viewMetadata(PlaylistController *ptr_ctr, int file_idx)
+void Metadata::viewMetadata(MediaPlayer *ptr_ctr, int file_idx)
 {
     file_name = ptr_ctr->getMediaFiles()[file_idx - 1]->getName();
     file_path = ptr_ctr->getMediaFiles()[file_idx - 1]->getPath();
@@ -28,7 +31,7 @@ void Metadata::viewMetadata(PlaylistController *ptr_ctr, int file_idx)
     }
 }
 
-void Metadata::updateMetadata(PlaylistController *ptr_ctr1, int file_idx)
+void Metadata::updateMetadata(MediaPlayer *ptr_ctr1, int file_idx)
 {
     getline(cin, new_value);
     file_name = ptr_ctr1->getMediaFiles()[file_idx - 1]->getName();

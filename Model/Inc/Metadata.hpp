@@ -5,7 +5,8 @@
 #include "MenuView.hpp"
 #include "MetadataView.hpp"
 
-class PlaylistController;
+
+class MediaPlayer;
 
 class Metadata
 {
@@ -21,9 +22,9 @@ public:
     Metadata() = default;
     ~Metadata() = default;
 
-    void viewMetadata(PlaylistController *ptr_control, int file_idx);
+    void viewMetadata(MediaPlayer *ptr_control, int file_idx);
 
-    void updateMetadata(PlaylistController *ptr_control, int file_idx);
+    void updateMetadata(MediaPlayer *ptr_control, int file_idx);
 };
 
 #endif

@@ -1,19 +1,19 @@
 
 #include <vector>
 #include <string>
+#include <SDL.h>
+#include <SDL_mixer.h>
 #include "MediaFile.hpp"
 
-#ifndef MIX_MAX_VOLUME
-#define MIX_MAX_VOLUME 128
-#endif
 
-class PlaylistController
+
+class MediaPlayer
 {
 private:
     int SysVolume = MIX_MAX_VOLUME / 2;
 public:
-    PlaylistController(/* args */);
-    ~PlaylistController();
+    MediaPlayer(/* args */);
+    ~MediaPlayer();
     int listUpdate();
     void pauseMusic();
     void nextMusic(std::vector<char*>& list);
