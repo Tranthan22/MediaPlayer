@@ -1,9 +1,9 @@
-// #include "../Controller/Inc/PlaylistController.hpp"
 #include "MediaPlayer.hpp"
 #include <iostream>
 
 Mix_Music *bgm;
 bool MediaPlayer::Playing = false;
+size_t MediaPlayer::fileIndexInList;
 
 MediaPlayer::MediaPlayer(/* args */)
 {
@@ -67,12 +67,24 @@ void MediaPlayer:: ResumePause()
     }
 }
 
-void MediaPlayer:: nextMusic(std::vector<char*>& list)
+void MediaPlayer:: nextMusic()
 {
-    static size_t fileIndexInList = 0;
-    fileIndexInList++;
     Mix_HaltMusic();
-    playMusic(list[fileIndexInList]);
+    playMusic((*list)[fileIndexInList]);
+
+    if(++fileIndexInList > list->size()-1)
+    {
+        fileIndexInList = 0;
+    }
+    else
+    {
+        /**/
+    }
+    
+}
+void MediaPlayer::setList(std::vector<char*> *list)
+{
+    this->list = list;
 }
 
 

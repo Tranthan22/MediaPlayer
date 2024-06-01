@@ -11,12 +11,16 @@ int main() {
     MediaPlayer myPlayer;
     std::vector<char *> mylist;
 
-    mylist.push_back("DungKhoc-ChiDan-11809293.mp3");
-    mylist.push_back("DungKhoc-ChiDan-11809293.mp3");
-    mylist.push_back("DungKhoc-ChiDan-11809293.mp3");
+    mylist.push_back("./Music/DungKhoc.mp3");
+    mylist.push_back("./Music/DieuAnhBiet.mp3");
+    mylist.push_back("./Music/TruyenThaiY.mp3");
 
+    myPlayer.setList(&mylist);
 
-    myPlayer.nextMusic(mylist);
+    myPlayer.nextMusic();
+
+    std::cout << mylist.size() <<std::endl;
+
     std::cout << "playing\n" ;
     int input;
     while(1)
@@ -60,6 +64,11 @@ int main() {
         case 7:
             myPlayer.ResumePause();
             std::cout << "Switch state"  << std::endl;
+            break;
+
+        case 8:
+            myPlayer.nextMusic();
+            std::cout << "Next "  << std::endl;
             break;
 
         default:
