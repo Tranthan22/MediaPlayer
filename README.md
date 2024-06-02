@@ -25,3 +25,19 @@ Create a CLI application for Linux that serves as a basic media files and video 
  
  
   5 - Can change volume of device# MediaPlayer
+
+
+
+----------------------Controller----------------------
+
+
+
+
+----------------------- model -------------------------
+* class MediaFile
+1. Cần 1 method
+    - Input: Đường dẫn (Path - có thể để globle luôn)
+    - Output: Vector chưa tất cả tên các bài hát
+
+* class playlist
+1. 

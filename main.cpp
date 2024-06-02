@@ -29,7 +29,6 @@ int main() {
         switch (input)
         {
         case 0:
-            Mix_FreeMusic(bgm);
             std::cout << "exit";
             return 0;
             break;

@@ -20,36 +20,38 @@ MediaPlayer::MediaPlayer(/* args */)
 
 MediaPlayer::~MediaPlayer()
 {
+    Mix_FreeMusic(bgm);
     Mix_CloseAudio();
     SDL_Quit();
 }
-
+/*=================== Media Player =========================*/
 int MediaPlayer::playMusic(const char* file)
 {
+    Mix_FreeMusic(bgm);
     bgm = Mix_LoadMUS(file);
-    if (bgm == NULL) {
+    if (bgm == NULL)
+    {
         std::cerr << "Failed to load music! SDL_mixer Error: " << Mix_GetError() << std::endl;
         Mix_CloseAudio();
         SDL_Quit();
         return -1;
     }
-
-    // Phát nhạc
-    if (Mix_PlayMusic(bgm, -1) == -1) {  // -1 để lặp lại vô hạn
-        std::cerr << "Failed to play music! SDL_mixer Error: " << Mix_GetError() << std::endl;
-        Mix_FreeMusic(bgm);
-        Mix_CloseAudio();
-        SDL_Quit();
-        return -1;
+    else
+    {
+        // Phát nhạc
+        if (Mix_PlayMusic(bgm, -1) == -1)
+        {  // -1 để lặp lại vô hạn
+            std::cerr << "Failed to play music! SDL_mixer Error: " << Mix_GetError() << std::endl;
+            Mix_FreeMusic(bgm);
+            Mix_CloseAudio();
+            SDL_Quit();
+            return -1;
+        }
+        else
+        {
+            Playing = true;
+        }
     }
-
-    Playing = true;
-    
-
-    // std::cout << "Press Enter to stop the music and quit..." << std::endl;
-    // std::cin.get();
-    // Mix_FreeMusic(bgm);
-    
     return 0;
 }
 
@@ -123,6 +125,6 @@ int MediaPlayer:: VolumeDown()
 vector<MediaFile *> MediaPlayer::getMediaFiles()
 {
     vector<MediaFile *> a;
-    return a;
+    // return a;
     // return mediaFiles;
 }
