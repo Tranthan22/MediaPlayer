@@ -32,7 +32,10 @@ void MediaFileView::displaySongsPerPage(const vector<MediaFile*>& songs, size_t 
     // static_cast<int> chuyen doi sang so int
     for (size_t i = startIndex; i < endIndex; ++i) {
         cout << left << setw(5) << i + 1
-            << left << setw(30) << truncate(songs[i]->getName(), 30);
+            << left << setw(30) << truncate(songs[i]->getName(), 30)
+            << left << setw(20) << truncate("Hellooo", 20)
+            << left << setw(15) << truncate("xin chao", 15)
+            << left << setw(20) << truncate("cac ban nhe", 20)<<endl;
             // << left << setw(25) << truncate(songs[i].artist, 20)
             // << left << setw(15) << truncate(songs[i].duration, 15)
             // << left << setw(20) << truncate(songs[i].publisher, 15) << endl;

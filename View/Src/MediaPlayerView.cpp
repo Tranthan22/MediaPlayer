@@ -11,6 +11,7 @@ void MediaPlayerView::display_MediaPlayer()
 
 
 // Ham de su tung trang lay du lieu 
+// Ham nay sep dung o phia controll
 std::string MediaPlayerView::input_path(){
     display_MediaPlayer();
     cout << "\nPath : ";
@@ -19,19 +20,16 @@ std::string MediaPlayerView::input_path(){
     return directoryPath;
 }
 
+bool MediaPlayerView::checkFilesInDirectory(const string& directoryPath) const {
+    // Kiểm tra xem tệp tồn tại hay không
+    std::ifstream file(directoryPath);
+    if (file.is_open()) {
+        return true;
+    }else{
+        return false;
+    }
+}
 
-
-
-
-// bool MediaPlayerView::checkFilesInDirectory(const string& directoryPath) const {
-//     // Kiểm tra xem tệp tồn tại hay không
-//     std::ifstream file(directoryPath);
-//     if (file.is_open()) {
-//         return true;
-//     }else{
-//         return false;
-//     }
-// }
 // // Ham de su tung trang lay du lieu 
 // std::string MediaPlayerView::input_path(){
 //     display_MediaPlayer();

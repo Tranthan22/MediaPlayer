@@ -3,11 +3,12 @@
 
 #include <iomanip> // Để sử dụng setw()
 #include <iostream>
-// #include <fstream>
-// #include <cstdlib> // For std::system
+#include <fstream>
+#include <cstdlib> // For std::system
 #include <filesystem>
 
-namespace fs = std::filesystem;
+// namespace fs = std::filesystem;
+
 using namespace std;
 
 class MediaPlayerView
@@ -18,7 +19,7 @@ public:
     MediaPlayerView()= default;
     ~MediaPlayerView()=default;
     void display_MediaPlayer();
-    // bool checkFilesInDirectory(const string& directoryPath) const;
+    bool checkFilesInDirectory(const string& directoryPath) const;
     std::string input_path();
 };
 
