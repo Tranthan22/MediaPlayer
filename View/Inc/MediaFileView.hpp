@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip> // Để sử dụng setw()
+#include "MediaFile.hpp"
 using namespace std;
 
 #define page_size 25
@@ -24,20 +25,31 @@ private:
 public:
     MediaFileView()=default;
     ~MediaFileView()=default;
-    struct Song {
-            string name;
-            string artist;
-            string duration;
-            string publisher;
-        };
-    void display_MediaFile(const vector<Song>& songs, size_t currentpage);
-    void displaySongsPerPage(const vector<Song>& songs, size_t currentpage);
+    // struct Song {
+    //         string name;
+    //         string artist;
+    //         string duration;
+    //         string publisher;
+    //     };
+    
+    // void display_MediaFile(const vector<Song>& songs, size_t currentpage);
+    
+    // void displaySongsPerPage(const vector<Song>& songs, size_t currentpage);
+    
+    void display_MediaFile(const vector<MediaFile*>& songs, size_t currentpage);
+    
+    void displaySongsPerPage(const vector<MediaFile*>& songs, size_t currentpage);
+    
+
+
     // khi chon page vuot qua so luong bai  
     void Invalid_pageNumber();
+    
     // Khi khong co lua chon nao dung
     void Invalid_choice();
+    
     // ham nay co khi dung o phia control.
-    void check_choice(const vector<Song>& songs, size_t& currentPage);
+    void check_choice(const vector<MediaFile*>& songs, size_t& currentPage);
 };
 
 #endif /*MEDIAFILEVIEW_HPP*/

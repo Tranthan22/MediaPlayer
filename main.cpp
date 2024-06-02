@@ -6,8 +6,16 @@
 int main()
 {
     Browser myBrowser;
-    myBrowser.setPath();
-    myBrowser.menu();
+    myBrowser.medialist();
+    cout <<" heleel";
+    // myBrowser.setPath();
+    // myBrowser.menu();
+    // myBrowser.loadFile();
+
+    // for(MediaFile *v : myBrowser.vMediaFile)
+    // {
+    //     std::cout << v->getName();
+    // }
 
 }
 
