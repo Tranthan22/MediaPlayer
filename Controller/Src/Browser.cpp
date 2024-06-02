@@ -1,18 +1,18 @@
-#include "Brower.hpp"
+#include "Browser.hpp"
 
-Brower::Brower(/* args */)
+Browser::Browser(/* args */)
 {
 }
 
-Brower::~Brower()
+Browser::~Browser()
 {
 }
 
-void Brower::setPath()
+void Browser::setPath()
 {
     Path = mediaPlayerView.input_path();
 }
-void Brower::menu()
+void Browser::menu()
 {
     switch(menuView.check_choice())
     {

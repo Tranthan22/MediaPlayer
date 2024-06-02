@@ -10,8 +10,6 @@ using namespace std;
 
 #define page_size 25
 
-
-
 class MediaFileView
 {
 private:

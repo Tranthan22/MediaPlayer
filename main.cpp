@@ -1,14 +1,14 @@
 
 #include "main.hpp"
 // #include "MediaPlayer.hpp"
-#include "Brower.hpp"
+#include "Browser.hpp"
 
 int main()
 {
-    Brower myBrower;
-    myBrower.setPath();
-    myBrower.menu();
-    
+    Browser myBrowser;
+    myBrowser.setPath();
+    myBrowser.menu();
+
 }
 
 

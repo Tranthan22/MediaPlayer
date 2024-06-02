@@ -2,7 +2,7 @@
 #include "MediaPlayerView.hpp"
 #include "MenuView.hpp"
 
-class Brower
+class Browser
 {
 private:
     std::string Path;
@@ -10,8 +10,8 @@ private:
     MenuView menuView;
 
 public:
-    Brower(/* args */);
-    ~Brower();
+    Browser(/* args */);
+    ~Browser();
 
     /* View */
     void setPath();
