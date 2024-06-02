@@ -22,6 +22,44 @@ void MenuView::exitProgram()
 {
     cout << "Exiting the application !!!" << endl;
 }
+
+MenuChoices MenuView::check_choice(){
+    display_menu();
+
+    cout << "Choose action : " ;
+    size_t choice;
+    while(1)
+    {
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                system("clear");
+                return MEDIA_LIST;
+            case 2:
+                system("clear");
+                return PLAY_LIST;
+            case 3:
+                system("clear");
+                return PLAY_MUSIC;
+            case 0:
+                cout << "Exiting..." << endl;
+                cin.ignore(); // Để chờ người dùng nhấn Enter trước khi tiếp tục
+                return EXIT;
+            default:
+                system("clear");
+                display_menu();
+                cout << "==============================================================================\n" << endl;
+                cout << "Choose page to show: " << endl;
+                cout << "Invalid choice. Please enter a valid option." << endl;
+        }
+    }
+}
+
+
+
+
+
+/*============================================*/
 // void MenuView::check_choice(){
 //     display_menu();
 

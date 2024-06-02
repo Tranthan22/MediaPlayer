@@ -5,20 +5,20 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib> // For std::system
-#include "ViewInteract.hpp"
+// #include "ViewInteract.hpp"
 
 using namespace std;
 
 class MediaPlayerView
 {
 private:
-    string directoryPath;
+    // string directoryPath;
 public:
     MediaPlayerView()= default;
     ~MediaPlayerView()=default;
     void display_MediaPlayer();
-    void checkFilesInDirectory(ViewInteract &ViewInteract,string& directoryPath);
-    void input_path(ViewInteract &ViewInteract);
+    bool checkFilesInDirectory(const string& directoryPath) const;
+    std::string input_path();
 };
 
 #endif
