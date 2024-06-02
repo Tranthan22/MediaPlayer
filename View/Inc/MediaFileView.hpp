@@ -3,9 +3,12 @@
 
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
 #include <iomanip> // Để sử dụng setw()
 using namespace std;
 
+#define page_size 25
 
 
 
@@ -29,9 +32,14 @@ public:
             string duration;
             string publisher;
         };
-    void display_MediaFile();
-    void check_choice(const vector<Song>& songs, size_t& currentPage);
+    void display_MediaFile(const vector<Song>& songs, size_t currentpage);
     void displaySongsPerPage(const vector<Song>& songs, size_t currentpage);
+    // khi chon page vuot qua so luong bai  
+    void Invalid_pageNumber();
+    // Khi khong co lua chon nao dung
+    void Invalid_choice();
+    // ham nay co khi dung o phia control.
+    void check_choice(const vector<Song>& songs, size_t& currentPage);
 };
 
 #endif /*MEDIAFILEVIEW_HPP*/

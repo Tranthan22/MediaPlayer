@@ -2,10 +2,7 @@
 #include "main.hpp"
 #include "MediaPlayer.hpp"
 
-
 extern Mix_Music *bgm;
-std::string musicPath;
-
 int main() {
     
     MediaPlayer myPlayer;

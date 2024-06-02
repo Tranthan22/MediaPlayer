@@ -18,6 +18,7 @@ private:
     MenuView view_menu;
     MediaFileView view_mediafile;
 
+
 public:
     Metadata() = default;
     ~Metadata() = default;
