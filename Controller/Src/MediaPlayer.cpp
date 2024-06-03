@@ -76,9 +76,7 @@ void MediaPlayer:: nextMusic()
 {
     Mix_HaltMusic();
     string MusicDir = (*list)[fileIndexInList]->getPath();
-    // cout << MusicDir;
-    // playMusic(MusicDir.c_str());
-    playMusic("./Music/TruyenThaiY.mp3");
+    playMusic(MusicDir.c_str());
 
 
     if(++fileIndexInList > list->size()-1)

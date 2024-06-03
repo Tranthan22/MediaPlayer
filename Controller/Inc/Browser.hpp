@@ -5,6 +5,7 @@
 #include "MediaPlayerView.hpp"
 #include "MediaFileView.hpp"
 #include "MenuView.hpp"
+#include "MediaPathView.hpp"
 #include "AudioFile.hpp"
 #include "Playlist.hpp"
 #include "MediaPlayer.hpp"
@@ -21,6 +22,7 @@ private:
     // vector<AudioFile*> vAudioFile;
     vector<Playlist*> vPlayList;
 
+    MediaPathView mediaPathView;
     MediaPlayerView mediaPlayerView; 
     MenuView menuView;
     MediaPlayer myPlayer;

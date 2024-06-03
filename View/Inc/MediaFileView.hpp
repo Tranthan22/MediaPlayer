@@ -44,9 +44,6 @@ public:
     // ham nay co khi dung o phia control.
     void check_choice(const vector<MediaFile*>& songs, size_t& currentPage);
 
-    std::string input_path();
-    void display_MediaPath();
-    bool checkFilesInDirectory(const string& directoryPath) const;
 };
 
 #endif /*MEDIAFILEVIEW_HPP*/
