@@ -5,7 +5,7 @@ CXX = g++
 CXXFLAGS = -std=c++2a -Wall -IController/Inc -IModel/Inc -IView/Inc $(shell sdl2-config --cflags)
 
 # Linker flags
-LDFLAGS = $(shell sdl2-config --libs) -lSDL2_mixer -lSDL2 -ltag
+LDFLAGS = $(shell sdl2-config --libs) -lSDL2_mixer -lSDL2 -ltag -lz
 
 # Directories
 CONTROLLER_DIR = Controller/Src

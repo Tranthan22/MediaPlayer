@@ -7,23 +7,10 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-using namespace std;
+#include "MediaFile.hpp"
 
-
-struct play_list
-{
-    /* data */
-    string list_name;
-    string Number_song;
-
-};
-struct playlist_name{
-    string Name;
-    string Artist;
-    string Duration;
-    string Publisher;
-};
-
+#define LIST_SIZE 10
+#define LIST_NAME_SIZE 25
 class PlaylistView
 {
     private:
@@ -39,13 +26,13 @@ class PlaylistView
         
         PlaylistView()=default;
         ~PlaylistView()=default;
-        void display_Playlist(const vector<play_list>& plists, size_t currentpage);
-        void display_PlaylistPerPage(const vector<play_list>& plists, size_t currentpage);
+        void display_Playlist(const vector<MediaFile*>& plists, size_t currentpage);
+        void display_PlaylistPerPage(const vector<MediaFile*>& plists, size_t currentpage);
 
-        void display_PlaylistName(const vector<playlist_name>& plist_name, size_t currentpage);
-        void display_PlaylistNamePerPage(const vector<playlist_name>& plists, size_t currentpage);
+        void display_PlaylistName(const vector<MediaFile*>plist_name, size_t currentpage);
+        void display_PlaylistNamePerPage(vector<MediaFile*> plists, size_t currentpage);
 
-        void display_PlayNameAdd(const vector<playlist_name>& plist_name, size_t currentPage);
-        void display_PlayNameRemove(const vector<playlist_name>& plists_name, size_t& currentPage);
+        void display_PlayNameAdd(vector<MediaFile*>& plist_name, size_t currentPage);
+        void display_PlayNameRemove(vector<MediaFile*>& plists_name, size_t& currentPage);
 };
 #endif

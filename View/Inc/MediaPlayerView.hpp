@@ -9,14 +9,13 @@
 #include <vector>
 // namespace fs = std::filesystem;
 #include "Playlist.hpp"
-
-#define PAGE_SIZE 10
-#define PAGE_LIST_SIZE 25
+#include "PlaylistView.hpp"
 
 
 class PlayMusicView
 {
     private:
+        
     public:
         // fix size
         std::string truncate(const std::string& text, int width)
@@ -35,12 +34,12 @@ class PlayMusicView
 };
 
 
-class PlayMusicView_ShowPlay:public PlayMusicView
+class PlayMusicView_ShowPlay:public PlayMusicView, public PlaylistView
 {
     private:
     public:
         void display_ShowPlay(const vector<MediaFile*>& songs, size_t currentpage);
-        void display_ShowPlayListsPerPage(const vector<MediaFile*>& songs, size_t currentpage);
+        // void display_ShowPlayListsPerPage(const vector<MediaFile*>& songs, size_t currentpage);
 
 };
 

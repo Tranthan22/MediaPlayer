@@ -24,7 +24,7 @@ private:
 
     /* View declaration */
     MediaPathView mediaPathView;
-    MediaPlayerView mediaPlayerView; 
+    PlayMusicView mediaPlayerView; 
     MenuView menuView;
     MediaFileView mediaFileView;
 
