@@ -1,118 +1,100 @@
 #include "MetadataView.hpp"
+#include "main.hpp"
 
 
-void MetadataView::display_MediaList(const vector<Media_list>& lists, size_t currentpage)
+using namespace std;
+
+void Metadataview::menuView()
 {
-    std::cout << "                                       Media play list                                   " << endl;
-    cout << "============================================================================================\n" << endl;
-    cout << left << setw(10) << "No."
-         << left << setw(40) << "List"
-         << left << setw(40) << "Last modified" << endl;
-
-    display_MedialistPerPage(lists,currentpage);
-    
-    cout << "\n============================================================================================" << endl;
-    cout<< "Total Media list: "<<lists.size()<<"\n"<<endl;
-    cout<< "Page: "<<currentpage;
-    cout<<setw(10)<<" "<<left << setw(25) << "P. Previous"
-         << left << setw(25) << "N. Next"
-         << left << setw(25) << "E. Exit\n" << endl;
-    cout<< left << setw(5)<< "Volume: "
-        << left << setw(10)<<"100%"
-        << left << setw(25) << "U. Up"
-        << left << setw(25) << "D. Down" << endl; 
-    cout << "\nChoose list to play : ";
+    cout << "                                  Menu Metadata                                " << endl;
+    cout << "==============================================================================\n" << endl;
+    cout << left << setw(30) << "1. Show Metadata"
+         << left << setw(30) << "2. Update Metadata"
+         << left << setw(30) << "0. Back"<<endl;
+    cout << "Input your command: " << endl;
+    cout << "==============================================================================\n" << endl;
 }
 
-// Hien thi data doc duoc va hien thi ra
-void MetadataView::display_MedialistPerPage(const vector<Media_list>& lists, size_t currentpage) {
-    int startIndex = (currentpage - 1) * 10;
-    int endIndex = min(startIndex + 10, static_cast<int>(lists.size()) - 1);
-    // static_cast<int> chuyen doi sang so int
-    for (size_t i = startIndex; i < endIndex; ++i) {
-        cout << left << setw(10) << i + 1
-             << left << setw(40) << truncate(lists[i].list, 40)
-             << left << setw(40) << truncate(lists[i].Lastmodified, 40) << endl;
+void Metadataview::chooseMetadataField()
+{
+    cout << "Choose a metadata field to modify: " << endl;
+}
+
+void Metadataview::enterMetadataValue()
+{
+    cout << "Enter new value: " << endl;
+}
+
+void Metadataview::getMetadataError()
+{
+    cerr << "Could not open file or retrieve tag." << endl;
+}
+
+void Metadataview::metadataChooseFile(int input_case)
+{
+    switch (input_case)
+    {
+    case SHOW_METADATA:
+        cout << "Enter index of media file that you want to show metadata: " << endl;
+        break;
+
+    case UPDATE_METADATA:
+        cout << "Enter index of media file that you want to update metadata: " << endl;
+        break;
+
+    default:
+        cerr << "Error!" << endl;
     }
 }
 
+void Metadataview::modifyMetadataError()
+{
+    cout << "This field cannot be modify." << endl;
+}
 
+void Metadataview::modifyMetadataSuccess()
+{
+    cout << "Metadata updated succesfully!" << endl;
+}
 
+void Metadataview::listEmpty(int input_case)
+{
+    switch (input_case)
+    {
+    case SHOW_METADATA:
+        cout << "There is nothing to show metadata of. Going back..." << endl;
+        break;
 
+    case UPDATE_METADATA:
+        cout << "There is nothing to update metadata of. Going back..." << endl;
+        break;
 
-// // Ham dung cho he thong phia duoi controll de xac nhan thong tin
-// void MetadataView::choose_list(const vector<Media_list>& lists, size_t& currentPage) {
-//         string userInput;    
-//         display_MediaList(lists, currentPage);
-//         cout << "\nChoose list to play : ";
-//     do {    
-//         getline(cin, userInput);
-//         if (!userInput.empty()) {
-//             std::stringstream ss (userInput);
-//             size_t choose_Playlist;
-//             if (ss >> choose_Playlist) {
-//                 if (choose_Playlist > 0 && choose_Playlist <= lists.size()) {
-//                     // system("clear");
-//                     // display_MediaList();
-//                     // display_MedialistPerPage(lists, currentPage);
-//                     // cout << "\nChoose list to play : ";
-                    
-//                     //chon playlist de phat nhac  
-//                 } 
-//             } else {
-//                 char command = userInput[0];
-//                 switch (command) {
-//                     case 'N':
-//                     case 'n':
-//                     if(currentPage<(lists.size()/10)+1){
-//                         currentPage++;
-//                     }
-//                         system("clear");
-//                          display_MediaList(lists, currentPage);
-//                         break;
-//                     case 'P':
-//                     case 'p':
-//                         if (currentPage > 1) {
-//                             currentPage--;
-//                         }
-//                         display_MediaList(lists, currentPage);
-//                         break;
-//                     case 'E':
-//                     case 'e':
-//                         return;
-//                     case 'U':
-//                     case 'u':
-//                         // display_MediaList();
-//                         // display_MedialistPerPage(lists, currentPage);
-//                         // cout << "\nChoose list to play : ";
-                        
-//                         // tang am luong 
+    default:
+        cerr << "Error!" << endl;
+    }
+} 
 
-//                         break;
-//                     case 'D':
-//                     case 'd':
-//                         // if (currentPage > 1) {
-//                         //     currentPage--;
-//                         // }
-//                         // display_MediaList();
-//                         // display_MedialistPerPage(lists, currentPage);
-//                         // cout << "\nChoose list to play : ";
+void Metadataview::displayAudioFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef)
+{
+    cout << "1. Track:   " << tag->track() << endl;
+    cout << "2. Album:   " << tag->album().toCString(true) << endl;
+    cout << "3. Artist:  " << tag->artist().toCString(true) << endl;
+    cout << "4. Publish Year:    " << tag->year() << endl;
+    cout << "5. Genre:   " << tag->genre().toCString(true) << endl;
+    cout << "6. Duration: " << fileRef.audioProperties()->length() << " seconds" << endl;
+    cout << endl;
+}
 
-//                         // giam am luong 
-                        
-//                         break;
-//                     default:
-//                         display_MediaList(lists, currentPage);
-//                         cout << "Invalid choice. Please enter a valid option." << endl;
-//                 }
-//             }
-//         } else {
-//             system("clear");
-//             display_MediaList(lists, currentPage);
-//         }
-//     } while (true);
-// }
+void Metadataview::displayVideoFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef, string file_path)
+{
+    cout << "1. Video name:   " << tag->title().toCString(true) << endl;
+    cout << "2. File Size: " << filesystem::file_size(file_path) / 1000 << " Kbytes" << endl;
+    cout << "3. Bit rate: " << fileRef.audioProperties()->bitrate() << " kbps" << endl;
+    cout << "4. Duration: " << fileRef.audioProperties()->length() << " seconds" << endl;
+    cout << endl;
+}
 
-
-
-// void Choose_list();
+void Metadataview::getMediaFileTypeError()
+{
+    cerr << "Unknown media file type!" << endl;
+}

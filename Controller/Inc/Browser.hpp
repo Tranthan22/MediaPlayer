@@ -59,5 +59,10 @@ public:
     void medialist();
     void playmusic();
     void programFlow();
+
+    /* Model */
+
+    vector<MediaFile *> getMediaFiles(); /* Ngoc add */
+
 };
 
