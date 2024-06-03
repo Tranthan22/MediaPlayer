@@ -7,9 +7,10 @@
 #include <sstream>
 #include <iomanip> // Để sử dụng setw()
 #include "MediaFile.hpp"
+#include "main.hpp"
 using namespace std;
 
-#define PAGE_SIZE 4
+
 
 class MediaFileView
 {

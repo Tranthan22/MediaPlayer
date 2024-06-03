@@ -78,7 +78,6 @@ void MediaPlayer:: nextMusic()
     string MusicDir = (*list)[fileIndexInList]->getPath();
     playMusic(MusicDir.c_str());
 
-
     if(++fileIndexInList > list->size()-1)
     {
         fileIndexInList = 0;

@@ -8,10 +8,10 @@
 #include <filesystem>
 #include <vector>
 // namespace fs = std::filesystem;
+#include "main.hpp"
 #include "Playlist.hpp"
 #include "PlaylistView.hpp"
 
-#define PAGE_SIZE 10
 
 class PlayMusicView:public PlaylistView
 {

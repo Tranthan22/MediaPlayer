@@ -6,12 +6,12 @@ using namespace std;
 Playlist::Playlist(const string &n) : name(n) {}
 
 void Playlist::addFile(MediaFile *file){
-    files.push_back(file);
+    pPlaylist.push_back(file);
 }
 
 void Playlist::deleteFile(int file_idx){
-    if(file_idx >= 0 && file_idx < files.size()) {
-        files.erase(files.begin() + file_idx);
+    if(file_idx >= 0 && file_idx < pPlaylist.size()) {
+        pPlaylist.erase(pPlaylist.begin() + file_idx);
     }
 }
 
@@ -19,10 +19,14 @@ string Playlist::getName(){
     return name;
 }
 
-vector<MediaFile*> Playlist::getFiles(){
-    return files;
+vector<MediaFile*>& Playlist::getPlaylist(){
+    return pPlaylist;
+}
+
+vector<MediaFile*>* Playlist::getPlaylistPointer(){
+    return &pPlaylist;
 }
 int Playlist::getSize()
 {
-    return files.size();
+    return pPlaylist.size();
 }

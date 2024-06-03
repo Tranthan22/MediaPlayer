@@ -6,7 +6,7 @@ Browser::Browser(/* args */)
 
 Browser::~Browser()
 {
-    for(MediaFile* mediafile : vMediaFile)
+    for(MediaFile* mediafile : vPlayList[0]->getPlaylist())
     {
         delete mediafile;
     }
@@ -48,11 +48,12 @@ void Browser::menu()
 }
 void Browser::loadFile()
 {
+    vPlayList.push_back(new Playlist("All"));
     for (const auto& entry : fs::directory_iterator(Path))
     {
         if (entry.is_regular_file() && entry.path().extension() == ".mp3")
         {
-            vMediaFile.push_back(new MediaFile(entry.path().filename().string(), entry.path().string()));
+            vPlayList[0]->addFile(new MediaFile(entry.path().filename().string(), entry.path().string()));
         }
     }
 }
@@ -60,15 +61,16 @@ void Browser::loadFile()
 void Browser::medialist()
 {
     size_t currentPage = 1;
-    mediaFileView.display_MediaFile(vMediaFile, currentPage);
-    mediaFileView.check_choice(vMediaFile, currentPage);
+    mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
+    mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
     flowID.pop();
 }
 
 void Browser::playmusic()
 {
-    myPlayer.setList(&vMediaFile);
+    myPlayer.setList(vPlayList[0]->getPlaylistPointer());
     myPlayer.nextMusic();
+
     int input;
     while(1)
     {

@@ -10,6 +10,7 @@
 #include "AudioFile.hpp"
 #include "Playlist.hpp"
 #include "MediaPlayer.hpp"
+#include "PlaylistView.hpp"
 
 enum FlowID
 {
@@ -31,8 +32,8 @@ private:
     std::stack<int> flowID;
 
     /* Vector data */
-    vector<MediaFile*> vMediaFile; // using mediafile to free easily
-    vector<Playlist*> vPlayList;
+    vector<Playlist*> vPlayList;    //vector contains playlist (include vMediaFile)
+    // vector<MediaFile*> vMediaFile; // Vector contains files (all file)
 
     /* View declaration */
     MediaPathView mediaPathView;
@@ -42,6 +43,8 @@ private:
 
     /* Player */
     MediaPlayer myPlayer;
+    PlaylistView playlistView;
+
 
 public:
     Browser(/* args */);
