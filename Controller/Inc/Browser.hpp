@@ -17,16 +17,19 @@ namespace fs = std:: filesystem;
 class Browser
 {
 private:
-    std::string Path = "./Music";
+    std::string Path;
     vector<MediaFile*> vMediaFile; // using mediafile to free easily
     // vector<AudioFile*> vAudioFile;
     vector<Playlist*> vPlayList;
 
+    /* View declaration */
     MediaPathView mediaPathView;
     MediaPlayerView mediaPlayerView; 
     MenuView menuView;
-    MediaPlayer myPlayer;
     MediaFileView mediaFileView;
+
+    /* Player */
+    MediaPlayer myPlayer;
 
 public:
     Browser(/* args */);

@@ -8,5 +8,4 @@ int main()
     myBrowser.setPath();
     myBrowser.loadFile();
     myBrowser.menu();
-
 }

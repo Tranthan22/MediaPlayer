@@ -37,12 +37,12 @@ void MediaFileView::displaySongsPerPage(const vector<MediaFile*>& songs, size_t&
     }
 }
 
-void MediaFileView::Invalid_pageNumber()
+inline void MediaFileView::Invalid_pageNumber()
 {
     cout << "Invalid page number. Please enter a valid option." << endl;
 }
 
-void MediaFileView::Invalid_choice()
+inline void MediaFileView::Invalid_choice()
 {
     cout << "Invalid choice. Please enter a valid option." << endl;
 }
