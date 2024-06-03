@@ -9,36 +9,30 @@
 #include "MediaFile.hpp"
 using namespace std;
 
-#define page_size 25
+#define PAGE_SIZE 25
 
 class MediaFileView
 {
 private:
     // fix size
-    string truncate(const string& text, int width) {
-    if ((int)text.length() <= width) {
-        return text;
-    } else {
-        return text.substr(0, width - 3) + "...";
-    }
+    string truncate(const string& text, int width)
+    {
+        if ((int)text.length() <= width)
+        {
+            return text;
+        }
+        else
+        {
+            return text.substr(0, width - 3) + "...";
+        }
     }
 public:
     MediaFileView()=default;
     ~MediaFileView()=default;
-    // struct Song {
-    //         string name;
-    //         string artist;
-    //         string duration;
-    //         string publisher;
-    //     };
-    
-    // void display_MediaFile(const vector<Song>& songs, size_t currentpage);
-    
-    // void displaySongsPerPage(const vector<Song>& songs, size_t currentpage);
     
     void display_MediaFile(const vector<MediaFile*>& songs, size_t currentpage);
     
-    void displaySongsPerPage(const vector<MediaFile*>& songs, size_t currentpage);
+    void displaySongsPerPage(const vector<MediaFile*>& songs, size_t& currentpage);
     
 
 

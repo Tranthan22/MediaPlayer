@@ -21,7 +21,6 @@ public:
     ~MenuView()= default;
     void display_menu();
     void InvalidChoiceInterface();
-    MenuChoices check_choice();
     void exitProgram();
 };
 #endif

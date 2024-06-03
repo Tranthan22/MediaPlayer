@@ -7,7 +7,7 @@
 #include "MenuView.hpp"
 #include "AudioFile.hpp"
 #include "Playlist.hpp"
-
+#include "MediaPlayer.hpp"
 
 
 // C++17 up
@@ -23,19 +23,21 @@ private:
 
     MediaPlayerView mediaPlayerView; 
     MenuView menuView;
-    // MediaFileView mediaFileView;
+    MediaPlayer myPlayer;
+    MediaFileView mediaFileView;
 
 public:
-    MediaFileView mediaFileView;
     Browser(/* args */);
     ~Browser();
+
     /* View */
     void setPath();
     void loadFile();
 
+    int userInput();
     void menu();
     void medialist();
-    
+    void playmusic();
 
     /* Model */
 

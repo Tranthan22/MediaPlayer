@@ -1,7 +1,7 @@
 #include "MediaPlayer.hpp"
 #include <iostream>
 
-Mix_Music *bgm;
+
 bool MediaPlayer::Playing = false;
 size_t MediaPlayer::fileIndexInList;
 
@@ -20,7 +20,10 @@ MediaPlayer::MediaPlayer(/* args */)
 
 MediaPlayer::~MediaPlayer()
 {
-    Mix_FreeMusic(bgm);
+    if(bgm != nullptr)
+    {
+        Mix_FreeMusic(bgm);
+    }
     Mix_CloseAudio();
     SDL_Quit();
 }
@@ -71,8 +74,9 @@ void MediaPlayer:: ResumePause()
 
 void MediaPlayer:: nextMusic()
 {
+    cout << (*list)[fileIndexInList]->getName().c_str();
     Mix_HaltMusic();
-    playMusic((*list)[fileIndexInList]);
+    playMusic((*list)[fileIndexInList]->getName().c_str());
 
     if(++fileIndexInList > list->size()-1)
     {
@@ -84,7 +88,7 @@ void MediaPlayer:: nextMusic()
     }
     
 }
-void MediaPlayer::setList(std::vector<char*> *list)
+void MediaPlayer::setList(std::vector<MediaFile*> *list)
 {
     this->list = list;
 }
@@ -128,3 +132,4 @@ vector<MediaFile *> MediaPlayer::getMediaFiles()
     // return a;
     // return mediaFiles;
 }
+
