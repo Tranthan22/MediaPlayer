@@ -2,7 +2,7 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -std=c++2a -Wall -IController/Inc -IModel/Inc -IView/Inc -I. $(shell sdl2-config --cflags)
+CXXFLAGS = -std=c++2a -Wall -IController/Inc -IModel/Inc -IView/Inc -I./ $(shell sdl2-config --cflags)
 
 # Linker flags
 LDFLAGS = $(shell sdl2-config --libs) -lSDL2_mixer -lSDL2 -ltag -lz
@@ -18,7 +18,7 @@ CONTROLLER_SOURCES = $(wildcard $(CONTROLLER_DIR)/*.cpp)
 MODEL_SOURCES = $(wildcard $(MODEL_DIR)/*.cpp)
 VIEW_SOURCES = $(wildcard $(VIEW_DIR)/*.cpp)
 MAIN_SOURCE = main.cpp
-SOURCES = $(CONTROLLER_SOURCES) $(MODEL_SOURCES) $(VIEW_SOURCES) $(MAIN_SOURCE)
+SOURCES = $(CONTROLLER_SOURCES) $(MODEL_SOURCES) $(VIEW_SOURCES) $(MAIN_SOURCE) 
 
 # Object files
 OBJECTS = $(patsubst %.cpp, $(OUTPUT_DIR)/%.o, $(notdir $(SOURCES)))

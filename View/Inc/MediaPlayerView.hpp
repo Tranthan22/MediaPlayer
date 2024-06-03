@@ -12,12 +12,17 @@
 #include "Playlist.hpp"
 #include "PlaylistView.hpp"
 
+#define PLIST_SIZE 10
+#define PAGE_SIZE 25
 
 class PlayMusicView:public PlaylistView
 {
     private:
         
     public:
+        PlayMusicView()=default;
+        ~PlayMusicView()=default;
+
         // fix size
         std::string truncate(const std::string& text, int width)
         {
@@ -33,6 +38,8 @@ class PlayMusicView:public PlaylistView
         void display_PlayMucsic(const vector<Playlist*>& plists, size_t currentpage);
         // void display_ListsPerPage(const vector<MediaFile*>& songs, size_t currentpage);
         void check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage);
+        virtual void display_ShowPlay(const vector<MediaFile*>& lists_name, size_t currentpage){};
+        virtual void check_choice_PlayMusicView_ShowPlay(const vector< MediaFile*>& lists_name, size_t currentPage){};
 
 };
 
@@ -42,7 +49,10 @@ class PlayMusicView_ShowPlay:public PlayMusicView
     private:
 
     public:
-        void display_ShowPlay(const vector<Playlist*>& lists_name, size_t currentpage);
+        PlayMusicView_ShowPlay()=default;
+        ~PlayMusicView_ShowPlay()=default;
+        void check_choice_PlayMusicView_ShowPlay(const vector< MediaFile*>& lists_name, size_t currentPage);
+        void display_ShowPlay(const vector<MediaFile*>& lists_name, size_t currentPage);
         // void display_ShowPlayListsPerPage(const vector<MediaFile*>& songs, size_t currentpage);
 
 };

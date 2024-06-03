@@ -151,34 +151,7 @@ void Browser::programFlow()
     }
 }
 
-void Browser::programFlow()
-{
-    setPath();
-    loadFile();
-    flowID.push(MENU_ID); // Menu
-    int current_screen;
-    while(1)
-    {
-        current_screen = flowID.top();
-        switch(current_screen)
-        {
-            case MENU_ID:
-                menu();
-                break;
-            case MEDIA_LIST_ID:
-                medialist();
-                break;
-            case PLAY_LIST_ID:
-                break;
-            case PLAY_MUSIC_ID:
-                playmusic();
-                cin.ignore();
-                break;
-        }
-    }
-}
-
 vector<MediaFile *> Browser::getMediaFiles()
 {
-    return vMediaFile;
+    // return vMediaFile;
 }
