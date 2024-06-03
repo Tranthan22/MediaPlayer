@@ -9,7 +9,7 @@
 #include "MediaFile.hpp"
 using namespace std;
 
-#define PAGE_SIZE 25
+#define PAGE_SIZE 4
 
 class MediaFileView
 {

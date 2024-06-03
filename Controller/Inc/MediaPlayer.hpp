@@ -10,7 +10,6 @@
 class MediaPlayer
 {
 private:
-    
     int SysVolume = MIX_MAX_VOLUME / 2;
     std::vector<MediaFile*> *list;
     static bool Playing;

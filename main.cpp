@@ -5,7 +5,6 @@
 int main()
 {
     Browser myBrowser;
-    myBrowser.setPath();
-    myBrowser.loadFile();
-    myBrowser.menu();
+    myBrowser.programFlow();
+    return 0;
 }

@@ -12,6 +12,7 @@ void MenuView::display_menu()
          << left << setw(30) << "3. Play music"<<endl;
     cout << left<<"\n0. Exit\n";
     cout << "==============================================================================\n" << endl;
+    cout << "Choose option:" << endl;
 }
 
 void MenuView::InvalidChoiceInterface()

@@ -21,8 +21,7 @@ void MediaFileView::display_MediaFile(const vector<MediaFile*>& songs, size_t cu
     cout << setw(10) << " " << left << setw(25) << "P. Previous"
          << left << setw(25) << "N. Next"
          << left << setw(25) << "E. Exit" << endl;
-    cout << "\nChoose page to show : ";
-    check_choice(songs, currentpage);
+    cout << "\nChoose song : ";
 }
 
 void MediaFileView::displaySongsPerPage(const vector<MediaFile*>& songs, size_t& currentpage) {
@@ -97,6 +96,7 @@ void MediaFileView::check_choice(const vector<MediaFile*>& songs, size_t& curren
                     case 'E':
                     case 'e':
                         flag = false;
+                        break;
                     default:
                         // system("clear");
                         display_MediaFile(songs, currentPage);

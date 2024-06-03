@@ -34,13 +34,14 @@ void Browser::menu()
     switch (MenuInput)
     {
     case MEDIA_LIST:
-        medialist();
+        flowID.push(MEDIA_LIST_ID);
         break;
     case PLAY_LIST:
+        flowID.push(PLAY_LIST_ID);
         break;
     case PLAY_MUSIC:
-        playmusic();
-    
+        flowID.push(PLAY_MUSIC_ID);
+        break;
     default:
         break;
     }
@@ -58,7 +59,10 @@ void Browser::loadFile()
 
 void Browser::medialist()
 {
-    mediaFileView.display_MediaFile(vMediaFile, 1);
+    size_t currentPage = 1;
+    mediaFileView.display_MediaFile(vMediaFile, currentPage);
+    mediaFileView.check_choice(vMediaFile, currentPage);
+    flowID.pop();
 }
 
 void Browser::playmusic()
@@ -114,6 +118,33 @@ void Browser::playmusic()
 
         default:
             break;
+        }
+    }
+}
+
+void Browser::programFlow()
+{
+    setPath();
+    loadFile();
+    flowID.push(MENU_ID); // Menu
+    int current_screen;
+    while(1)
+    {
+        current_screen = flowID.top();
+        switch(current_screen)
+        {
+            case MENU_ID:
+                menu();
+                break;
+            case MEDIA_LIST_ID:
+                medialist();
+                break;
+            case PLAY_LIST_ID:
+                break;
+            case PLAY_MUSIC_ID:
+                playmusic();
+                cin.ignore();
+                break;
         }
     }
 }
