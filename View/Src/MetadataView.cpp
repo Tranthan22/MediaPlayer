@@ -37,78 +37,81 @@ void MetadataView::display_MedialistPerPage(const vector<Media_list>& lists, siz
 }
 
 
-// Ham dung cho he thong phia duoi controll de xac nhan thong tin
-void MetadataView::choose_list(const vector<Media_list>& lists, size_t& currentPage) {
-        string userInput;    
-        display_MediaList(lists, currentPage);
-        cout << "\nChoose list to play : ";
-    do {    
-        getline(cin, userInput);
-        if (!userInput.empty()) {
-            std::stringstream ss (userInput);
-            size_t choose_Playlist;
-            if (ss >> choose_Playlist) {
-                if (choose_Playlist > 0 && choose_Playlist <= lists.size()) {
-                    // system("clear");
-                    // display_MediaList();
-                    // display_MedialistPerPage(lists, currentPage);
-                    // cout << "\nChoose list to play : ";
+
+
+
+// // Ham dung cho he thong phia duoi controll de xac nhan thong tin
+// void MetadataView::choose_list(const vector<Media_list>& lists, size_t& currentPage) {
+//         string userInput;    
+//         display_MediaList(lists, currentPage);
+//         cout << "\nChoose list to play : ";
+//     do {    
+//         getline(cin, userInput);
+//         if (!userInput.empty()) {
+//             std::stringstream ss (userInput);
+//             size_t choose_Playlist;
+//             if (ss >> choose_Playlist) {
+//                 if (choose_Playlist > 0 && choose_Playlist <= lists.size()) {
+//                     // system("clear");
+//                     // display_MediaList();
+//                     // display_MedialistPerPage(lists, currentPage);
+//                     // cout << "\nChoose list to play : ";
                     
-                    //chon playlist de phat nhac  
-                } 
-            } else {
-                char command = userInput[0];
-                switch (command) {
-                    case 'N':
-                    case 'n':
-                    if(currentPage<(lists.size()/10)+1){
-                        currentPage++;
-                    }
-                        system("clear");
-                         display_MediaList(lists, currentPage);
-                        break;
-                    case 'P':
-                    case 'p':
-                        if (currentPage > 1) {
-                            currentPage--;
-                        }
-                        display_MediaList(lists, currentPage);
-                        break;
-                    case 'E':
-                    case 'e':
-                        return;
-                    case 'U':
-                    case 'u':
-                        // display_MediaList();
-                        // display_MedialistPerPage(lists, currentPage);
-                        // cout << "\nChoose list to play : ";
+//                     //chon playlist de phat nhac  
+//                 } 
+//             } else {
+//                 char command = userInput[0];
+//                 switch (command) {
+//                     case 'N':
+//                     case 'n':
+//                     if(currentPage<(lists.size()/10)+1){
+//                         currentPage++;
+//                     }
+//                         system("clear");
+//                          display_MediaList(lists, currentPage);
+//                         break;
+//                     case 'P':
+//                     case 'p':
+//                         if (currentPage > 1) {
+//                             currentPage--;
+//                         }
+//                         display_MediaList(lists, currentPage);
+//                         break;
+//                     case 'E':
+//                     case 'e':
+//                         return;
+//                     case 'U':
+//                     case 'u':
+//                         // display_MediaList();
+//                         // display_MedialistPerPage(lists, currentPage);
+//                         // cout << "\nChoose list to play : ";
                         
-                        // tang am luong 
+//                         // tang am luong 
 
-                        break;
-                    case 'D':
-                    case 'd':
-                        // if (currentPage > 1) {
-                        //     currentPage--;
-                        // }
-                        // display_MediaList();
-                        // display_MedialistPerPage(lists, currentPage);
-                        // cout << "\nChoose list to play : ";
+//                         break;
+//                     case 'D':
+//                     case 'd':
+//                         // if (currentPage > 1) {
+//                         //     currentPage--;
+//                         // }
+//                         // display_MediaList();
+//                         // display_MedialistPerPage(lists, currentPage);
+//                         // cout << "\nChoose list to play : ";
 
-                        // giam am luong 
+//                         // giam am luong 
                         
-                        break;
-                    default:
-                        display_MediaList(lists, currentPage);
-                        cout << "Invalid choice. Please enter a valid option." << endl;
-                }
-            }
-        } else {
-            system("clear");
-            display_MediaList(lists, currentPage);
-        }
-    } while (true);
-}
+//                         break;
+//                     default:
+//                         display_MediaList(lists, currentPage);
+//                         cout << "Invalid choice. Please enter a valid option." << endl;
+//                 }
+//             }
+//         } else {
+//             system("clear");
+//             display_MediaList(lists, currentPage);
+//         }
+//     } while (true);
+// }
 
 
 

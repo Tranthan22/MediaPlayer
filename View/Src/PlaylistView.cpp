@@ -81,3 +81,28 @@ void PlaylistView::display_PlayNameRemove(const vector<playlist_name>& plist_nam
      cout<<"\n Choose media to Remove: ";
 }
 
+
+
+// void PlaylistView::display_MediaPlaylist(const vector<Media_list>& lists, size_t currentpage)
+// {
+//     std::cout << "                                       Media play list                                   " << endl;
+//     cout << "============================================================================================\n" << endl;
+//     cout << left << setw(10) << "No."
+//          << left << setw(40) << "List"
+//          << left << setw(40) << "Last modified" << endl;
+
+//     display_MedialistPerPage(lists,currentpage);
+    
+//     cout << "\n============================================================================================" << endl;
+//     cout<< "Total Media list: "<<lists.size()<<"\n"<<endl;
+//     cout<< "Page: "<<currentpage;
+//     cout<<setw(10)<<" "<<left << setw(25) << "P. Previous"
+//          << left << setw(25) << "N. Next"
+//          << left << setw(25) << "E. Exit\n" << endl;
+//     cout<< left << setw(5)<< "Volume: "
+//     // Change volume
+//         << left << setw(10)<<"100%"
+//         << left << setw(25) << "U. Up"
+//         << left << setw(25) << "D. Down" << endl; 
+//     cout << "\nChoose list to play : ";
+// }

@@ -109,3 +109,32 @@ void MediaFileView::check_choice(const vector<MediaFile*>& songs, size_t& curren
         }
     }
 }
+
+
+// Ham de su tung trang lay du lieu 
+
+void MediaFileView::display_MediaPath()
+{
+    cout << "                                         Media Path                                   " << endl;
+    cout << "============================================================================================\n\n\n" << endl;
+    cout <<setw(70) << "Please, input your media path you want to play"<< endl;\
+    cout << "\n\n\n============================================================================================\n" << endl;
+}
+// Ham nay sep dung o phia controll
+std::string MediaFileView::input_path(){
+    display_MediaPath();
+    cout << "\nPath : ";
+    string directoryPath;
+    getline(cin, directoryPath);
+    return directoryPath;
+}
+
+bool MediaFileView::checkFilesInDirectory(const string& directoryPath) const {
+    // Kiểm tra xem tệp tồn tại hay không
+    std::ifstream file(directoryPath);
+    if (file.is_open()) {
+        return true;
+    }else{
+        return false;
+    }
+}
