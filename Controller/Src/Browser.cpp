@@ -121,5 +121,5 @@ void Browser::playmusic()
 
 vector<MediaFile *> Browser::getMediaFiles()
 {
-    return mediaFiles;
+    return vMediaFile;
 }
