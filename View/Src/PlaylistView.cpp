@@ -1,6 +1,7 @@
 #include "PlaylistView.hpp"
 
 void PlaylistView::display_Playlist(const vector<Playlist*>& plists, size_t currentpage){
+     system("clear");
      cout << "                                       Playlist                                   " << endl;
      cout << "============================================================================================\n" << endl;
      cout << left << setw(10) << "No."
@@ -24,13 +25,13 @@ void PlaylistView::display_Playlist(const vector<Playlist*>& plists, size_t curr
 // Ham lay du lieu tu model de truyen du lieu len
 void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size_t currentpage) {
     int startIndex = (currentpage - 1) * LIST_SIZE;
-    int endIndex = min(startIndex + LIST_SIZE, static_cast<int>(plists.size()) - 1);
+    int endIndex = min(startIndex + LIST_SIZE, static_cast<int>(plists.size()));
     // static_cast<int> chuyen doi sang so int
     for (size_t i = startIndex; i < endIndex; ++i) {
         cout << left << setw(10) << i + 1
         // dung de lay ten 
              << left << setw(40) << truncate(plists[i]->getName(), 40)
-             << left << setw(40) <<plists[i]->getSize() <<"Songs"<< endl;
+             << left <<plists[i]->getSize() <<" Songs"<< endl;
     }
     
 }

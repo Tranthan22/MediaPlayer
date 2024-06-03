@@ -3,6 +3,7 @@
 
 void PlayMusicView::display_PlayMucsic(const vector<Playlist*>& plists, size_t currentpage)
 {
+    system("clear");
     std::cout << "                                           Play Music                                   " << endl;
     std::cout << "============================================================================================\n" << endl;
     cout << left << setw(10) << "No."
@@ -33,8 +34,8 @@ void PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, s
                 if (ListChoice > 0 && ListChoice <= lists.size())
                 {
                     system("clear");
-                    display_ShowPlay(lists[ListChoice]->getFiles(),currentPage);
-                    check_choice_PlayMusicView_ShowPlay(lists[ListChoice]->getFiles(),currentPage);
+                    display_ShowPlay(lists[ListChoice-1]->getPlaylist(),currentPage);
+                    check_choice_PlayMusicView_ShowPlay(lists[ListChoice-1]->getPlaylist(),currentPage);
                     // display_MediaFile(songs, currentPage);
                 }
             }
@@ -51,7 +52,7 @@ void PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, s
                         }
                         system("clear");
                         display_PlayMucsic(lists,currentPage);
-                        check_choice_PlayMusicView_ShowPlay(lists[ListChoice]->getFiles(),currentPage);
+                        check_choice_PlayMusicView_ShowPlay(lists[ListChoice]->getPlaylist(),currentPage);
                         // display_MediaFile(songs, currentPage);
                         break;
                     case 'P':
@@ -62,7 +63,7 @@ void PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, s
                         }
                         system("clear");
                         display_PlayMucsic(lists,currentPage);
-                        check_choice_PlayMusicView_ShowPlay(lists[ListChoice]->getFiles(),currentPage);
+                        check_choice_PlayMusicView_ShowPlay(lists[ListChoice]->getPlaylist(),currentPage);
                         // display_MediaFile(songs, currentPage);
                         break;
                     case 'E':
@@ -91,7 +92,7 @@ void PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, s
 
 
 //Sau khi chọn 1 playlist để thực hiện chạy chương trình 
-void PlayMusicView_ShowPlay::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t currentpage)
+void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t currentpage)
 {
     system("clear");
     std::cout << "                                           Play Music                                   " << endl;
@@ -117,7 +118,7 @@ void PlayMusicView_ShowPlay::display_ShowPlay(const vector<MediaFile*>& lists_na
     // std::cout << "\nChoose page to show : ";
 }
 
-void PlayMusicView_ShowPlay::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>& lists_name, size_t currentPage) {
+void PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>& lists_name, size_t currentPage) {
     string userInput;
     bool flag = true;
     cout << "Choose option to play: " << endl;

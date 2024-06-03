@@ -11,6 +11,7 @@
 #include "Playlist.hpp"
 #include "MediaPlayer.hpp"
 #include "PlaylistView.hpp"
+#include "MediaPlayerView.hpp"
 
 enum FlowID
 {
@@ -44,6 +45,7 @@ private:
     /* Player */
     MediaPlayer myPlayer;
     PlaylistView playlistView;
+
 
 
 public:

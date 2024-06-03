@@ -68,60 +68,66 @@ void Browser::medialist()
 
 void Browser::playmusic()
 {
-    myPlayer.setList(vPlayList[0]->getPlaylistPointer());
-    myPlayer.nextMusic();
+    size_t currentPage = 1;
+    mediaPlayerView.display_PlayMucsic(vPlayList, currentPage);
+    mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPage);
 
-    int input;
-    while(1)
-    {
-        std::cin >> input;
-        switch (input)
-        {
-        case 0:
-            std::cout << "exit";
-            break;
-        case 1:
-            myPlayer.VolumeUp();
-            std::cout << "up \n" << myPlayer.getVolume() << std::endl;
-            break;
 
-        case 2:
-            myPlayer.VolumeDown();
-            std::cout << "down"  << myPlayer.getVolume() << std::endl;
-            break;
 
-        case 3:
-            Mix_PauseMusic();
-            std::cout << "Pause"  << std::endl;
-            break;
+    // myPlayer.setList(vPlayList[0]->getPlaylistPointer());
+    // myPlayer.nextMusic();
+
+    // int input;
+    // while(1)
+    // {
+    //     std::cin >> input;
+    //     switch (input)
+    //     {
+    //     case 0:
+    //         std::cout << "exit";
+    //         break;
+    //     case 1:
+    //         myPlayer.VolumeUp();
+    //         std::cout << "up \n" << myPlayer.getVolume() << std::endl;
+    //         break;
+
+    //     case 2:
+    //         myPlayer.VolumeDown();
+    //         std::cout << "down"  << myPlayer.getVolume() << std::endl;
+    //         break;
+
+    //     case 3:
+    //         Mix_PauseMusic();
+    //         std::cout << "Pause"  << std::endl;
+    //         break;
         
-        case 4:
-            Mix_ResumeMusic();
-            std::cout << "Resume"  << std::endl;
-            break;
+    //     case 4:
+    //         Mix_ResumeMusic();
+    //         std::cout << "Resume"  << std::endl;
+    //         break;
 
-        case 5:
-            Mix_HaltMusic();
-            std::cout << "Halt"  << std::endl;
-            break;
-        case 6:
-            Mix_PlayMusic(myPlayer.bgm, -1);
-            std::cout << "Again"  << std::endl;
-            break;
-        case 7:
-            myPlayer.ResumePause();
-            std::cout << "Switch state"  << std::endl;
-            break;
+    //     case 5:
+    //         Mix_HaltMusic();
+    //         std::cout << "Halt"  << std::endl;
+    //         break;
+    //     case 6:
+    //         Mix_PlayMusic(myPlayer.bgm, -1);
+    //         std::cout << "Again"  << std::endl;
+    //         break;
+    //     case 7:
+    //         myPlayer.ResumePause();
+    //         std::cout << "Switch state"  << std::endl;
+    //         break;
 
-        case 8:
-            myPlayer.nextMusic();
-            std::cout << "Next "  << std::endl;
-            break;
+    //     case 8:
+    //         myPlayer.nextMusic();
+    //         std::cout << "Next "  << std::endl;
+    //         break;
 
-        default:
-            break;
-        }
-    }
+    //     default:
+    //         break;
+    //     }
+    // }
 }
 
 void Browser::programFlow()
