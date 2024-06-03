@@ -36,11 +36,9 @@ void PlayMusicView_ShowPlay::display_ShowPlay(const vector<MediaFile*>& songs, s
     system("clear");
     std::cout << "                                           Media List                                   " << endl;
     std::cout << "============================================================================================\n" << endl;
-    std::cout << left << setw(5) << "No."
-         << left << setw(30) << "Name"
-         << left << setw(25) << "Artist"
-         << left << setw(15) << "Duration"
-         << left << setw(20) << "Publisher" << endl;
+    std::cout << left << setw(10) << "No."
+         << left << setw(40) << "List Name"
+         << left << setw(40) << "Number" << endl;
     // display_ShowPlayListsPerPage(songs, currentpage);
     display_PlaylistNamePerPage(songs,currentpage);
     // Show time 
