@@ -129,10 +129,10 @@ int MediaPlayer:: VolumeDown()
     Mix_VolumeMusic(SysVolume);
     return SysVolume;
 }
-vector<MediaFile *> MediaPlayer::getMediaFiles()
-{
-    vector<MediaFile *> a;
-    // return a;
-    // return mediaFiles;
-}
+// vector<MediaFile *> MediaPlayer::getMediaFiles()
+// {
+//     vector<MediaFile *> a;
+//     // return a;
+//     // return mediaFiles;
+// }
 

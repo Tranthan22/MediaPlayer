@@ -1,42 +1,45 @@
-#ifndef METADATAVIEW_HPP
-#define METADATAVIEW_HPP
+#ifndef _METADATA_VIEW_H_
+#define _METADATA_VIEW_H_
 
+#include <taglib/tag.h>
+#include <taglib/fileref.h>
+#include <taglib/taglib.h>
 #include <iostream>
-#include <iomanip> // Để sử dụng setw()
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <string>
+#include <memory> // For smart pointers
+#include <string.h> // For std::string
+#include <filesystem>
+
+using namespace TagLib;
+
 using namespace std;
 
-struct Media_list
+class Metadataview
 {
-    /* data */
-    string list;
-    string Lastmodified;
-
-};
-
-class MetadataView
-{
-private:
-    
-    // fix size
-    string truncate(const string& text, size_t width) {
-    if (text.length() <= width) {
-        return text;
-    } else {
-        return text.substr(0, width - 3) + "...";
-    }
-    }
 public:
-    
-    MetadataView()=default;
-    ~MetadataView()=default;
-    void display_MediaList(const vector<Media_list>& lists, size_t currentpage);
-    void display_MedialistPerPage(const vector<Media_list>& lists, size_t currentpage);
-    void choose_list(const vector<Media_list>& lists, size_t& currentPage);
+    Metadataview() = default;
+    ~Metadataview() = default;
+
+    void menuView();
+
+    void chooseMetadataField();
+
+    void enterMetadataValue();
+
+    void getMetadataError();
+
+    void metadataChooseFile(int input_case);
+
+    void modifyMetadataError();
+
+    void modifyMetadataSuccess();
+
+    void listEmpty(int input_case);
+
+    void displayAudioFileMetadata(Tag *tag, FileRef fileRef);
+
+    void displayVideoFileMetadata(Tag *tag, FileRef fileRef, string file_path);
+
+    void getMediaFileTypeError();
 };
 
-
-#endif
+#endif /*_METADATA_VIEW_H_ */

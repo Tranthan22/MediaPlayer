@@ -26,6 +26,8 @@ private:
     MediaPlayer myPlayer;
     MediaFileView mediaFileView;
 
+    vector<MediaFile*> mediaFiles; /*Ngoc Add*/
+
 public:
     Browser(/* args */);
     ~Browser();
@@ -40,6 +42,8 @@ public:
     void playmusic();
 
     /* Model */
+
+    vector<MediaFile *> getMediaFiles(); /* Ngoc add */
 
 };
 
