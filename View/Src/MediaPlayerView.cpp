@@ -17,64 +17,7 @@ void PlayMusicView::display_PlayMucsic(const vector<Playlist*>& plists, size_t c
          << left << setw(25) << "E. Exit" << endl;
     std::cout << "\n============================================================================================" << endl;
 }
-void PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage) {
-    string userInput;
-    bool flag = true;
-    while(flag)
-    {
-        getline(cin, userInput);
-        if (!userInput.empty()) {
-            stringstream ss(userInput);
-            size_t pageChoice;
-            if (ss >> pageChoice)
-            {
-                if (pageChoice > 0 && pageChoice <= lists.size())
-                {
-                    currentPage = pageChoice;
-                    system("clear");
-                    // display_MediaFile(songs, currentPage);
-                }
-            }
-            else
-            {
-                char command = userInput[0];
-                switch (command)
-                {
-                    case 'N':
-                    case 'n':
-                        if (currentPage < (lists.size() + PAGE_SIZE - 1) / PAGE_SIZE)
-                        {
-                            currentPage++;
-                        }
-                        system("clear");
-                        // display_MediaFile(songs, currentPage);
-                        break;
-                    case 'P':
-                    case 'p':
-                        if (currentPage > 1)
-                        {
-                            currentPage--;
-                        }
-                        system("clear");
-                        // display_MediaFile(songs, currentPage);
-                        break;
-                    case 'E':
-                    case 'e':
-                        flag = false;
-                        break;
-                    default:
-                        // system("clear");
-                        // display_MediaFile(songs, currentPage);
-                        cout << "Invalid choice. Please enter a valid option." << endl;
-                }
-            }
-        }
-        else
-        {
-            
-        }
-    }
-}
+
 // void PlayMusicView::display_ListsPerPage(const vector<MediaFile*>& lists, size_t currentpage) {
 //     size_t startIndex = (currentpage - 1) * LIST_SIZE;
 //     size_t endIndex = min(startIndex + LIST_SIZE, lists.size());
@@ -87,7 +30,7 @@ void PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, s
 
 
 //Sau khi chọn 1 playlist để thực hiện chạy chương trình 
-void PlayMusicView_ShowPlay::display_ShowPlay(const vector<Playlist*>& lists_name, size_t currentpage)
+void PlayMusicView_ShowPlay::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t currentpage)
 {
     system("clear");
     std::cout << "                                           Play Music                                   " << endl;
@@ -126,3 +69,64 @@ void PlayMusicView_ShowPlay::display_ShowPlay(const vector<Playlist*>& lists_nam
 //     }
 // }
 
+void PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage) {
+    string userInput;
+    bool flag = true;
+    while(flag)
+    {
+        getline(cin, userInput);
+        if (!userInput.empty()) {
+            stringstream ss(userInput);
+            size_t ListChoice;
+            if (ss >> ListChoice)
+            {
+                if (ListChoice > 0 && ListChoice <= lists.size())
+                {
+                    system("clear");
+                    display_ShowPlay(lists[ListChoice]->getFiles(),currentPage);
+                    // display_MediaFile(songs, currentPage);
+                }
+            }
+            else
+            {
+                char command = userInput[0];
+                switch (command)
+                {
+                    case 'N':
+                    case 'n':
+                        if (currentPage < (lists.size() + PAGE_SIZE - 1) / PAGE_SIZE)
+                        {
+                            currentPage++;
+                        }
+                        system("clear");
+                        display_ShowPlay(lists[ListChoice]->getFiles(),currentPage);
+                        // display_MediaFile(songs, currentPage);
+                        break;
+                    case 'P':
+                    case 'p':
+                        if (currentPage > 1)
+                        {
+                            currentPage--;
+                        }
+                        system("clear");
+                        display_ShowPlay(lists[ListChoice]->getFiles(),currentPage);
+                        // display_MediaFile(songs, currentPage);
+                        break;
+                    case 'E':
+                    case 'e':
+                        display_PlayMucsic(lists,currentPage);
+                        flag = false;
+                        break;
+                    default:
+                        // system("clear");
+                        // display_MediaFile(songs, currentPage);
+                        cout << "Invalid choice. Please enter a valid option." << endl;
+                }
+            }
+        }
+        else
+        {
+            
+        }
+    }
+}

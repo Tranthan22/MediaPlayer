@@ -35,7 +35,7 @@ void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size
     
 }
 
-void PlaylistView::display_PlaylistName(const vector<Playlist*>plist_name, size_t currentpage) {
+void PlaylistView::display_PlaylistName(const vector<MediaFile*>plist_name, size_t currentpage) {
     cout << "                                           Playlist name                                   " << endl;
     cout << "============================================================================================\n" << endl;
     cout << left << setw(10) << "No."
@@ -56,7 +56,7 @@ void PlaylistView::display_PlaylistName(const vector<Playlist*>plist_name, size_
           << left << setw(25) << "A. Add";
 }
 
-void PlaylistView::display_PlaylistNamePerPage(const vector<Playlist*>plist_name, size_t currentpage) {
+void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>plist_name, size_t currentpage) {
     int startIndex = (currentpage - 1) * LIST_NAME_SIZE;
     int endIndex = min(startIndex + LIST_NAME_SIZE, static_cast<int>(plist_name.size()) - 1);
     // static_cast<int> chuyen doi sang so int
@@ -70,13 +70,13 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<Playlist*>plist_name
     
 }
 
-void PlaylistView::display_PlayNameAdd(vector<Playlist*>& plist_name, size_t currentPage)
+void PlaylistView::display_PlayNameAdd(vector<MediaFile*>& plist_name, size_t currentPage)
 {
      display_PlaylistName(plist_name,currentPage);
      cout<<"\n Choose media to Add: ";
 
 }
-void PlaylistView::display_PlayNameRemove(vector<Playlist*>& plists_name, size_t& currentPage)
+void PlaylistView::display_PlayNameRemove(vector<MediaFile*>& plists_name, size_t& currentPage)
 {
      display_PlaylistName(plists_name,currentPage);
      cout<<"\n Choose media to Remove: ";
