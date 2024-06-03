@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include "MediaFile.hpp"
+#include "Playlist.hpp"
 
 #define LIST_SIZE 10
 #define LIST_NAME_SIZE 25
@@ -26,13 +27,13 @@ class PlaylistView
         
         PlaylistView()=default;
         ~PlaylistView()=default;
-        void display_Playlist(const vector<MediaFile*>& plists, size_t currentpage);
-        void display_PlaylistPerPage(const vector<MediaFile*>& plists, size_t currentpage);
+        void display_Playlist(const vector<Playlist*>& plists, size_t currentpage);
+        void display_PlaylistPerPage(const vector<Playlist*>& plists, size_t currentpage);
 
-        void display_PlaylistName(const vector<MediaFile*>plist_name, size_t currentpage);
-        void display_PlaylistNamePerPage(vector<MediaFile*> plists, size_t currentpage);
+        void display_PlaylistName(const vector<Playlist*>plist_name, size_t currentpage);
+        void display_PlaylistNamePerPage(vector<Playlist*> plists, size_t currentpage);
 
-        void display_PlayNameAdd(vector<MediaFile*>& plist_name, size_t currentPage);
-        void display_PlayNameRemove(vector<MediaFile*>& plists_name, size_t& currentPage);
+        void display_PlayNameAdd(vector<Playlist*>& plist_name, size_t currentPage);
+        void display_PlayNameRemove(vector<Playlist*>& plists_name, size_t& currentPage);
 };
 #endif

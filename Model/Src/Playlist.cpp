@@ -6,7 +6,7 @@ using namespace std;
 Playlist::Playlist(const string &n) : name(n) {}
 
 void Playlist::addFile(MediaFile *file){
-    files.push_back(*file);
+    files.push_back(file);
 }
 
 void Playlist::deleteFile(int file_idx){
@@ -19,6 +19,10 @@ string Playlist::getName(){
     return name;
 }
 
-vector<MediaFile> Playlist::getFiles(){
+vector<MediaFile*> Playlist::getFiles(){
     return files;
+}
+int Playlist::getSize()
+{
+    return files.size();
 }
