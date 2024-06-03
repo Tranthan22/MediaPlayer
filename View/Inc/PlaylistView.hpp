@@ -7,28 +7,16 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-using namespace std;
+#include "MediaFile.hpp"
+#include "Playlist.hpp"
 
-
-struct play_list
-{
-    /* data */
-    string list_name;
-    string Number_song;
-
-};
-struct playlist_name{
-    string Name;
-    string Artist;
-    string Duration;
-    string Publisher;
-};
-
+#define LIST_SIZE 10
+#define LIST_NAME_SIZE 25
 class PlaylistView
 {
     private:
         // fix size
-        string truncate(const string& text, size_t width) {
+        std::string truncate(const std::string& text, size_t width) {
         if (text.length() <= width) {
             return text;
         } else {
@@ -39,13 +27,13 @@ class PlaylistView
         
         PlaylistView()=default;
         ~PlaylistView()=default;
-        void display_Playlist(const vector<play_list>& plists, size_t currentpage);
-        void display_PlaylistPerPage(const vector<play_list>& plists, size_t currentpage);
+        void display_Playlist(const vector<Playlist*>& plists, size_t currentpage);
+        void display_PlaylistPerPage(const vector<Playlist*>& plists, size_t currentpage);
 
-        void display_PlaylistName(const vector<playlist_name>& plist_name, size_t currentpage);
-        void display_PlaylistNamePerPage(const vector<playlist_name>& plists, size_t currentpage);
+        void display_PlaylistName(const vector<Playlist*>plist_name, size_t currentpage);
+        void display_PlaylistNamePerPage(vector<Playlist*> plists, size_t currentpage);
 
-        void display_PlayNameAdd(const vector<playlist_name>& plist_name, size_t currentPage);
-        void display_PlayNameRemove(const vector<playlist_name>& plists_name, size_t& currentPage);
+        void display_PlayNameAdd(vector<Playlist*>& plist_name, size_t currentPage);
+        void display_PlayNameRemove(vector<Playlist*>& plists_name, size_t& currentPage);
 };
 #endif

@@ -16,7 +16,7 @@ void Browser::setPath()
 {
     do
     {
-        Path = mediaPlayerView.input_path();
+        Path = mediaPathView.input_path();
     }
     while(!(fs::exists(Path) && fs::is_directory(Path)));
 }
@@ -37,6 +37,7 @@ void Browser::menu()
         medialist();
         break;
     case PLAY_LIST:
+        
         break;
     case PLAY_MUSIC:
         playmusic();

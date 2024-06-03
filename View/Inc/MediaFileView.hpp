@@ -14,8 +14,10 @@ using namespace std;
 class MediaFileView
 {
 private:
+    //Path:
+    std::string directoryPath;
     // fix size
-    string truncate(const string& text, int width)
+    std::string truncate(const string& text, int width)
     {
         if ((int)text.length() <= width)
         {
@@ -33,9 +35,6 @@ public:
     void display_MediaFile(const vector<MediaFile*>& songs, size_t currentpage);
     
     void displaySongsPerPage(const vector<MediaFile*>& songs, size_t& currentpage);
-    
-
-
     // khi chon page vuot qua so luong bai  
     void Invalid_pageNumber();
     
@@ -44,6 +43,7 @@ public:
     
     // ham nay co khi dung o phia control.
     void check_choice(const vector<MediaFile*>& songs, size_t& currentPage);
+
 };
 
 #endif /*MEDIAFILEVIEW_HPP*/

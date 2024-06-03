@@ -1,6 +1,6 @@
 #include "PlaylistView.hpp"
 
-void PlaylistView::display_Playlist(const vector<play_list>& plists, size_t currentpage){
+void PlaylistView::display_Playlist(const vector<Playlist*>& plists, size_t currentpage){
      cout << "                                       Playlist                                   " << endl;
      cout << "============================================================================================\n" << endl;
      cout << left << setw(10) << "No."
@@ -22,19 +22,20 @@ void PlaylistView::display_Playlist(const vector<play_list>& plists, size_t curr
 }
 
 // Ham lay du lieu tu model de truyen du lieu len
-void PlaylistView::display_PlaylistPerPage(const vector<play_list>& plists, size_t currentpage) {
-    int startIndex = (currentpage - 1) * 10;
-    int endIndex = min(startIndex + 10, static_cast<int>(plists.size()) - 1);
+void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size_t currentpage) {
+    int startIndex = (currentpage - 1) * LIST_SIZE;
+    int endIndex = min(startIndex + LIST_SIZE, static_cast<int>(plists.size()) - 1);
     // static_cast<int> chuyen doi sang so int
     for (size_t i = startIndex; i < endIndex; ++i) {
         cout << left << setw(10) << i + 1
-             << left << setw(40) << truncate(plists[i].list_name, 40)
-             << left << setw(40) << truncate(plists[i].Number_song, 40) << endl;
+        // dung de lay ten 
+             << left << setw(40) << truncate(plists[i]->getName(), 40)
+             << left << setw(40) <<plists[i]->getSize() <<"Songs"<< endl;
     }
     
 }
 
-void PlaylistView::display_PlaylistName(const vector<playlist_name>& plist_name, size_t currentpage) {
+void PlaylistView::display_PlaylistName(const vector<Playlist*>plist_name, size_t currentpage) {
     cout << "                                           Playlist name                                   " << endl;
     cout << "============================================================================================\n" << endl;
     cout << left << setw(10) << "No."
@@ -55,29 +56,54 @@ void PlaylistView::display_PlaylistName(const vector<playlist_name>& plist_name,
           << left << setw(25) << "A. Add";
 }
 
-void PlaylistView::display_PlaylistNamePerPage(const vector<playlist_name>& plist_name, size_t currentpage) {
-    int startIndex = (currentpage - 1) * 10;
-    int endIndex = min(startIndex + 10, static_cast<int>(plist_name.size()) - 1);
+void PlaylistView::display_PlaylistNamePerPage(const vector<Playlist*>plist_name, size_t currentpage) {
+    int startIndex = (currentpage - 1) * LIST_NAME_SIZE;
+    int endIndex = min(startIndex + LIST_NAME_SIZE, static_cast<int>(plist_name.size()) - 1);
     // static_cast<int> chuyen doi sang so int
     for (size_t i = startIndex; i < endIndex; ++i) {
         cout << left << setw(10) << i + 1
-             << left << setw(35) << truncate(plist_name[i].Name, 35)
-             << left << setw(20) << truncate(plist_name[i].Artist, 20)
-             << left << setw(10) << truncate(plist_name[i].Duration, 10)
-             << left << setw(20) << truncate(plist_name[i].Publisher, 20) << endl;
+             << left << setw(35) << truncate(plist_name[i]->getName(), 35)
+             << left << setw(20) << truncate(plist_name[i]->getName(), 20)
+             << left << setw(10) << truncate(plist_name[i]->getName(), 10)
+             << left << setw(20) << truncate(plist_name[i]->getName(), 20) << endl;
     }
     
 }
 
-void PlaylistView::display_PlayNameAdd(const vector<playlist_name>& plist_name, size_t currentPage)
+void PlaylistView::display_PlayNameAdd(vector<Playlist*>& plist_name, size_t currentPage)
 {
      display_PlaylistName(plist_name,currentPage);
      cout<<"\n Choose media to Add: ";
 
 }
-void PlaylistView::display_PlayNameRemove(const vector<playlist_name>& plist_name, size_t& currentPage)
+void PlaylistView::display_PlayNameRemove(vector<Playlist*>& plists_name, size_t& currentPage)
 {
-     display_PlaylistName(plist_name,currentPage);
+     display_PlaylistName(plists_name,currentPage);
      cout<<"\n Choose media to Remove: ";
 }
 
+
+
+// void PlaylistView::display_MediaPlaylist(const vector<Media_list>& lists, size_t currentpage)
+// {
+//     std::cout << "                                       Media play list                                   " << endl;
+//     cout << "============================================================================================\n" << endl;
+//     cout << left << setw(10) << "No."
+//          << left << setw(40) << "List"
+//          << left << setw(40) << "Last modified" << endl;
+
+//     display_MedialistPerPage(lists,currentpage);
+    
+//     cout << "\n============================================================================================" << endl;
+//     cout<< "Total Media list: "<<lists.size()<<"\n"<<endl;
+//     cout<< "Page: "<<currentpage;
+//     cout<<setw(10)<<" "<<left << setw(25) << "P. Previous"
+//          << left << setw(25) << "N. Next"
+//          << left << setw(25) << "E. Exit\n" << endl;
+//     cout<< left << setw(5)<< "Volume: "
+//     // Change volume
+//         << left << setw(10)<<"100%"
+//         << left << setw(25) << "U. Up"
+//         << left << setw(25) << "D. Down" << endl; 
+//     cout << "\nChoose list to play : ";
+// }

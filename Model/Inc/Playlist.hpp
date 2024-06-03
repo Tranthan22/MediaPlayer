@@ -10,7 +10,7 @@ class Playlist
 {
 private:
     string name;
-    vector<MediaFile> files;
+    vector<MediaFile*> files;
 
 public:
     Playlist(const string &n);
@@ -21,8 +21,8 @@ public:
     void deleteFile(int file_idx);
 
     string getName();
-
-    vector<MediaFile> getFiles();
+    int getSize();
+    vector<MediaFile*> getFiles();
 };
 
 #endif /*PLAYLIST_H*/

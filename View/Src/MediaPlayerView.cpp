@@ -1,52 +1,128 @@
 #include "MediaPlayerView.hpp"
 
 
-void MediaPlayerView::display_MediaPlayer()
+void PlayMusicView::display_PlayMucsic(const vector<Playlist*>& plists, size_t currentpage)
 {
-    cout << "                                         Media Player                                   " << endl;
-    cout << "============================================================================================\n\n\n" << endl;
-    cout <<setw(70) << "Please, input your media path you want to play"<< endl;\
-    cout << "\n\n\n============================================================================================\n" << endl;
+    std::cout << "                                           Play Music                                   " << endl;
+    std::cout << "============================================================================================\n" << endl;
+    cout << left << setw(10) << "No."
+         << left << setw(40) << "List Name"
+         << left << setw(40) << "Number" << endl;
+    display_PlaylistPerPage(plists,currentpage);
+    std::cout << "\n============================================================================================" << endl;
+    std::cout << "Total Play list: " << plists.size() << "\n" << endl;
+    std::cout << "Page: " << currentpage;
+    std::cout << setw(10) << " " << left << setw(25) << "P. Previous"
+         << left << setw(25) << "N. Next"
+         << left << setw(25) << "E. Exit" << endl;
+    std::cout << "\n============================================================================================" << endl;
 }
-
-
-// Ham de su tung trang lay du lieu 
-// Ham nay sep dung o phia controll
-std::string MediaPlayerView::input_path(){
-    display_MediaPlayer();
-    cout << "\nPath : ";
-    string directoryPath;
-    getline(cin, directoryPath);
-    return directoryPath;
-}
-
-bool MediaPlayerView::checkFilesInDirectory(const string& directoryPath) const {
-    // Kiểm tra xem tệp tồn tại hay không
-    std::ifstream file(directoryPath);
-    if (file.is_open()) {
-        return true;
-    }else{
-        return false;
+void PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage) {
+    string userInput;
+    bool flag = true;
+    while(flag)
+    {
+        getline(cin, userInput);
+        if (!userInput.empty()) {
+            stringstream ss(userInput);
+            size_t pageChoice;
+            if (ss >> pageChoice)
+            {
+                if (pageChoice > 0 && pageChoice <= lists.size())
+                {
+                    currentPage = pageChoice;
+                    system("clear");
+                    // display_MediaFile(songs, currentPage);
+                }
+            }
+            else
+            {
+                char command = userInput[0];
+                switch (command)
+                {
+                    case 'N':
+                    case 'n':
+                        if (currentPage < (lists.size() + PAGE_SIZE - 1) / PAGE_SIZE)
+                        {
+                            currentPage++;
+                        }
+                        system("clear");
+                        // display_MediaFile(songs, currentPage);
+                        break;
+                    case 'P':
+                    case 'p':
+                        if (currentPage > 1)
+                        {
+                            currentPage--;
+                        }
+                        system("clear");
+                        // display_MediaFile(songs, currentPage);
+                        break;
+                    case 'E':
+                    case 'e':
+                        flag = false;
+                        break;
+                    default:
+                        // system("clear");
+                        // display_MediaFile(songs, currentPage);
+                        cout << "Invalid choice. Please enter a valid option." << endl;
+                }
+            }
+        }
+        else
+        {
+            
+        }
     }
 }
-
-// // Ham de su tung trang lay du lieu 
-// std::string MediaPlayerView::input_path(){
-//     display_MediaPlayer();
-//     cout << "\nPath : ";
-//     string directoryPath;
-//     while(true)
-//     {
-        
-//         getline(cin, directoryPath);
-//         if(checkFilesInDirectory(directoryPath))
-//         {
-//             std::cout << "File exists. Opening file..." << std::endl;
-//             break;
-//         }
-//         else{
-//             std::cout << "Error input path...Try Again" << std::endl;
-//         }
+// void PlayMusicView::display_ListsPerPage(const vector<MediaFile*>& lists, size_t currentpage) {
+//     size_t startIndex = (currentpage - 1) * LIST_SIZE;
+//     size_t endIndex = min(startIndex + LIST_SIZE, lists.size());
+//     for (size_t i = startIndex; i < endIndex; ++i) {
+//         std::cout << left << setw(5) << i + 1
+//              << left << setw(50) << truncate(lists[i]->getName(), 50)
+//              << left << setw(50) << truncate("Last modified", 50)<< endl;
 //     }
-//     return directoryPath;
 // }
+
+
+//Sau khi chọn 1 playlist để thực hiện chạy chương trình 
+void PlayMusicView_ShowPlay::display_ShowPlay(const vector<Playlist*>& lists_name, size_t currentpage)
+{
+    system("clear");
+    std::cout << "                                           Play Music                                   " << endl;
+    std::cout << "============================================================================================\n" << endl;
+    std::cout << left << setw(10) << "No."
+         << left << setw(35) << "Name"
+         << left << setw(20) << "Artist"
+         << left << setw(10) << "Duration"
+         << left << setw(20) << "Publisher"<< endl;
+    display_PlaylistNamePerPage(lists_name,currentpage);
+    // Show time 
+    std::cout << left << setw(5) << "\nTime: "
+         << left << setw(100) << "< ###############===================================== >"<<endl;
+    std::cout << left << setw(5) << "\nVolume: "
+            << left << setw(100) << "< 100% >"<<endl;
+
+    std::cout << "\n============================================================================================" << endl;
+    std::cout << "Total Media list: " << lists_name.size() << "\n" << endl;
+    std::cout << "Page: " << currentpage;
+    std::cout << setw(10) << " " << left << setw(25) << "P. Previous"
+         << left << setw(25) << "N. Next"
+         << left << setw(25) << "E. Exit" << endl;
+    // std::cout << "\nChoose page to show : ";
+}
+
+// void PlayMusicView_ShowPlay::display_ShowPlayListsPerPage(const vector<MediaFile*>& songs, size_t currentpage)
+// {
+//     size_t startIndex = (currentpage - 1) * PAGE_LIST_SIZE;
+//     size_t endIndex = min(startIndex + PAGE_LIST_SIZE, songs.size());
+//     for (size_t i = startIndex; i < endIndex; ++i) {
+//         std::cout << left << setw(5) << i + 1
+//              << left << setw(30) << truncate(songs[i]->getName(), 30)
+//              << left << setw(25) << truncate("Hellooo", 25)
+//              << left << setw(15) << truncate("Hellooo", 15)
+//              << left << setw(20) << truncate("Hellooo", 20) << endl;
+//     }
+// }
+
