@@ -28,7 +28,7 @@ class PlaylistView
 {
     private:
         // fix size
-        string truncate(const string& text, size_t width) {
+        std::string truncate(const std::string& text, size_t width) {
         if (text.length() <= width) {
             return text;
         } else {
