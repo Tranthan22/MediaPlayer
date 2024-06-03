@@ -11,8 +11,8 @@ void Metadataview::menuView()
     cout << left << setw(30) << "1. Show Metadata"
          << left << setw(30) << "2. Update Metadata"
          << left << setw(30) << "0. Back"<<endl;
-    cout << "Input your command: " << endl;
     cout << "==============================================================================\n" << endl;
+    cout << "Input your command: " << endl;
 }
 
 void Metadataview::chooseMetadataField()

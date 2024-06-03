@@ -102,7 +102,8 @@ void PlayMusicView_ShowPlay::display_ShowPlay(const vector<MediaFile*>& lists_na
          << left << setw(10) << "Duration"
          << left << setw(20) << "Publisher"<< endl;
     display_PlaylistNamePerPage(lists_name,currentpage);
-    // Show time 
+    
+    // Show time sẽ thay giá trị vào
     std::cout << left << setw(5) << "\nTime: "
          << left << setw(100) << "< ###############===================================== >"<<endl;
     std::cout << left << setw(5) << "\nVolume: "
