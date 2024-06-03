@@ -97,6 +97,7 @@ void MediaFileView::check_choice(const vector<MediaFile*>& songs, size_t& curren
                     case 'e':
                         flag = false;
                         break;
+                        break;
                     default:
                         // system("clear");
                         display_MediaFile(songs, currentPage);
