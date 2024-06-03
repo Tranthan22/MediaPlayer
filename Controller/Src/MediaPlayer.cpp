@@ -20,17 +20,16 @@ MediaPlayer::MediaPlayer(/* args */)
 
 MediaPlayer::~MediaPlayer()
 {
-    if(bgm != nullptr)
-    {
-        Mix_FreeMusic(bgm);
-    }
-    Mix_CloseAudio();
-    SDL_Quit();
+    // if(bgm != NULL)
+    // {
+    //     Mix_FreeMusic(bgm);
+    // }
+    // Mix_CloseAudio();
+    // SDL_Quit();
 }
 /*=================== Media Player =========================*/
 int MediaPlayer::playMusic(const char* file)
 {
-    Mix_FreeMusic(bgm);
     bgm = Mix_LoadMUS(file);
     if (bgm == NULL)
     {
@@ -55,6 +54,7 @@ int MediaPlayer::playMusic(const char* file)
             Playing = true;
         }
     }
+    cin.ignore();
     return 0;
 }
 
@@ -74,9 +74,12 @@ void MediaPlayer:: ResumePause()
 
 void MediaPlayer:: nextMusic()
 {
-    cout << (*list)[fileIndexInList]->getName().c_str();
     Mix_HaltMusic();
-    playMusic((*list)[fileIndexInList]->getName().c_str());
+    string MusicDir = (*list)[fileIndexInList]->getPath();
+    // cout << MusicDir;
+    // playMusic(MusicDir.c_str());
+    playMusic("./Music/TruyenThaiY.mp3");
+
 
     if(++fileIndexInList > list->size()-1)
     {

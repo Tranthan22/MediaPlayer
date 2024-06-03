@@ -1,6 +1,7 @@
 #include "MenuView.hpp"
 #include <cstdlib>
 #include <iomanip> // Để sử dụng setw()
+
 void MenuView::display_menu()
 {
     cout << "                                  Menu                                  " << endl;
@@ -10,7 +11,6 @@ void MenuView::display_menu()
          << left << setw(30) << "3. Play music"<<endl;
     cout << left<<"\n0. Exit\n";
     cout << "==============================================================================\n" << endl;
-    // cout << "Choose page to show: " << endl;
 }
 
 void MenuView::InvalidChoiceInterface()

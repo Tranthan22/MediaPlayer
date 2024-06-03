@@ -1,6 +1,5 @@
 
 #include "main.hpp"
-// #include "MediaPlayer.hpp"
 #include "Browser.hpp"
 
 int main()
@@ -9,7 +8,6 @@ int main()
     myBrowser.setPath();
     myBrowser.loadFile();
     myBrowser.menu();
-
 
 }
 

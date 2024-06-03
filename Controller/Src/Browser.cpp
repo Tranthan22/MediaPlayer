@@ -30,22 +30,20 @@ int Browser::userInput()
 void Browser::menu()
 {
     menuView.display_menu();
-    // switch(choice)
-    // {
-    //     case 1:
-    //         medialist();
-    //         break;
-    //     case 2:
-    //         break;
-    //     case 3:
-    //         system("clear");
-    //         playmusic();
-    //         break;
-    //     case 0:
-    //         break;
-    //     default:
-    //         break;
-    // }
+    int MenuInput = userInput();
+    switch (MenuInput)
+    {
+    case MEDIA_LIST:
+        medialist();
+        break;
+    case PLAY_LIST:
+        break;
+    case PLAY_MUSIC:
+        playmusic();
+    
+    default:
+        break;
+    }
 }
 void Browser::loadFile()
 {
