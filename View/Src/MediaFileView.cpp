@@ -104,6 +104,7 @@ void MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage)
                     case 'e':
                         flag = false;
                         break;
+                        break;
                     default:
                         // system("clear");
                         display_MediaFile(songs, currentPage);

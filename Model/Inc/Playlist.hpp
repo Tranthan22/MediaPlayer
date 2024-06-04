@@ -10,7 +10,7 @@ class Playlist
 {
 private:
     string name;
-    vector<MediaFile*> files;
+    vector<MediaFile*> pPlaylist;
 
 public:
     Playlist(const string &n);
@@ -22,7 +22,9 @@ public:
 
     string getName();
     int getSize();
-    vector<MediaFile*> getFiles();
+    vector<MediaFile*>& getPlaylist();
+    vector<MediaFile*>* getPlaylistPointer();
+
 };
 
 #endif /*PLAYLIST_H*/

@@ -1,7 +1,6 @@
 #include "Browser.hpp"
 #include <stack>
 
-#define START_PAGE 1
 
 Browser::Browser(/* args */)
 {
@@ -9,7 +8,7 @@ Browser::Browser(/* args */)
 
 Browser::~Browser()
 {
-    for(MediaFile* mediafile : vMediaFile)
+    for(MediaFile* mediafile : vPlayList[0]->getPlaylist())
     {
         delete mediafile;
     }
@@ -23,6 +22,7 @@ void Browser::setPath()
     }
     while(!(fs::exists(Path) && fs::is_directory(Path)));
 }
+
 int Browser::userInput()
 {
     int choice;
@@ -38,26 +38,26 @@ void Browser::menu()
     switch (MenuInput)
     {
     case MEDIA_LIST:
-        medialist();
+        flowID.push(MEDIA_LIST_ID);
         break;
     case PLAY_LIST:
-        
+        flowID.push(PLAY_LIST_ID);
         break;
     case PLAY_MUSIC:
-        playmusic();
-    
+        flowID.push(PLAY_MUSIC_ID);
+        break;
     default:
         break;
     }
 }
 void Browser::loadFile()
 {
+    vPlayList.push_back(new Playlist("All"));
     for (const auto& entry : fs::directory_iterator(Path))
     {
-        if (entry.is_regular_file() && entry.path().extension() == ".mp3")
-        {   
+        if (entry.is_regular_file() && entry.path().extension() == ".mp3"){
             int mp3_type =1;
-            vMediaFile.push_back(new MediaFile(entry.path().filename().string(), entry.path().string(),mp3_type));
+            vPlayList[0]->addFile(new MediaFile(entry.path().filename().string(), entry.path().string(),mp3_type));
         }
     }
 }
@@ -67,8 +67,8 @@ void Browser::medialist()
     size_t currentPage=START_PAGE;
     int choose_song;
     int user_input;
-    mediaFileView.display_MediaFile(vMediaFile, currentPage);
-    mediaFileView.check_choice(vMediaFile, currentPage);
+    mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
+    mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
     choose_song = mediaFileView.getChoice();
     while(true)
     { 
@@ -77,7 +77,7 @@ void Browser::medialist()
         {
         case SHOW_METADATA:
             system("clear");
-            metaData.viewMetadata(vMediaFile,choose_song);
+            metaData.viewMetadata(vPlayList[0]->getPlaylist(),choose_song);
             cout << "Input your command: " << endl;
             user_input=userInput();
             if(user_input==BACK_MENU)
@@ -85,7 +85,7 @@ void Browser::medialist()
             break;
         case UPDATE_METADATA:
             system("clear");
-            metaData.updateMetadata(vMediaFile,choose_song);
+            metaData.updateMetadata(vPlayList[0]->getPlaylist(),choose_song);
             user_input=userInput();
             if(user_input==BACK_MENU)
                 medialist();
@@ -99,66 +99,134 @@ void Browser::medialist()
             cout << "Invalid choice. Please enter a valid option." << endl;
         }
     }
+    flowID.pop();
 }
 
 void Browser::playmusic()
 {
-    myPlayer.setList(&vMediaFile);
-    myPlayer.nextMusic();
-    int input;
+    size_t currentPage = 1;
+    int chosenList = 0;
+    int chosenMusic = 0;
+    bool flag = true;
+    while(flag)
+    {
+        mediaPlayerView.display_PlayMucsic(vPlayList, currentPage);
+        chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPage);
+        if(chosenList != 0)
+        {
+            while(1)
+            {
+                mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), 1);
+                chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), 1);
+                system("clear");
+
+                cout << "aaaaaa";
+                cout << "chosenMusic:" << chosenMusic;
+                
+                switch (chosenMusic)
+                {
+                case 0:
+                    break;
+                case -1:
+
+                default:
+                    vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
+                    MediaFile * b = (*a)[chosenMusic];
+                    myPlayer.playMusic(b->getName().c_str());
+                }
+            }
+        }
+        else
+        {
+            flowID.pop();
+            flag = false;
+        }
+    }
+
+    // myPlayer.setList(vPlayList[0]->getPlaylistPointer());
+    // myPlayer.nextMusic();
+
+    // int input;
+    // while(1)
+    // {
+    //     std::cin >> input;
+    //     switch (input)
+    //     {
+    //     case 0:
+    //         std::cout << "exit";
+    //         break;
+    //     case 1:
+    //         myPlayer.VolumeUp();
+    //         std::cout << "up \n" << myPlayer.getVolume() << std::endl;
+    //         break;
+
+    //     case 2:
+    //         myPlayer.VolumeDown();
+    //         std::cout << "down"  << myPlayer.getVolume() << std::endl;
+    //         break;
+
+    //     case 3:
+    //         Mix_PauseMusic();
+    //         std::cout << "Pause"  << std::endl;
+    //         break;
+        
+    //     case 4:
+    //         Mix_ResumeMusic();
+    //         std::cout << "Resume"  << std::endl;
+    //         break;
+
+    //     case 5:
+    //         Mix_HaltMusic();
+    //         std::cout << "Halt"  << std::endl;
+    //         break;
+    //     case 6:
+    //         Mix_PlayMusic(myPlayer.bgm, -1);
+    //         std::cout << "Again"  << std::endl;
+    //         break;
+    //     case 7:
+    //         myPlayer.ResumePause();
+    //         std::cout << "Switch state"  << std::endl;
+    //         break;
+
+    //     case 8:
+    //         myPlayer.nextMusic();
+    //         std::cout << "Next "  << std::endl;
+    //         break;
+
+    //     default:
+    //         break;
+    //     }
+    // }
+}
+
+void Browser::programFlow()
+{
+    setPath();
+    loadFile();
+    flowID.push(MENU_ID); // Menu
+    int current_screen;
     while(1)
     {
-        std::cin >> input;
-        switch (input)
+        current_screen = flowID.top();
+        switch(current_screen)
         {
-        case 0:
-            std::cout << "exit";
-            break;
-        case 1:
-            myPlayer.VolumeUp();
-            std::cout << "up \n" << myPlayer.getVolume() << std::endl;
-            break;
-
-        case 2:
-            myPlayer.VolumeDown();
-            std::cout << "down"  << myPlayer.getVolume() << std::endl;
-            break;
-
-        case 3:
-            Mix_PauseMusic();
-            std::cout << "Pause"  << std::endl;
-            break;
-        
-        case 4:
-            Mix_ResumeMusic();
-            std::cout << "Resume"  << std::endl;
-            break;
-
-        case 5:
-            Mix_HaltMusic();
-            std::cout << "Halt"  << std::endl;
-            break;
-        case 6:
-            Mix_PlayMusic(myPlayer.bgm, -1);
-            std::cout << "Again"  << std::endl;
-            break;
-        case 7:
-            myPlayer.ResumePause();
-            std::cout << "Switch state"  << std::endl;
-            break;
-
-        case 8:
-            myPlayer.nextMusic();
-            std::cout << "Next "  << std::endl;
-            break;
-
-        default:
-            break;
+            case MENU_ID:
+                menu();
+                break;
+            case MEDIA_LIST_ID:
+                medialist();
+                break;
+            case PLAY_LIST_ID:
+                break;
+            case PLAY_MUSIC_ID:
+                playmusic();
+                // cin.ignore();
+                break;
         }
     }
 }
 
 vector<MediaFile *> Browser::getMediaFiles()
 {
-    return vMediaFile;
+    // return vPlayList[0];
 }
