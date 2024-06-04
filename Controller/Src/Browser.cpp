@@ -69,10 +69,43 @@ void Browser::medialist()
 void Browser::playmusic()
 {
     size_t currentPage = 1;
-    mediaPlayerView.display_PlayMucsic(vPlayList, currentPage);
-    mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPage);
+    int chosenList = 0;
+    int chosenMusic = 0;
+    bool flag = true;
+    while(flag)
+    {
+        mediaPlayerView.display_PlayMucsic(vPlayList, currentPage);
+        chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPage);
+        if(chosenList != 0)
+        {
+            while(1)
+            {
+                mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), 1);
+                chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), 1);
+                system("clear");
 
+                cout << "aaaaaa";
+                cout << "chosenMusic:" << chosenMusic;
+                
+                switch (chosenMusic)
+                {
+                case 0:
+                    break;
+                case -1:
 
+                default:
+                    vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
+                    MediaFile * b = (*a)[chosenMusic];
+                    myPlayer.playMusic(b->getName().c_str());
+                }
+            }
+        }
+        else
+        {
+            flowID.pop();
+            flag = false;
+        }
+    }
 
     // myPlayer.setList(vPlayList[0]->getPlaylistPointer());
     // myPlayer.nextMusic();
@@ -151,7 +184,7 @@ void Browser::programFlow()
                 break;
             case PLAY_MUSIC_ID:
                 playmusic();
-                cin.ignore();
+                // cin.ignore();
                 break;
         }
     }
@@ -159,5 +192,5 @@ void Browser::programFlow()
 
 vector<MediaFile *> Browser::getMediaFiles()
 {
-    // return vMediaFile;
+    // return vPlayList[0];
 }

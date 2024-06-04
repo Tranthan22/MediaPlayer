@@ -10,8 +10,8 @@
 #include "MediaFile.hpp"
 #include "Playlist.hpp"
 
-#define LIST_SIZE 10
-#define LIST_NAME_SIZE 25
+#define LIST_SIZE 4
+#define LIST_NAME_SIZE 4
 class PlaylistView
 {
     private:

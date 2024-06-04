@@ -59,7 +59,7 @@ void PlaylistView::display_PlaylistName(const vector<MediaFile*>plist_name, size
 
 void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>plist_name, size_t currentpage) {
     int startIndex = (currentpage - 1) * LIST_NAME_SIZE;
-    int endIndex = min(startIndex + LIST_NAME_SIZE, static_cast<int>(plist_name.size()) - 1);
+    int endIndex = min(startIndex + LIST_NAME_SIZE, static_cast<int>(plist_name.size()));
     // static_cast<int> chuyen doi sang so int
     for (size_t i = startIndex; i < endIndex; ++i) {
         cout << left << setw(10) << i + 1
