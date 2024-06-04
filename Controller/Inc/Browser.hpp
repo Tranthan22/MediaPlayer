@@ -66,6 +66,7 @@ public:
 
     void menu();
     void medialist();
+    void playlist();
     void playmusic();
     void programFlow();
 

@@ -111,42 +111,100 @@ void Browser::medialist()
 
 void Browser::playmusic()
 {
-    size_t currentPage = 1;
+    size_t currentPageList = 1;
+    size_t currentPageMusic = 1;
     int chosenList = 0;
     int chosenMusic = 0;
-    bool flag = true;
-    while(flag)
+    bool flagPlaylist = true;
+    bool flagMusic = true;
+    while(flagPlaylist)
     {
-        mediaPlayerView.display_PlayMucsic(vPlayList, currentPage);
-        chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPage);
+        mediaPlayerView.display_PlayMucsic(vPlayList, currentPageList);
+        chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPageList);
         if(chosenList != 0)
-        {
-            while(1)
+        {   
+            flagMusic = true;
+            while(flagMusic)
             {
-                mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), 1);
-                chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), 1);
-                system("clear");
-
-                cout << "aaaaaa";
-                cout << "chosenMusic:" << chosenMusic;
+                mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
+                chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
                 
                 switch (chosenMusic)
                 {
                 case 0:
+                    flagMusic = false;
                     break;
                 case -1:
-
+                    myPlayer.VolumeUp();
+                    break;
+                case -2:
+                    myPlayer.VolumeDown();
+                    break;
+                case -3:
+                    myPlayer.ResumePause();
+                    break;
                 default:
                     vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
-                    MediaFile * b = (*a)[chosenMusic];
-                    myPlayer.playMusic(b->getName().c_str());
+                    MediaFile * b = (*a)[chosenMusic - 1];
+                    myPlayer.playMusic(b->getPath().c_str());
+                    break;
                 }
             }
         }
         else
         {
             flowID.pop();
-            flag = false;
+            flagPlaylist = false;
+        }
+    }
+}
+
+void Browser::playlist()
+{
+    size_t currentPageList = 1;
+    size_t currentPageMusic = 1;
+    int chosenList = 0;
+    int chosenMusic = 0;
+    bool flagPlaylist = true;
+    bool flagMusic = true;
+    while(flagPlaylist)
+    {
+        mediaPlayerView.display_PlayMucsic(vPlayList, currentPageList);
+        chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPageList);
+        if(chosenList != 0)
+        {   
+            flagMusic = true;
+            while(flagMusic)
+            {
+                mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
+                chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
+                
+                switch (chosenMusic)
+                {
+                case 0:
+                    flagMusic = false;
+                    break;
+                case -1:
+                    myPlayer.VolumeUp();
+                    break;
+                case -2:
+                    myPlayer.VolumeDown();
+                    break;
+                case -3:
+                    myPlayer.ResumePause();
+                    break;
+                default:
+                    vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
+                    MediaFile * b = (*a)[chosenMusic - 1];
+                    myPlayer.playMusic(b->getPath().c_str());
+                    break;
+                }
+            }
+        }
+        else
+        {
+            flowID.pop();
+            flagPlaylist = false;
         }
     }
 }
