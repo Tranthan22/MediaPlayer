@@ -8,7 +8,7 @@ class AudioFile : public MediaFile
 private:
 
 public:
-    AudioFile(const string &n, const string &p);
+    AudioFile(const string &n, const string &p,const int&type);
     ~AudioFile() = default;
 };
 

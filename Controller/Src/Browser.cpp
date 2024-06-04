@@ -1,4 +1,7 @@
 #include "Browser.hpp"
+#include <stack>
+
+#define START_PAGE 1
 
 Browser::Browser(/* args */)
 {
@@ -27,6 +30,7 @@ int Browser::userInput()
     cin.ignore();
     return choice;
 }
+
 void Browser::menu()
 {
     menuView.display_menu();
@@ -51,15 +55,50 @@ void Browser::loadFile()
     for (const auto& entry : fs::directory_iterator(Path))
     {
         if (entry.is_regular_file() && entry.path().extension() == ".mp3")
-        {
-            vMediaFile.push_back(new MediaFile(entry.path().filename().string(), entry.path().string()));
+        {   
+            int mp3_type =1;
+            vMediaFile.push_back(new MediaFile(entry.path().filename().string(), entry.path().string(),mp3_type));
         }
     }
 }
 
 void Browser::medialist()
 {
-    mediaFileView.display_MediaFile(vMediaFile, 1);
+    size_t currentPage=START_PAGE;
+    int choose_song;
+    int user_input;
+    mediaFileView.display_MediaFile(vMediaFile, currentPage);
+    mediaFileView.check_choice(vMediaFile, currentPage);
+    choose_song = mediaFileView.getChoice();
+    while(true)
+    { 
+        user_input =userInput();
+        switch (user_input)
+        {
+        case SHOW_METADATA:
+            system("clear");
+            metaData.viewMetadata(vMediaFile,choose_song);
+            cout << "Input your command: " << endl;
+            user_input=userInput();
+            if(user_input==BACK_MENU)
+                medialist();
+            break;
+        case UPDATE_METADATA:
+            system("clear");
+            metaData.updateMetadata(vMediaFile,choose_song);
+            user_input=userInput();
+            if(user_input==BACK_MENU)
+                medialist();
+            break;
+        case BACK_MENU:
+            system("clear");
+            medialist();
+            break;
+        default:
+            break;
+            cout << "Invalid choice. Please enter a valid option." << endl;
+        }
+    }
 }
 
 void Browser::playmusic()
