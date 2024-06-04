@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void Metadataview::menuView()
+void Metadataview::menuMetaView()
 {
     cout << "                                  Menu Metadata                                " << endl;
     cout << "==============================================================================\n" << endl;

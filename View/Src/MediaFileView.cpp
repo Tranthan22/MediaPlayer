@@ -42,15 +42,7 @@ inline void MediaFileView::Invalid_choice()
     cout << "Invalid choice. Please enter a valid option." << endl;
 }
 
-int MediaFileView::getChoice()
-{
-    return choice;
-}
-void MediaFileView::setChoice(int choice)
-{
-    this->choice =choice;
-}
-void MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) {
+int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) {
     string userInput;
     bool flag = true;
     while(flag)
@@ -65,8 +57,8 @@ void MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage)
                 {
                     system("clear");
                     // display_MediaFile(songs, currentPage);
-                    menuView();
-                    setChoice(Song_Choice);
+                    // setChoice(Song_Choice);
+                    return Song_Choice;
                     flag = false;
 
                 }
@@ -103,7 +95,8 @@ void MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage)
                     case 'E':
                     case 'e':
                         flag = false;
-                        break;
+                        return -1;
+                        // setChoice(Song_Choice);
                         break;
                     default:
                         // system("clear");
