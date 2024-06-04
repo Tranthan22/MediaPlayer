@@ -1,12 +1,16 @@
 #include "Metadata.hpp"
 #include "MetadataView.hpp"
 
-void Metadata::viewMetadata(Browser *browser, int file_idx)
+
+void Metadata::viewMetadata(vector<MediaFile*>& Songs, int file_idx)
 {
-    file_name = browser->getMediaFiles()[file_idx - 1]->getName();
-    file_path = browser->getMediaFiles()[file_idx - 1]->getPath();
-    file_type = browser->getMediaFiles()[file_idx - 1]->getType();
+    file_name = Songs[file_idx-1]->getName();
+    file_path = Songs[file_idx-1]->getPath();
+    file_type = Songs[file_idx-1]->getType();
     TagLib::FileRef fileRef(file_path.c_str());
+    cout << left << setw(30)<<"Displaying Metadata..." <<file_name<<"\n"<<endl;
+    
+   
     if (!fileRef.isNull() && fileRef.tag())
     {
         TagLib::Tag *tag = fileRef.tag();
@@ -28,27 +32,29 @@ void Metadata::viewMetadata(Browser *browser, int file_idx)
     }
 }
 
-void Metadata::updateMetadata(Browser *browser, int file_idx)
-{
+void Metadata::updateMetadata(vector<MediaFile*>& Songs, int file_idx)
+{   file_name = Songs[file_idx - 1]->getName();
+    file_path = Songs[file_idx - 1]->getPath();
+    file_type = Songs[file_idx - 1]->getType();
+    TagLib::FileRef fileRef(file_path.c_str());
+    TagLib::Tag *tag = fileRef.tag();
+    
+    cout<< left << setw(30) << "Updating Metadata..." <<file_name<< endl;
+    view_metadata.displayAudioFileMetadata(tag, fileRef);
     int update_opt;
     string new_value;
     view_metadata.chooseMetadataField();
-
-    update_opt = browser->userInput();
+    cin >> update_opt;
+    cin.ignore();
+    // update_opt = browser->userInput();
     view_metadata.enterMetadataValue();
-
-    getline(cin, new_value);
-    file_name = browser->getMediaFiles()[file_idx - 1]->getName();
-    file_path = browser->getMediaFiles()[file_idx - 1]->getPath();
-    file_type = browser->getMediaFiles()[file_idx - 1]->getType();
-    TagLib::FileRef fileRef(file_path.c_str());
-    TagLib::Tag *tag = fileRef.tag();
+    getline(cin, new_value);    
     if (file_type == AUDIO_FILE_TYPE)
     {
         switch (update_opt)
         {
-        case MODIFY_TRACK:
-            tag->setTrack(stoi(new_value));
+        case MODIFY_NAME:
+            tag->setTitle(new_value.c_str());
             break;
         case MODIFY_ALBUM:
             tag->setAlbum(new_value.c_str());
@@ -92,6 +98,7 @@ void Metadata::updateMetadata(Browser *browser, int file_idx)
     }
     if (fileRef.save() == true)
     {
+        Songs[file_idx - 1]->setName(tag->title().toCString());
         view_metadata.modifyMetadataSuccess();
     }
 }

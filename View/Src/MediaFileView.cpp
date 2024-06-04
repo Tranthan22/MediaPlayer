@@ -3,16 +3,16 @@
 
 #include "MediaFileView.hpp"
 
-void MediaFileView::display_MediaFile(const vector<MediaFile*>& songs, size_t currentpage)
+void MediaFileView::display_MediaFile(vector<MediaFile*>& songs, size_t currentpage)
 {
     system("clear");
     std::cout << "                                           Media List                                   " << endl;
     cout << "============================================================================================\n" << endl;
     cout << left << setw(5) << "No."
          << left << setw(30) << "Name"
-         << left << setw(25) << "Artist"
-         << left << setw(15) << "Duration"
-         << left << setw(20) << "Publisher" << endl;
+         << left << setw(60) << "Path"<<endl;
+        //  << left << setw(15) << "Duration"
+        //  << left << setw(20) << "Publisher" << endl;
     displaySongsPerPage(songs, currentpage);
     
     cout << "\n============================================================================================" << endl;
@@ -21,24 +21,20 @@ void MediaFileView::display_MediaFile(const vector<MediaFile*>& songs, size_t cu
     cout << setw(10) << " " << left << setw(25) << "P. Previous"
          << left << setw(25) << "N. Next"
          << left << setw(25) << "E. Exit" << endl;
-    cout << "\nChoose song : ";
+    cout << "\nChoose song to modifie : ";
+    // check_choice(songs, currentpage);
 }
 
-void MediaFileView::displaySongsPerPage(const vector<MediaFile*>& songs, size_t& currentpage) {
+void MediaFileView::displaySongsPerPage(vector<MediaFile*>& songs, size_t& currentpage) {
     size_t startIndex = (currentpage - 1) * PAGE_SIZE;
     size_t endIndex = min(startIndex + PAGE_SIZE, songs.size());
     for (size_t i = startIndex; i < endIndex; ++i) {
         cout << left << setw(5) << i + 1
              << left << setw(30) << truncate(songs[i]->getName(), 30)
-             << left << setw(25) << truncate("Hellooo", 25)
-             << left << setw(15) << truncate("Hellooo", 15)
-             << left << setw(20) << truncate("Hellooo", 20) << endl;
+             << left << setw(60) << truncate(songs[i]->getPath(), 60)<<endl;
+            //  << left << setw(15) << truncate(std::to_string(songs[i]->getType()), 15)<<endl;
+            //  << left << setw(20) << truncate("Hellooo", 20) << endl;
     }
-}
-
-inline void MediaFileView::Invalid_pageNumber()
-{
-    cout << "Invalid page number. Please enter a valid option." << endl;
 }
 
 inline void MediaFileView::Invalid_choice()
@@ -46,7 +42,15 @@ inline void MediaFileView::Invalid_choice()
     cout << "Invalid choice. Please enter a valid option." << endl;
 }
 
-void MediaFileView::check_choice(const vector<MediaFile*>& songs, size_t& currentPage) {
+int MediaFileView::getChoice()
+{
+    return choice;
+}
+void MediaFileView::setChoice(int choice)
+{
+    this->choice =choice;
+}
+void MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) {
     string userInput;
     bool flag = true;
     while(flag)
@@ -54,20 +58,23 @@ void MediaFileView::check_choice(const vector<MediaFile*>& songs, size_t& curren
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);
-            size_t pageChoice;
-            if (ss >> pageChoice)
+            size_t Song_Choice;
+            if (ss >> Song_Choice)
             {
-                if (pageChoice > 0 && pageChoice <= (songs.size() + PAGE_SIZE - 1) / PAGE_SIZE)
+                if (Song_Choice > 0 && Song_Choice <= songs.size())
                 {
-                    currentPage = pageChoice;
                     system("clear");
-                    display_MediaFile(songs, currentPage);
+                    // display_MediaFile(songs, currentPage);
+                    menuView();
+                    setChoice(Song_Choice);
+                    flag = false;
+
                 }
                 else
                 {
                     system("clear");
                     display_MediaFile(songs, currentPage);
-                    cout << "Invalid page number. Media list number between 1 and " << (songs.size() + PAGE_SIZE - 1) / PAGE_SIZE << "." << endl;
+                    Invalid_choice();
                 }
             }
             else
@@ -107,7 +114,8 @@ void MediaFileView::check_choice(const vector<MediaFile*>& songs, size_t& curren
         }
         else
         {
-            
+            display_MediaFile(songs, currentPage);
+            cout << "Invalid choice. Please enter a valid option." << endl;
         }
     }
 }

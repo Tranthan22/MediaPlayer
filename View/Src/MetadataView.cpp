@@ -11,8 +11,8 @@ void Metadataview::menuView()
     cout << left << setw(30) << "1. Show Metadata"
          << left << setw(30) << "2. Update Metadata"
          << left << setw(30) << "0. Back"<<endl;
-    cout << "Input your command: " << endl;
     cout << "==============================================================================\n" << endl;
+    cout << "Input your command: " << endl;
 }
 
 void Metadataview::chooseMetadataField()
@@ -76,21 +76,25 @@ void Metadataview::listEmpty(int input_case)
 
 void Metadataview::displayAudioFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef)
 {
-    cout << "1. Track:   " << tag->track() << endl;
-    cout << "2. Album:   " << tag->album().toCString(true) << endl;
-    cout << "3. Artist:  " << tag->artist().toCString(true) << endl;
-    cout << "4. Publish Year:    " << tag->year() << endl;
-    cout << "5. Genre:   " << tag->genre().toCString(true) << endl;
-    cout << "6. Duration: " << fileRef.audioProperties()->length() << " seconds" << endl;
-    cout << endl;
+    cout << "\n============================================================================================" << endl;
+
+    cout << left << setw(30)<< "1. Name:   " << tag->title() << endl;
+    cout << left << setw(30)<< "2. Album:   " << tag->album().toCString(true) << endl;
+    cout << left << setw(30)<< "3. Artist:  " << tag->artist().toCString(true) << endl;
+    cout << left << setw(30)<< "4. Publish Year:    " << tag->year() << endl;
+    cout << left << setw(30)<< "5. Genre:   " << tag->genre().toCString(true) << endl;
+    cout << left << setw(30)<< "6. Duration: " << fileRef.audioProperties()->length() << " seconds" << endl;
+    cout << "\n============================================================================================" << endl;
+    cout << left << setw(25) << "0. Back" << endl;
+    cout << "\n============================================================================================" << endl;
 }
 
 void Metadataview::displayVideoFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef, string file_path)
 {
-    cout << "1. Video name:   " << tag->title().toCString(true) << endl;
-    cout << "2. File Size: " << filesystem::file_size(file_path) / 1000 << " Kbytes" << endl;
-    cout << "3. Bit rate: " << fileRef.audioProperties()->bitrate() << " kbps" << endl;
-    cout << "4. Duration: " << fileRef.audioProperties()->length() << " seconds" << endl;
+    cout << left << setw(30)<< "1. Video name:   " << tag->title().toCString(true) << endl;
+    cout << left << setw(30)<< "2. File Size: " << filesystem::file_size(file_path) / 1000 << " Kbytes" << endl;
+    cout << left << setw(30)<< "3. Bit rate: " << fileRef.audioProperties()->bitrate() << " kbps" << endl;
+    cout << left << setw(30)<< "4. Duration: " << fileRef.audioProperties()->length() << " seconds" << endl;
     cout << endl;
 }
 

@@ -9,6 +9,7 @@
 #include <vector>
 // namespace fs = std::filesystem;
 #include "main.hpp"
+#include "main.hpp"
 #include "Playlist.hpp"
 #include "PlaylistView.hpp"
 

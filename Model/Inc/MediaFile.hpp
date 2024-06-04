@@ -10,8 +10,10 @@ private:
     string path;
     int type;
 public:
-    MediaFile(const string& n, const string &p);
+    MediaFile(const string& name,const string& path,const int& type);
+    ~MediaFile()=default;
     string getName();
+    void setName(string name);
     string getPath();
     int getType();
 

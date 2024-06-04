@@ -9,7 +9,7 @@ class VideoFile : public MediaFile
 {
 private:
 public:
-    VideoFile(const string &n, const string &p);
+    VideoFile(const string &n, const string &p,const int&type);
     ~VideoFile() = default;
 };
 

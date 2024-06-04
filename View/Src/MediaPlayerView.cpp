@@ -19,6 +19,7 @@ void PlayMusicView::display_PlayMucsic(const vector<Playlist*>& plists, size_t& 
     std::cout << "\n============================================================================================" << endl;
 }
 
+
 int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage) {
     string userInput;
     bool flag = true;
@@ -33,6 +34,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
             {
                 if (ListChoice > 0 && ListChoice <= lists.size())
                 {
+                    return ListChoice;
                     return ListChoice;
                 }
             }
@@ -93,7 +95,8 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
          << left << setw(10) << "Duration"
          << left << setw(20) << "Publisher"<< endl;
     display_PlaylistNamePerPage(lists_name,currentpage);
-    // Show time 
+    
+    // Show time sẽ thay giá trị vào
     std::cout << left << setw(5) << "\nTime: "
          << left << setw(100) << "< ###############===================================== >"<<endl;
     std::cout << left << setw(5) << "\nVolume: "
@@ -150,8 +153,6 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                         }
                         system("clear");
                         display_ShowPlay(lists_name, currentPage);
-                        // display_PlaylistNamePerPage(lists_name,currentPage);
-                        // display_MediaFile(songs, currentPage);
                         break;
                     case 'U':
                     case 'u':
@@ -181,3 +182,4 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
         }
     }
 }
+
