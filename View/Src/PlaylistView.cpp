@@ -39,11 +39,11 @@ void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size
 void PlaylistView::display_PlaylistName(const vector<MediaFile*>&plist_name, size_t &currentpage) {
     cout << "                                                            Play list name                                                " << endl;
     cout << "\n======================================================================================================================\n" << endl;
-    cout << left << setw(10) << "No."
-         << left << setw(35) << "Name"
-         << left << setw(20) << "Artist"
-         << left << setw(10) << "Duration(s)"
-         << left << setw(20) << "Publisher"<< endl;
+    std::cout << left << setw(5) << "No."
+         << left << setw(40) << "Name"
+         << left << setw(40) << "Artist"
+         << left << setw(20) << "Duration (s)"
+         << left << setw(20) << "Publisher" << endl;
 
      display_PlaylistNamePerPage(plist_name,currentpage);
 
