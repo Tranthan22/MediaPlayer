@@ -93,12 +93,10 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
          << left << setw(10) << "Duration"
          << left << setw(20) << "Publisher"<< endl;
     display_PlaylistNamePerPage(lists_name,currentpage);
-    
+    std::cout<<endl;
+    std::cout << left << setw(10)<<" "<< "......................................................................." << endl;
     // Show time sẽ thay giá trị vào
-    std::cout << left << setw(5) << "\nTime: "
-         << left << setw(100) << "< ###############===================================== >"<<endl;
-    std::cout << left << setw(5) << "\nVolume: "
-            << left << setw(100) << "< 100% >"<<endl;
+    Time_Volume();
 
     std::cout << "\n============================================================================================" << endl;
     std::cout << "Total Media list: " << lists_name.size() << "\n" << endl;
@@ -106,10 +104,24 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     std::cout << setw(10) << " " << left << setw(25) << "P. Previous"
          << left << setw(25) << "N. Next"
          << left << setw(25) << "E. Exit" << endl;
-    std::cout << setw(18) << " " << left << setw(25) << "U. UP"
-         << left << setw(25) << "D. Down"<<endl;
+    std::cout << setw(17) << " " << left << setw(25) << "R. Pause/Resume"
+        << left << setw(25) << "U. UP"
+        << left << setw(25) << "D. Down"<<endl;
     // std::cout << "\nChoose page to show : ";
 }
+
+// Change values => show up
+void PlayMusicView::Time_Volume()
+{
+    // Show time sẽ thay giá trị vào
+    std::cout << left << setw(10) <<" "<< "Time: "
+         << left << setw(80) << "< ###############===================================== >"<<endl;
+    std::cout<<endl;
+    std::cout << left << setw(10) <<" "<< "Volume: "
+            << left << setw(80) << "< 100% >"<<endl;
+}
+
+
 
 int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>& lists_name, size_t currentPage) {
     string userInput;
