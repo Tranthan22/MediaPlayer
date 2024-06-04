@@ -19,7 +19,7 @@
 #define START_PAGE 1
 
 enum FlowID
-{
+{   
     MENU_ID = 0,
     MEDIA_LIST_ID = 1,
     PLAY_LIST_ID = 2,

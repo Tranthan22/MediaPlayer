@@ -85,8 +85,8 @@ void Metadataview::displayAudioFileMetadata(TagLib::Tag *tag, TagLib::FileRef fi
     cout << left << setw(30)<< "5. Genre:   " << tag->genre().toCString(true) << endl;
     cout << left << setw(30)<< "6. Duration: " << fileRef.audioProperties()->length() << " seconds" << endl;
     cout << "\n============================================================================================" << endl;
-    cout << left << setw(25) << "0. Back" << endl;
-    cout << "\n============================================================================================" << endl;
+    // cout << left << setw(25) << "0. Back" << endl;
+    // cout << "\n============================================================================================" << endl;
 }
 
 void Metadataview::displayVideoFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef, string file_path)

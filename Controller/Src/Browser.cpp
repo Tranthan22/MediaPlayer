@@ -46,6 +46,9 @@ void Browser::menu()
     case PLAY_MUSIC:
         flowID.push(PLAY_MUSIC_ID);
         break;
+    case EXIT:
+        flowID.pop();
+        flowID.push(-1);
     default:
         break;
     }
@@ -87,11 +90,10 @@ void Browser::medialist()
             case SHOW_METADATA:
                 system("clear");
                 metaData.viewMetadata(vPlayList[0]->getPlaylist(),choose_song);
-                cout << "Input your command: " << endl;
-                user_input=userInput();
-                if(user_input==0)
-                    // flag = false;
-                    break;
+                cout << "Enter to back: " << endl;
+                cin.ignore();
+
+                break;
             case UPDATE_METADATA:
                 system("clear");
                 metaData.updateMetadata(vPlayList[0]->getPlaylist(),choose_song);
@@ -151,27 +153,33 @@ void Browser::playmusic()
 
 void Browser::programFlow()
 {
-    setPath();
-    loadFile();
-    flowID.push(MENU_ID); // Menu
-    int current_screen;
+    
     while(1)
-    {
-        current_screen = flowID.top();
-        switch(current_screen)
-        {
-            case MENU_ID:
-                menu();
-                break;
-            case MEDIA_LIST_ID:
-                medialist();
-                break;
-            case PLAY_LIST_ID:
-                break;
-            case PLAY_MUSIC_ID:
-                playmusic();
-                // cin.ignore();
-                break;
+    {   setPath();
+        loadFile();
+        flowID.push(MENU_ID); // Menu
+        bool flag =true;
+        while (flag){
+            int current_screen;
+            current_screen = flowID.top();
+            switch(current_screen)
+            {
+                case MENU_ID:
+                    menu();
+                    break;
+                case MEDIA_LIST_ID:
+                    medialist();
+                    break;
+                case PLAY_LIST_ID:
+                    break;
+                case PLAY_MUSIC_ID:
+                    playmusic();
+                    // cin.ignore();
+                    break;
+                default:
+                    flag=false;
+                    break;
+            }
         }
     }
 }
