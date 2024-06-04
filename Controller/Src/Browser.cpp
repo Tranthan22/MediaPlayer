@@ -1,6 +1,7 @@
 #include "Browser.hpp"
 #include <stack>
 
+#define START_PAGE 1
 
 Browser::Browser(/* args */)
 {
@@ -22,7 +23,6 @@ void Browser::setPath()
     }
     while(!(fs::exists(Path) && fs::is_directory(Path)));
 }
-
 int Browser::userInput()
 {
     int choice;
@@ -65,41 +65,49 @@ void Browser::loadFile()
 void Browser::medialist()
 {
     size_t currentPage=START_PAGE;
+    bool flag = true;
     int choose_song;
     int user_input;
     mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
     mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
     choose_song = mediaFileView.getChoice();
-    while(true)
+    while(flag)
     { 
         user_input =userInput();
+        // flowID.push(SHOW_METADATA);
         switch (user_input)
         {
-        case SHOW_METADATA:
-            system("clear");
-            metaData.viewMetadata(vPlayList[0]->getPlaylist(),choose_song);
-            cout << "Input your command: " << endl;
-            user_input=userInput();
-            if(user_input==BACK_MENU)
-                medialist();
-            break;
-        case UPDATE_METADATA:
-            system("clear");
-            metaData.updateMetadata(vPlayList[0]->getPlaylist(),choose_song);
-            user_input=userInput();
-            if(user_input==BACK_MENU)
-                medialist();
-            break;
-        case BACK_MENU:
-            system("clear");
-            medialist();
-            break;
-        default:
-            break;
-            cout << "Invalid choice. Please enter a valid option." << endl;
-        }
+            case SHOW_METADATA:
+                system("clear");
+                flowID.push(SHOW_METADATA);
+                metaData.viewMetadata(vPlayList[0]->getPlaylist(),choose_song);
+                cout << "Input your command: " << endl;
+                user_input=userInput();
+                if(user_input==0)
+                    flowID.pop();
+                    flag = false;
+                break;
+            case UPDATE_METADATA:
+                system("clear");
+                flowID.push(UPDATE_METADATA);
+                metaData.updateMetadata(vPlayList[0]->getPlaylist(),choose_song);
+                user_input=userInput();
+                if(user_input==0)
+                    flowID.pop();
+                    flag = false;
+                break;
+            case 'e':
+            case 'E':
+                system("clear");
+                flowID.pop();
+                flag = false;
+                break;
+            default:
+                break;
+                cout << "Invalid choice. Please enter a valid option." << endl;
+            }
     }
-    flowID.pop();
+    // flowID.pop();
 }
 
 void Browser::playmusic()

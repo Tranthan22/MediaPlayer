@@ -13,6 +13,7 @@ public:
     MediaFile(const string& name,const string& path,const int& type);
     ~MediaFile()=default;
     string getName();
+    void setName(string name);
     string getPath();
     int getType();
 

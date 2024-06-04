@@ -13,3 +13,7 @@ string MediaFile::getPath(){
 int MediaFile::getType(){
     return type;
 }
+void MediaFile::setName(string name)
+{
+    this->name = name;
+}

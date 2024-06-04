@@ -7,10 +7,10 @@ void Metadata::viewMetadata(vector<MediaFile*>& Songs, int file_idx)
     file_name = Songs[file_idx-1]->getName();
     file_path = Songs[file_idx-1]->getPath();
     file_type = Songs[file_idx-1]->getType();
-
+    TagLib::FileRef fileRef(file_path.c_str());
     cout << left << setw(30)<<"Displaying Metadata..." <<file_name<<"\n"<<endl;
     
-    TagLib::FileRef fileRef(file_path.c_str());
+   
     if (!fileRef.isNull() && fileRef.tag())
     {
         TagLib::Tag *tag = fileRef.tag();
@@ -53,8 +53,8 @@ void Metadata::updateMetadata(vector<MediaFile*>& Songs, int file_idx)
     {
         switch (update_opt)
         {
-        case MODIFY_TRACK:
-            tag->setTrack(stoi(new_value));
+        case MODIFY_NAME:
+            tag->setTitle(new_value.c_str());
             break;
         case MODIFY_ALBUM:
             tag->setAlbum(new_value.c_str());
@@ -98,6 +98,7 @@ void Metadata::updateMetadata(vector<MediaFile*>& Songs, int file_idx)
     }
     if (fileRef.save() == true)
     {
+        Songs[file_idx - 1]->setName(tag->title().toCString());
         view_metadata.modifyMetadataSuccess();
     }
 }

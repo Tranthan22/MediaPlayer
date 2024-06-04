@@ -13,7 +13,7 @@ enum {
 
 };
 enum {
-    MODIFY_TRACK                    = 1,
+    MODIFY_NAME                     = 1,
     MODIFY_ALBUM                    = 2,
     MODIFY_ARTIST                   = 3,
     MODIFY_YEAR                     = 4,

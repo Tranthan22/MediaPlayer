@@ -7,11 +7,8 @@
 #include <sstream>
 #include <iomanip> // Để sử dụng setw()
 #include "MediaFile.hpp"
-<<<<<<< HEAD
 #include "MetadataView.hpp"
-=======
 #include "main.hpp"
->>>>>>> refs/remotes/origin/main
 using namespace std;
 
 

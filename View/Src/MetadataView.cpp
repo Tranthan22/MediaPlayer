@@ -77,7 +77,8 @@ void Metadataview::listEmpty(int input_case)
 void Metadataview::displayAudioFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef)
 {
     cout << "\n============================================================================================" << endl;
-    cout << left << setw(30)<< "1. Track:   " << tag->track() << endl;
+
+    cout << left << setw(30)<< "1. Name:   " << tag->title() << endl;
     cout << left << setw(30)<< "2. Album:   " << tag->album().toCString(true) << endl;
     cout << left << setw(30)<< "3. Artist:  " << tag->artist().toCString(true) << endl;
     cout << left << setw(30)<< "4. Publish Year:    " << tag->year() << endl;
