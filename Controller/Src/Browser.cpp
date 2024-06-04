@@ -68,99 +68,101 @@ void Browser::medialist()
 
 void Browser::playmusic()
 {
-    size_t currentPage = 1;
+    size_t currentPageList = 1;
+    size_t currentPageMusic = 1;
     int chosenList = 0;
     int chosenMusic = 0;
-    bool flag = true;
-    while(flag)
+    bool flagPlaylist = true;
+    bool flagMusic = true;
+    while(flagPlaylist)
     {
-        mediaPlayerView.display_PlayMucsic(vPlayList, currentPage);
-        chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPage);
+        mediaPlayerView.display_PlayMucsic(vPlayList, currentPageList);
+        chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPageList);
         if(chosenList != 0)
-        {
-            while(1)
+        {   
+            flagMusic = true;
+            while(flagMusic)
             {
-                mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), 1);
-                chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), 1);
-                system("clear");
-
-                cout << "aaaaaa";
-                cout << "chosenMusic:" << chosenMusic;
+                mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
+                chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
                 
                 switch (chosenMusic)
                 {
                 case 0:
+                    flagMusic = false;
                     break;
                 case -1:
-
+                    myPlayer.VolumeUp();
+                    break;
+                case -2:
+                    myPlayer.VolumeDown();
+                    break;
+                case -3:
+                    myPlayer.ResumePause();
+                    break;
                 default:
                     vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
-                    MediaFile * b = (*a)[chosenMusic];
-                    myPlayer.playMusic(b->getName().c_str());
+                    MediaFile * b = (*a)[chosenMusic - 1];
+                    myPlayer.playMusic(b->getPath().c_str());
+                    break;
                 }
             }
         }
         else
         {
             flowID.pop();
-            flag = false;
+            flagPlaylist = false;
         }
     }
-
-    // myPlayer.setList(vPlayList[0]->getPlaylistPointer());
-    // myPlayer.nextMusic();
-
-    // int input;
-    // while(1)
-    // {
-    //     std::cin >> input;
-    //     switch (input)
-    //     {
-    //     case 0:
-    //         std::cout << "exit";
-    //         break;
-    //     case 1:
-    //         myPlayer.VolumeUp();
-    //         std::cout << "up \n" << myPlayer.getVolume() << std::endl;
-    //         break;
-
-    //     case 2:
-    //         myPlayer.VolumeDown();
-    //         std::cout << "down"  << myPlayer.getVolume() << std::endl;
-    //         break;
-
-    //     case 3:
-    //         Mix_PauseMusic();
-    //         std::cout << "Pause"  << std::endl;
-    //         break;
-        
-    //     case 4:
-    //         Mix_ResumeMusic();
-    //         std::cout << "Resume"  << std::endl;
-    //         break;
-
-    //     case 5:
-    //         Mix_HaltMusic();
-    //         std::cout << "Halt"  << std::endl;
-    //         break;
-    //     case 6:
-    //         Mix_PlayMusic(myPlayer.bgm, -1);
-    //         std::cout << "Again"  << std::endl;
-    //         break;
-    //     case 7:
-    //         myPlayer.ResumePause();
-    //         std::cout << "Switch state"  << std::endl;
-    //         break;
-
-    //     case 8:
-    //         myPlayer.nextMusic();
-    //         std::cout << "Next "  << std::endl;
-    //         break;
-
-    //     default:
-    //         break;
-    //     }
-    // }
+}
+void Browser::playlist()
+{
+    size_t currentPageList = 1;
+    size_t currentPageMusic = 1;
+    int chosenList = 0;
+    int chosenMusic = 0;
+    bool flagPlaylist = true;
+    bool flagMusic = true;
+    while(flagPlaylist)
+    {
+        mediaPlayerView.display_PlayMucsic(vPlayList, currentPageList);
+        chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPageList);
+        if(chosenList != 0)
+        {   
+            flagMusic = true;
+            while(flagMusic)
+            {
+                mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
+                chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
+                
+                switch (chosenMusic)
+                {
+                case 0:
+                    flagMusic = false;
+                    break;
+                case -1:
+                    myPlayer.VolumeUp();
+                    break;
+                case -2:
+                    myPlayer.VolumeDown();
+                    break;
+                case -3:
+                    myPlayer.ResumePause();
+                    break;
+                default:
+                    vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
+                    MediaFile * b = (*a)[chosenMusic - 1];
+                    myPlayer.playMusic(b->getPath().c_str());
+                    break;
+                }
+            }
+        }
+        else
+        {
+            flowID.pop();
+            flagPlaylist = false;
+        }
+    }
 }
 
 void Browser::programFlow()
@@ -181,6 +183,7 @@ void Browser::programFlow()
                 medialist();
                 break;
             case PLAY_LIST_ID:
+
                 break;
             case PLAY_MUSIC_ID:
                 playmusic();
