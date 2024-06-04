@@ -1,8 +1,6 @@
 #include "MediaFileView.hpp"
 #include <cstdlib>
 
-#include "MediaFileView.hpp"
-
 void MediaFileView::display_MediaFile(vector<MediaFile*>& songs, size_t currentpage)
 {
     system("clear");

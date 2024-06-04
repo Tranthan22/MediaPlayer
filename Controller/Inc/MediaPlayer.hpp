@@ -30,5 +30,6 @@ public:
     int getVolume();
     int VolumeUp();
     int VolumeDown();
+    void Exit_play();
     vector<MediaFile *> getMediaFiles();
 };

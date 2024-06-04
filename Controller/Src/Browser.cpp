@@ -176,12 +176,16 @@ void Browser::playlist()
             flagMusic = true;
             while(flagMusic)
             {
+                system("clear");
                 mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
                 chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
                 
                 switch (chosenMusic)
                 {
                 case 0:
+                    // flagMusic = false;
+                    // Deo tat duoc bai hat sep oi
+                    myPlayer.Exit_play();
                     flagMusic = false;
                     break;
                 case -1:

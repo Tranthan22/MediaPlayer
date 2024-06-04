@@ -1,6 +1,6 @@
 #include "PlaylistView.hpp"
 
-void PlaylistView::display_Playlist(const vector<Playlist*>& plists, size_t currentpage){
+void PlaylistView::display_Playlist(const vector<Playlist*>& plists, size_t &currentpage){
      system("clear");
      cout << "                                       Playlist                                   " << endl;
      cout << "============================================================================================\n" << endl;
@@ -23,7 +23,7 @@ void PlaylistView::display_Playlist(const vector<Playlist*>& plists, size_t curr
 }
 
 // Ham lay du lieu tu model de truyen du lieu len
-void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size_t currentpage) {
+void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size_t &currentpage) {
     int startIndex = (currentpage - 1) * LIST_SIZE;
     int endIndex = min(startIndex + LIST_SIZE, static_cast<int>(plists.size()));
     // static_cast<int> chuyen doi sang so int
@@ -36,18 +36,18 @@ void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size
     
 }
 
-void PlaylistView::display_PlaylistName(const vector<MediaFile*>plist_name, size_t currentpage) {
-    cout << "                                           Playlist name                                   " << endl;
-    cout << "============================================================================================\n" << endl;
+void PlaylistView::display_PlaylistName(const vector<MediaFile*>&plist_name, size_t &currentpage) {
+    cout << "                                                            Play list name                                                " << endl;
+    cout << "\n======================================================================================================================\n" << endl;
     cout << left << setw(10) << "No."
          << left << setw(35) << "Name"
          << left << setw(20) << "Artist"
-         << left << setw(10) << "Duration"
+         << left << setw(10) << "Duration(s)"
          << left << setw(20) << "Publisher"<< endl;
 
      display_PlaylistNamePerPage(plist_name,currentpage);
 
-     cout << "\n============================================================================================" << endl;
+     cout << "\n======================================================================================================================\n" << endl;
      cout<< "Total Media list: "<<plist_name.size()<<"\n"<<endl;
      cout<< "Page: "<<currentpage;
      cout<<setw(10)<<" "<<left << setw(25) << "P. Previous"
@@ -57,29 +57,36 @@ void PlaylistView::display_PlaylistName(const vector<MediaFile*>plist_name, size
           << left << setw(25) << "A. Add";
 }
 
-void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>plist_name, size_t currentpage) {
-    int startIndex = (currentpage - 1) * LIST_NAME_SIZE;
-    int endIndex = min(startIndex + LIST_NAME_SIZE, static_cast<int>(plist_name.size()));
-    // static_cast<int> chuyen doi sang so int
+void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_name, size_t &currentpage) {
+    size_t startIndex = (currentpage - 1) * LIST_NAME_SIZE;
+    size_t endIndex = min(startIndex + LIST_NAME_SIZE, plist_name.size());
     for (size_t i = startIndex; i < endIndex; ++i) {
-        cout << left << setw(10) << i + 1
-             << left << setw(35) << truncate(plist_name[i]->getName(), 35)
-             << left << setw(20) << truncate(plist_name[i]->getName(), 20)
-             << left << setw(10) << truncate(plist_name[i]->getName(), 10)
-             << left << setw(20) << truncate(plist_name[i]->getName(), 20) << endl;
+        string file_name = plist_name[i]->getName();
+        string file_path = plist_name[i]->getPath();
+        int file_type = plist_name[i]->getType();
+        TagLib::FileRef fileRef(file_path.c_str());
+    if (!fileRef.isNull() && fileRef.tag()){
+        TagLib::Tag *tag = fileRef.tag();
+        std::cout << left << setw(5) << i + 1
+            << left << setw(40) << truncate(tag->title().toCString(),40)
+            << left << setw(40) << truncate(tag->artist().toCString(),40)
+            << left << setw(20) << fileRef.audioProperties()->lengthInSeconds()
+            << left << setw(20) << tag->year()<< endl;
     }
-    
+    }
+    std::cout<<endl;
 }
 
-void PlaylistView::display_PlayNameAdd(vector<MediaFile*>& plist_name, size_t currentPage)
+
+void PlaylistView::display_PlayNameAdd(vector<MediaFile*>& plist_name, size_t &currentPage)
 {
      display_PlaylistName(plist_name,currentPage);
      cout<<"\n Choose media to Add: ";
 
 }
-void PlaylistView::display_PlayNameRemove(vector<MediaFile*>& plists_name, size_t& currentPage)
+void PlaylistView::display_PlayNameRemove(vector<MediaFile*>& plist_name, size_t& currentPage)
 {
-     display_PlaylistName(plists_name,currentPage);
+     display_PlaylistName(plist_name,currentPage);
      cout<<"\n Choose media to Remove: ";
 }
 
