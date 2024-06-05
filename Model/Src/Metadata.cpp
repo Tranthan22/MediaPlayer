@@ -18,9 +18,11 @@ void Metadata::viewMetadata(vector<MediaFile*>& Songs, int file_idx)
         {
         case AUDIO_FILE_TYPE:
             view_metadata.displayAudioFileMetadata(tag, fileRef);
+            return;
             break;
         case VIDEO_FILE_TYPE:
             view_metadata.displayVideoFileMetadata(tag, fileRef, file_path);
+            return;
             break;
         default:
             view_metadata.getMediaFileTypeError();
@@ -29,6 +31,7 @@ void Metadata::viewMetadata(vector<MediaFile*>& Songs, int file_idx)
     else
     {
         view_metadata.getMetadataError();
+        return;
     }
 }
 
@@ -38,14 +41,17 @@ void Metadata::updateMetadata(vector<MediaFile*>& Songs, int file_idx)
     file_type = Songs[file_idx - 1]->getType();
     TagLib::FileRef fileRef(file_path.c_str());
     TagLib::Tag *tag = fileRef.tag();
-    
+    // Show data file mp3
     cout<< left << setw(30) << "Updating Metadata..." <<file_name<< endl;
     view_metadata.displayAudioFileMetadata(tag, fileRef);
+    cout << left << setw(30) << "0. Back" << endl;
+    cout << "============================================================================================" << endl;
     int update_opt;
     string new_value;
     view_metadata.chooseMetadataField();
     cin >> update_opt;
     cin.ignore();
+    if(update_opt == 0) return;
     // update_opt = browser->userInput();
     view_metadata.enterMetadataValue();
     getline(cin, new_value);    
@@ -73,6 +79,7 @@ void Metadata::updateMetadata(vector<MediaFile*>& Songs, int file_idx)
             return;
         default:
             view_menu.InvalidChoiceInterface();
+            return;
         }
     }
 
@@ -98,7 +105,7 @@ void Metadata::updateMetadata(vector<MediaFile*>& Songs, int file_idx)
     }
     if (fileRef.save() == true)
     {
-        Songs[file_idx - 1]->setName(tag->title().toCString());
         view_metadata.modifyMetadataSuccess();
+        return;
     }
 }

@@ -54,7 +54,7 @@ int MediaPlayer::playMusic(const char* file)
             Playing = true;
         }
     }
-    cin.ignore();
+    // cin.ignore();
     return 0;
 }
 
@@ -125,6 +125,13 @@ int MediaPlayer:: VolumeDown()
     }
     Mix_VolumeMusic(SysVolume);
     return SysVolume;
+}
+void MediaPlayer::Exit_play()
+{
+    // Mix_CloseAudio();
+    // Em làm mà nó đéo chạy sếp chạy thì nhớ thêm vào nhé
+    Mix_CloseAudio();
+    SDL_Quit();
 }
 // vector<MediaFile *> MediaPlayer::getMediaFiles()
 // {

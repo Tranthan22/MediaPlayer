@@ -9,6 +9,9 @@
 #include <string>
 #include "MediaFile.hpp"
 #include "Playlist.hpp"
+#include <taglib/tag.h>
+#include <taglib/fileref.h>
+#include <taglib/taglib.h>
 
 #define LIST_SIZE 4
 #define LIST_NAME_SIZE 4

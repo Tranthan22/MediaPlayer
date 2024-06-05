@@ -18,7 +18,7 @@ class MediaFileView:public Metadataview
 private:
     //Path:
     std::string directoryPath;
-    int choice;
+    // int choice;
     // fix size
     std::string truncate(const string& text, int width)
     {
@@ -45,9 +45,9 @@ public:
     void Invalid_choice();
     
     // ham nay co khi dung o phia control.
-    void check_choice(vector<MediaFile*>& songs, size_t& currentPage);
-    void setChoice(int choice);
-    int getChoice();
+    int check_choice(vector<MediaFile*>& songs, size_t& currentPage);
+    // void setChoice(int choice);
+    // int getChoice();
 
 };
 

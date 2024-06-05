@@ -10,7 +10,7 @@ void Playlist::addFile(MediaFile *file){
 }
 
 void Playlist::deleteFile(int file_idx){
-    if(file_idx >= 0 && file_idx < pPlaylist.size()) {
+    if(file_idx >= 0 && file_idx < int(pPlaylist.size())) {
         pPlaylist.erase(pPlaylist.begin() + file_idx);
     }
 }
