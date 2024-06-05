@@ -193,7 +193,7 @@ void Browser::playlist(size_t& chosenList, size_t& chosenMusic)
     system("clear");
     int UserOption = 0;
     playListView.display_Playlist(vPlayList, chosenList);
-    UserOption = playListView.check_choice_PlaeylistView(vPlayList, chosenList);
+    UserOption = playListView.check_choice_PlaylistView(vPlayList, chosenList);
     switch (UserOption)
     {
     /* Exit */
