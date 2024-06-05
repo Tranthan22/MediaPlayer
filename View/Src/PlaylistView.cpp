@@ -119,9 +119,9 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
 
 void PlaylistView:: playlistName(const vector<MediaFile*>&plist_name, size_t &currentPage)
 {
-    cout << "                                                            Play list name                                                " << endl;
+    cout << "                                                    Play list name                                                " << endl;
     cout << "\n======================================================================================================================\n" << endl;
-    std::cout << left << setw(5) << "No."
+    std::cout << left << setw(10) << "No."
          << left << setw(40) << "Name"
          << left << setw(30) << "Artist"
          << left << setw(20) << "Duration(s)"
@@ -131,43 +131,6 @@ void PlaylistView:: playlistName(const vector<MediaFile*>&plist_name, size_t &cu
      cout<< "Total Media list: "<<plist_name.size()<<endl;
      cout<< "Page: "<<currentPage;
 }
-void PlaylistView::display_PlaylistName(const vector<MediaFile*>&plist_name, size_t &currentPage) {
-    playlistName(plist_name,currentPage);
-    cout<<setw(15)<<" "<<left << setw(30) << "P. Previous"
-          << left << setw(30) << "N. Next"
-          << left << setw(30) << "E. Exit" << endl;
-    cout<<setw(22)<<" "<<left << setw(30) << "R. Remove"
-          << left << setw(30) << "A. Add" << endl;
-    cout << "\n======================================================================================================================" << endl;
-}
-/*===============================================================================================*/
-//                                SHOW DISPLAY REMOVE SONG IN PLAYLIST 
-/*===============================================================================================*/
-
-
-void PlaylistView::display_PlayNameRemove(vector<MediaFile*>& plist_name, size_t& currentPage)
-{
-    playlistName(plist_name,currentPage);
-    cout<<setw(10)<<" "<<left << setw(25) << "P. Previous"
-          << left << setw(25) << "N. Next"
-          << left << setw(25) << "E. Exit" <<"\n"<< endl;
-    cout << "\n======================================================================================================================\n" << endl;
-    cout<<"\n Choose media to Remove: ";
-}
-/*===============================================================================================*/
-//                                SHOW DISPLAY ADĐ SONG TO PLAYLIST 
-/*===============================================================================================*/
-void PlaylistView::display_PlayNameAdd(vector<MediaFile*>& plist_name, size_t& currentPage)
-{
-    playlistName(plist_name,currentPage);
-    cout<<setw(10)<<" "<<left << setw(25) << "P. Previous"
-          << left << setw(25) << "N. Next"
-          << left << setw(25) << "E. Exit" <<"\n"<< endl;
-    cout << "\n======================================================================================================================\n" << endl;
-    cout<<"\n Choose media to Add: ";
-}
-
-
 void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_name, size_t &currentPage) {
     size_t startIndex = (currentPage - 1) * LIST_NAME_SIZE;
     size_t endIndex = min(startIndex + LIST_NAME_SIZE, plist_name.size());
@@ -178,7 +141,7 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_na
         TagLib::FileRef fileRef(file_path.c_str());
     if (!fileRef.isNull() && fileRef.tag()){
         TagLib::Tag *tag = fileRef.tag();
-        std::cout << left << setw(5) << i + 1
+        std::cout << left << setw(10) << i + 1
             << left << setw(40) << truncate(tag->title().toCString(),40)
             << left << setw(30) << truncate(tag->artist().toCString(),30)
             << left << setw(20) << fileRef.audioProperties()->lengthInSeconds()
@@ -187,12 +150,24 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_na
     }
     std::cout<<endl;
 }
+void PlaylistView::display_PlaylistName(const vector<MediaFile*>&plist_name, size_t &currentPage) {
+    playlistName(plist_name,currentPage);
+    cout<<setw(15)<<" "<<left << setw(30) << "P. Previous"
+          << left << setw(30) << "N. Next"
+          << left << setw(30) << "E. Exit" << endl;
+    cout<<setw(22)<<" "<<left << setw(30) << "R. Remove"
+          << left << setw(30) << "A. Add" << endl;
+    cout << "======================================================================================================================" << endl;
+}
+
+
 int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name, size_t& currentPage) {
     string userInput;
     bool flag = true;
     cout << "Choose option to play: " << endl;
     while(flag)
-    {
+    {   
+        
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);
@@ -218,6 +193,7 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
                         }
                         system("clear");
                         display_PlaylistName(lists_name, currentPage);
+                        cout << "Choose option to play: " << endl;
                         break;
 
                     /* Previous page */
@@ -229,26 +205,28 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
                         }
                         system("clear");
                         display_PlaylistName(lists_name, currentPage);
+                        cout << "Choose option to play: " << endl;
                         break;
 
                     /* Add Music */
                     case 'A':
                     case 'a':
-                        return -1;
+                        return ADD_MUSIC;
                     
                     /* Remove Music */
                     case 'R':
                     case 'r':
-                        return -2;
+                        return REMOVE_MUSIC;
                     
                     /* Exit */
                     case 'E':
                     case 'e':
                         flag = false;
-                        break;
+                        return EXIT_MUSIC;
                     default:
                         system("clear");
                         display_PlaylistName(lists_name,currentPage);
+                        cout << "Choose option to play: " << endl;
                         cout << "Invalid choice. Please enter a valid option." << endl;
                 }
             }
@@ -257,6 +235,104 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
         {
             system("clear");
             display_PlaylistName(lists_name,currentPage);
+            cout << "Choose option to play: " << endl;
+        }
+    }
+    return 0;
+}
+
+/*===============================================================================================*/
+//                                SHOW DISPLAY REMOVE SONG IN PLAYLIST 
+/*===============================================================================================*/
+
+void PlaylistView::display_PlayNameRemove(const vector<MediaFile*>& plist_name, size_t& currentPage)
+{
+    playlistName(plist_name,currentPage);
+    cout<<setw(15)<<" "<<left << setw(25) << "P. Previous"
+          << left << setw(25) << "N. Next"
+          << left << setw(25) << "E. Exit" <<"\n"<< endl;
+    cout << "======================================================================================================================\n" << endl;
+    cout<<"Choose media to Remove: ";
+}
+
+
+/*===============================================================================================*/
+//                                SHOW DISPLAY ADĐ SONG TO PLAYLIST 
+/*===============================================================================================*/
+bool PlaylistView::check_choice_PlaylistName_ADD(const vector<MediaFile*>& lists_name_add,const vector<MediaFile*>& lists_name_compare,int Choice_index)
+{
+    std::string path_compare = lists_name_compare[Choice_index-1]->getPath();
+    for(int i=0;i<(int)lists_name_add.size();i++)
+    {
+        if(path_compare == lists_name_add[i]->getPath())
+        {
+            return false;
+        }
+    }
+    return true;
+    // return true;
+}
+
+int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lists_name, size_t& currentPage){
+    string userInput;
+    bool flag = true;
+    while(flag)
+    {   
+
+        getline(cin, userInput);
+        if (!userInput.empty()) {
+            stringstream ss(userInput);
+            size_t MusicChoice;
+            if (ss >> MusicChoice)
+            {
+                if (MusicChoice > 0 && MusicChoice <= lists_name.size())
+                {
+                    return MusicChoice;
+                }
+            }
+            else
+            {
+                char command = userInput[0];
+                switch (command)
+                {
+                    /* Next page */
+                    case 'N':
+                    case 'n':
+                        if (currentPage < (lists_name.size() + LIST_NAME_SIZE - 1) / LIST_NAME_SIZE)
+                        {
+                            currentPage++;
+                        }
+                        system("clear");
+                        display_PlayNameRemove(lists_name, currentPage);
+
+                        break;
+
+                    /* Previous page */
+                    case 'P':
+                    case 'p':
+                        if (currentPage > 1)
+                        {
+                            currentPage--;
+                        }
+                        system("clear");
+                        display_PlayNameRemove(lists_name, currentPage);
+                        break;
+                    /* Exit */
+                    case 'E':
+                    case 'e':
+                        flag = false;
+                        return EXIT_MUSIC;
+                    default:
+                        system("clear");
+                        display_PlayNameRemove(lists_name,currentPage);
+                        cout << "Invalid choice. Please enter a valid option." << endl;
+                }
+            }
+        }
+        else
+        {
+            system("clear");
+            display_PlayNameRemove(lists_name,currentPage);
         }
     }
     return 0;

@@ -56,6 +56,7 @@ int Browser::userInput()
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return choice;
     }
+    return choice;
 }
 
 string Browser::userInputString()
@@ -206,7 +207,7 @@ void Browser::deleteList()
 {
     cout << "Choose list number to delete: " ;
     int newPlaylistIndex = userInput() - 1;
-    if (newPlaylistIndex < 0 || newPlaylistIndex >= vPlayList.size()) {
+    if (newPlaylistIndex < 0 || newPlaylistIndex >= (int)vPlayList.size()) {
         cout << "Invalid list number." << endl;
         return;
     }
@@ -222,7 +223,7 @@ void Browser::renameList()
     cout << "Choose list number to rename: " ;
     int playlistIndex = userInput() - 1;
     cout << vPlayList.size();
-    if (playlistIndex < 0 || playlistIndex >= vPlayList.size()) {
+    if (playlistIndex < 0 || playlistIndex >= (int)vPlayList.size()) {
         cout << "Invalid list number." << endl;
         cin.ignore();
         return;
@@ -235,27 +236,46 @@ void Browser::renameList()
     }
 }
 /* ================================= Interact with Playlist ====================================== */
+
 void Browser::playlist_music(size_t& chosenList)
 {
+    system("clear");
+    int choose_remove;
+    int choose_add;
+    bool check_add;
     int UserOption = 0;
-    playListView.display_PlaylistName(vPlayList[chosenList - 1]->getPlaylist(), chosenList);
-    UserOption = playListView.check_choice_PlaylistView(vPlayList, chosenList);
+    size_t currentPage =1;
+    playListView.display_PlaylistName(vPlayList[chosenList - 1]->getPlaylist(), currentPage);
+    UserOption = playListView.check_choice_PlaylistName(vPlayList[chosenList - 1]->getPlaylist(), currentPage);
     switch (UserOption)
     {
     /* Exit */
-    case 0:
+    case EXIT_MUSIC:
         flowID.pop();
         break;
-
     /* Add Music */
-    case -1:
+    case ADD_MUSIC:
         // flowID.push(7);
+        mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
+        cout << "\n======================================================================================================================\n" << endl;
+        cout<<"\n Choose media to Add: ";
+        choose_add = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
+        check_add=playListView.check_choice_PlaylistName_ADD(vPlayList[chosenList - 1]->getPlaylist(),vPlayList[0]->getPlaylist(),choose_add);
+        if(check_add)
+        {
+            vPlayList[chosenList - 1]->getPlaylist().push_back(vPlayList[0]->getPlaylist()[choose_add-1]);
+        }else{
+            
+        }
         break;
-
     /* Remove Music */
-    case -2:
+    case REMOVE_MUSIC:
+        system("clear");
+        playListView.display_PlayNameRemove(vPlayList[chosenList - 1]->getPlaylist(), currentPage);
+        choose_remove = playListView.check_choice_PlaylistName_REMOVE(vPlayList[chosenList - 1]->getPlaylist(), currentPage);
+        vPlayList[chosenList - 1]->getPlaylist().erase( vPlayList[chosenList - 1]->getPlaylist().begin()+choose_remove-1);
+        /*Thêm hàm để xóa thành phần trong playlist name*/
         break;
-
     default:
         // flowID.push(8);
         break;
@@ -321,14 +341,15 @@ void Browser::programFlow()
     
     while(1)
     {   
+        size_t current_screen;
+        size_t chosenList = 1;
+        size_t chosenMusic = 1;
         setPath();
         loadFile();
         flowID.push(MENU_ID);
         bool flag =true;
         while (flag){
-            size_t current_screen;
-            size_t chosenList = 1;
-            size_t chosenMusic = 1;
+            
             current_screen = flowID.top();
             switch(current_screen)
             {

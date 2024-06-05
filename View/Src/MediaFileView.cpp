@@ -19,7 +19,6 @@ void MediaFileView::display_MediaFile(vector<MediaFile*>& songs, size_t currentp
     std::cout << setw(10) << " " << left << setw(25) << "P. Previous"
          << left << setw(25) << "N. Next"
          << left << setw(25) << "E. Exit" << endl;
-    std::cout << "\nChoose song to modifie : ";
     // check_choice(songs, currentpage);
 }
 
@@ -55,6 +54,7 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
     bool flag = true;
     while(flag)
     {
+        std::cout << "\nChoose song to modifie : ";
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);

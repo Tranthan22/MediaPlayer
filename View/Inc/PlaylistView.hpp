@@ -16,6 +16,14 @@
 #define LIST_SIZE 4
 #define LIST_NAME_SIZE 4
 
+enum 
+{
+    
+    REMOVE_MUSIC = -2,
+    ADD_MUSIC    = -1,
+    EXIT_MUSIC   = 0,
+};
+
 using namespace std;
 class PlaylistView
 {
@@ -41,7 +49,10 @@ class PlaylistView
         void display_PlaylistNamePerPage(const vector<MediaFile*>& plists, size_t& currentPage);
         int check_choice_PlaylistName(const vector<MediaFile*>& lists_name, size_t& currentPage);
 
-        void display_PlayNameAdd(vector<MediaFile*>& plist_name, size_t& currentPage);
-        void display_PlayNameRemove(vector<MediaFile*>& plists_name, size_t& currentPage);
+        // void display_PlayNameAdd(const vector<MediaFile*>& plist_name, size_t& currentPage);
+        bool check_choice_PlaylistName_ADD(const vector<MediaFile*>& lists_name_add,const vector<MediaFile*>& lists_name_compare,int Choice_index);
+        void display_PlayNameRemove(const vector<MediaFile*>& plists_name, size_t& currentPage);
+        int check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lists_name, size_t& currentPage);
+        // int check_choice_PlaylistName_Add(const vector<MediaFile*>& lists_name, size_t& currentPage);
 };
 #endif
