@@ -41,8 +41,8 @@ void PlaylistView::display_PlaylistName(const vector<MediaFile*>&plist_name, siz
     cout << "\n======================================================================================================================\n" << endl;
     std::cout << left << setw(5) << "No."
          << left << setw(40) << "Name"
-         << left << setw(40) << "Artist"
-         << left << setw(20) << "Duration (s)"
+         << left << setw(30) << "Artist"
+         << left << setw(20) << "Duration(s)"
          << left << setw(20) << "Publisher" << endl;
 
      display_PlaylistNamePerPage(plist_name,currentpage);
@@ -67,9 +67,9 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_na
         TagLib::FileRef fileRef(file_path.c_str());
     if (!fileRef.isNull() && fileRef.tag()){
         TagLib::Tag *tag = fileRef.tag();
-        std::cout << left << setw(5) << i + 1
+        std::cout << left << setw(10) << i + 1
             << left << setw(40) << truncate(tag->title().toCString(),40)
-            << left << setw(40) << truncate(tag->artist().toCString(),40)
+            << left << setw(30) << truncate(tag->artist().toCString(),30)
             << left << setw(20) << fileRef.audioProperties()->lengthInSeconds()
             << left << setw(20) << tag->year()<< endl;
     }

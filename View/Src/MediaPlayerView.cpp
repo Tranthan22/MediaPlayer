@@ -84,20 +84,20 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
 void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage)
 {
     system("clear");
-    std::cout << "                                           Play Music                                   " << endl;
-    std::cout << "============================================================================================\n" << endl;
+    std::cout << "                                                      Play Music                                                  " << endl;
+    std::cout << "\n======================================================================================================================\n" << endl;
     std::cout << left << setw(10) << "No."
-         << left << setw(35) << "Name"
-         << left << setw(20) << "Artist"
-         << left << setw(10) << "Duration"
+         << left << setw(40) << "Name"
+         << left << setw(30) << "Artist"
+         << left << setw(20) << "Duration"
          << left << setw(20) << "Publisher"<< endl;
     display_PlaylistNamePerPage(lists_name,currentpage);
     std::cout<<endl;
-    std::cout << left << setw(10)<<" "<< "......................................................................." << endl;
+    std::cout << left << setw(15)<<" "<< "......................................................................." << endl;
     // Show time sẽ thay giá trị vào
     Time_Volume();
 
-    std::cout << "\n============================================================================================" << endl;
+    cout << "\n======================================================================================================================\n" << endl;
     std::cout << "Total Media list: " << lists_name.size() << "\n" << endl;
     std::cout << "Page: " << currentpage;
     std::cout << setw(10) << " " << left << setw(25) << "P. Previous"
@@ -106,6 +106,7 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     std::cout << setw(17) << " " << left << setw(25) << "R. Pause/Resume"
         << left << setw(25) << "U. UP"
         << left << setw(25) << "D. Down"<<endl;
+    std::cout << "\n======================================================================================================================\n" << endl;
     // std::cout << "\nChoose page to show : ";
 }
 
