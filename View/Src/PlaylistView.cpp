@@ -113,18 +113,6 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
     return 0;
 }
 
-/*===============================================================================================================*/
-// void PlaylistView::display_PlaylistName(const vector<MediaFile*>& plist_name, size_t& currentpage) {
-//     system("clear");
-//     cout << "                                           Playlist name                                   " << endl;
-//     cout << "============================================================================================\n" << endl;
-//     cout << left << setw(10) << "No."
-//          << left << setw(35) << "Name"
-//          << left << setw(20) << "Artist"
-//          << left << setw(10) << "Duration"
-//          << left << setw(20) << "Publisher"<< endl;
-    
-// }
 
 void PlaylistView::display_PlaylistName(const vector<MediaFile*>&plist_name, size_t &currentpage) {
     cout << "                                                            Play list name                                                " << endl;
@@ -224,8 +212,7 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
                     case 'E':
                     case 'e':
                         flag = false;
-                        return 0;
-                        // break;
+                        break;
                     default:
                         system("clear");
                         display_PlaylistNamePerPage(lists_name,currentPage);
@@ -239,6 +226,7 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
             display_PlaylistNamePerPage(lists_name,currentPage);
         }
     }
+    return 0;
 }
 
 

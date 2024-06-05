@@ -24,7 +24,8 @@ enum FlowID
     MENU_ID = 0,
     MEDIA_LIST_ID = 1,
     PLAY_LIST_ID = 2,
-    PLAY_MUSIC_ID = 3
+    PLAY_MUSIC_ID = 3,
+    PLAY_LIST_MUSIC_ID = 4
 };
 
 
