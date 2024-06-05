@@ -242,7 +242,7 @@ void Browser::playlist_music(size_t& chosenList)
 
     /* Add Music */
     case -1:
-        flowID.push(7);
+        // flowID.push(7);
         break;
 
     /* Remove Music */
@@ -250,7 +250,7 @@ void Browser::playlist_music(size_t& chosenList)
         break;
 
     default:
-        flowID.push(8);
+        // flowID.push(8);
         break;
     }
 }
