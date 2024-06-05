@@ -92,6 +92,10 @@ void MediaPlayer::setList(std::vector<MediaFile*> *list)
 {
     this->list = list;
 }
+void MediaPlayer::setIndexInList(size_t index)
+{
+    fileIndexInList = index;
+}
 
 
 /*================ Volume ================== */

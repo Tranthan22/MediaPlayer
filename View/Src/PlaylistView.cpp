@@ -24,7 +24,7 @@ void PlaylistView::display_Playlist(const vector<Playlist*>& plists, size_t &cur
 
 // Ham lay du lieu tu model de truyen du lieu len
 void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size_t &currentpage) {
-    int startIndex = (int(currentpage) - 1) * LIST_SIZE;
+    int startIndex = ((int)currentpage - 1) * LIST_SIZE;
     int endIndex = min(startIndex + LIST_SIZE, static_cast<int>(plists.size()));
     // static_cast<int> chuyen doi sang so int
     for (int i = startIndex; i < endIndex; ++i) {

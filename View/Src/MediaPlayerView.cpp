@@ -36,7 +36,6 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
                 {
                     system("clear");
                     return ListChoice;
-                    return ListChoice;
                 }
             }
             else
@@ -174,6 +173,8 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                     case 'R':
                     case 'r':
                         return -3;
+                    case '+':
+                        return -4;
                     case 'E':
                     case 'e':
                         flag = false;

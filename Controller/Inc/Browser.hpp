@@ -25,7 +25,8 @@ enum FlowID
     MEDIA_LIST_ID = 1,
     PLAY_LIST_ID = 2,
     PLAY_MUSIC_ID = 3,
-    PLAY_LIST_MUSIC_ID = 4
+    PLAY_LIST_MUSIC_ID = 4,
+    PLAY_MUSIC_PLAYER_ID = 5,
 };
 
 
@@ -36,6 +37,12 @@ class Browser
 {
 private:
     std::string Path;
+    size_t current_screen;
+    size_t chosenList = 1;
+    size_t chosenMusic = 1;
+    size_t list = 1;
+    // size_t chosenList_Play = 1;
+    // size_t chosenMusic_Play = 1;
 
     /* Stack */
     std::stack<int> flowID;
@@ -64,7 +71,7 @@ public:
     void setPath();
     void loadFile();   
     void FreeAll();
-    // void CallbackRegister();
+    void CallbackRegister();
 
     int userInput();
     string userInputString();
@@ -87,7 +94,10 @@ public:
     void renameList();
 
     /**/
-    void playmusic();
+    void playmusic(size_t& chosenList);
+    void playmusic_player(size_t& chosenList, size_t& chosenMusic);
+
+    /**/
     void programFlow();
 
     

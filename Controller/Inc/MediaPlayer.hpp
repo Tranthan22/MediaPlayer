@@ -25,6 +25,7 @@ public:
     void ResumePause();
     void nextMusic();
     void setList(std::vector<MediaFile*> *list);
+    static void setIndexInList(size_t index);
 
     /* Volume */
     int getVolume();
