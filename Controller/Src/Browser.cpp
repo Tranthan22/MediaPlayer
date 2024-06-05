@@ -23,6 +23,25 @@ void Browser::setPath()
     }
     while(!(fs::exists(Path) && fs::is_directory(Path)));
 }
+
+void Browser::FreeAll()
+{
+    if(vPlayList[0] != nullptr)
+    {
+        for(MediaFile* mediafile : vPlayList[0]->getPlaylist())
+        {
+            delete mediafile;
+        }
+        for(Playlist* playlist : vPlayList)
+        {
+            delete playlist;
+        }
+    }
+    vPlayList[0] = nullptr;
+    vPlayList.clear();
+}
+
+
 int Browser::userInput()
 {
     int choice;
@@ -30,15 +49,13 @@ int Browser::userInput()
     if (std::cin.fail())
     {
         std::cin.clear(); // clear the error flag
-        // Bỏ qua ký tự trong bộ đệm cho đến khi gặp '\n'
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     else
-    {   
+    {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return choice;
     }
-    return choice;
 }
 
 string Browser::userInputString()
@@ -55,6 +72,7 @@ string Browser::userInputString()
 //     Mix_HookMusicFinished(myPlayer.nextMusic);
 // }
 
+/*===========================================  Menu =========================================================*/
 void Browser::menu()
 {
     menuView.display_menu();
@@ -77,7 +95,7 @@ void Browser::menu()
     case EXIT:
         flowID.pop();
         flowID.push(-1);
-    /*IF INPUT WRONG NUMBER*/
+        break;
     default:
         return;
     }
@@ -94,6 +112,8 @@ void Browser::loadFile()
     }
 }
 
+
+/*========================================== Option 1 in Menu =========================================================*/
 void Browser::medialist()
 {
     size_t currentPage=START_PAGE;
@@ -138,6 +158,112 @@ void Browser::medialist()
     }
 }
 
+
+/*========================================== Option 2 in Menu =========================================================*/
+void Browser::playlist(size_t& chosenList, size_t& chosenMusic)
+{
+    int UserOption = 0;
+    playListView.display_Playlist(vPlayList, chosenList);
+    UserOption = playListView.check_choice_PlaylistView(vPlayList, chosenList);
+    switch (UserOption)
+    {
+    /* Exit */
+    case 0:
+        flowID.pop();
+        break;
+    /* Create playlist */
+    case -1:
+        createList();
+        break;
+
+    /* Delete playlist */
+    case -2:
+        deleteList();
+        break;
+
+    /* Rename playlist */
+    case -3:
+        renameList();
+        break;
+
+    /* Choose list */
+    default:
+        chosenList = (size_t)UserOption;
+        flowID.push(PLAY_LIST_MUSIC_ID);
+        break;
+    }
+}
+/*Create Playlist*/
+void Browser::createList()
+{
+    cout << "Name: " ;
+    string newPlaylistName = userInputString();
+    vPlayList.push_back(new Playlist(newPlaylistName));
+}
+
+/* Delete playlist */
+void Browser::deleteList()
+{
+    cout << "Choose list number to delete: " ;
+    int newPlaylistIndex = userInput() - 1;
+    if (newPlaylistIndex < 0 || newPlaylistIndex >= vPlayList.size()) {
+        cout << "Invalid list number." << endl;
+        return;
+    }
+    else
+    {
+        vPlayList.erase(vPlayList.begin() + newPlaylistIndex);
+    }
+}
+
+/* Rename playlist */
+void Browser::renameList()
+{
+    cout << "Choose list number to rename: " ;
+    int playlistIndex = userInput() - 1;
+    cout << vPlayList.size();
+    if (playlistIndex < 0 || playlistIndex >= vPlayList.size()) {
+        cout << "Invalid list number." << endl;
+        cin.ignore();
+        return;
+    }
+    else
+    {
+        cout << "New name: " ;
+        string newPlaylistName = userInputString();
+        vPlayList[playlistIndex]->setName(newPlaylistName);
+    }
+}
+/* ================================= Interact with Playlist ====================================== */
+void Browser::playlist_music(size_t& chosenList)
+{
+    int UserOption = 0;
+    playListView.display_PlaylistName(vPlayList[chosenList - 1]->getPlaylist(), chosenList);
+    UserOption = playListView.check_choice_PlaylistView(vPlayList, chosenList);
+    switch (UserOption)
+    {
+    /* Exit */
+    case 0:
+        flowID.pop();
+        break;
+
+    /* Add Music */
+    case -1:
+        // flowID.push(7);
+        break;
+
+    /* Remove Music */
+    case -2:
+        break;
+
+    default:
+        // flowID.push(8);
+        break;
+    }
+}
+
+
+/*========================================== Option 3 in Menu =========================================================*/
 void Browser::playmusic()
 {
     size_t currentPageList = 1;
@@ -188,107 +314,8 @@ void Browser::playmusic()
         }
     }
 }
-void Browser::playlist(size_t& chosenList, size_t& chosenMusic)
-{   
-    system("clear");
-    int UserOption = 0;
-    playListView.display_Playlist(vPlayList, chosenList);
-    UserOption = playListView.check_choice_PlaylistView(vPlayList, chosenList);
-    switch (UserOption)
-    {
-    /* Exit */
-    case 0:
-        flowID.pop();
-        break;
-    /* Create playlist */
-    case -1:
-        createList();
-        break;
-    /* Delete playlist */
-    case -2:
-        deleteList();
-        break;
-    /* Rename playlist */
-    case -3:
-        renameList();
-        break;
-    /* Choose list */
-    default:
-        chosenList = (size_t)UserOption;
-        flowID.push(6);
-        break;
-    }
-}
-void Browser::playlist_music(size_t& chosenList)
-{
-    system("clear");
-    int UserOption = 0;
-    playListView.display_PlaylistName(vPlayList[chosenList - 1]->getPlaylist(), chosenList);
-    UserOption = playListView.check_choice_PlaylistView(vPlayList, chosenList);
-    switch (UserOption)
-    {
-    /* Exit */
-    case 0:
-        flowID.pop();
-        break;
-    /* Add Music */
-    case -1:
-        // flowID.push(7);
-        break;
 
-    /* Remove Music */
-    case -2:
-        break;
-
-    default:
-        // flowID.push(8);
-        break;
-    }
-}
-/*Create Playlist*/
-void Browser::createList()
-{
-    cout << "Name: " ;
-    string newPlaylistName = userInputString();
-    vPlayList.push_back(new Playlist(newPlaylistName));
-}
-
-/* Delete playlist */
-void Browser::deleteList()
-{
-    cout << "Choose list number to delete: " ;
-    int newPlaylistIndex = userInput() - 1;
-    if (newPlaylistIndex < 0 || newPlaylistIndex >= (int)vPlayList.size()) {
-        cout << "Invalid list number." << endl;
-        return;
-    }
-    else
-    {
-        vPlayList.erase(vPlayList.begin() + newPlaylistIndex);
-    }
-}
-
-/* Rename playlist */
-void Browser::renameList()
-{
-    cout << "Choose list number to rename: " ;
-    int playlistIndex = userInput() - 1;
-    cout << vPlayList.size();
-    if (playlistIndex < 0 || playlistIndex >= (int)vPlayList.size()) {
-        cout << "Invalid list number." << endl;
-        cin.ignore();
-        return;
-    }
-    else
-    {
-        cout << "New name: " ;
-        string newPlaylistName = userInputString();
-        vPlayList[playlistIndex]->setName(newPlaylistName);
-    }
-    // flagPlaylist = false;
-}
-
-/* Flow */
+/*========================================== Program Flow =====================================================*/
 void Browser::programFlow()
 {
     
@@ -296,7 +323,7 @@ void Browser::programFlow()
     {   
         setPath();
         loadFile();
-        flowID.push(MENU_ID); // Menu
+        flowID.push(MENU_ID);
         bool flag =true;
         while (flag){
             size_t current_screen;
@@ -317,12 +344,13 @@ void Browser::programFlow()
                 case PLAY_MUSIC_ID:
                     playmusic();
                     break;
-                case 6:
+                case PLAY_LIST_MUSIC_ID:
                     playlist_music(chosenList);
                     break;
                 default:
                     flag=false;
                     flowID.pop();
+                    FreeAll();
                     break;
             }
         }

@@ -245,8 +245,7 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
                     case 'E':
                     case 'e':
                         flag = false;
-                        return 0;
-                        // break;
+                        break;
                     default:
                         system("clear");
                         display_PlaylistName(lists_name,currentPage);

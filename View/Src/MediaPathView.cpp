@@ -10,7 +10,8 @@ void MediaPathView::display_MediaPath()
     std::cout << "\n\n\n============================================================================================\n" << std::endl;
 }
 // Ham nay sep dung o phia controll
-std::string MediaPathView::input_path(){
+std::string MediaPathView::input_path()
+{
     display_MediaPath();
     std::cout << "\nPath : ";
     std::string directoryPath;
