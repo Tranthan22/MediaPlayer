@@ -63,6 +63,7 @@ public:
 
     void setPath();
     void loadFile();   
+    void FreeAll();
     // void CallbackRegister();
 
     int userInput();

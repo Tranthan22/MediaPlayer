@@ -23,6 +23,22 @@ void Browser::setPath()
     }
     while(!(fs::exists(Path) && fs::is_directory(Path)));
 }
+void Browser::FreeAll()
+{
+    if(vPlayList[0] != nullptr)
+    {
+        for(MediaFile* mediafile : vPlayList[0]->getPlaylist())
+        {
+            delete mediafile;
+        }
+        for(Playlist* playlist : vPlayList)
+        {
+            delete playlist;
+        }
+    }
+    vPlayList[0] = nullptr;
+    vPlayList.clear();
+}
 int Browser::userInput()
 {
     int choice;
@@ -53,6 +69,7 @@ string Browser::userInputString()
 //     Mix_HookMusicFinished(myPlayer.nextMusic);
 // }
 
+/*===========================================  Menu =========================================================*/
 void Browser::menu()
 {
     menuView.display_menu();
@@ -210,7 +227,7 @@ void Browser::renameList()
         vPlayList[playlistIndex]->setName(newPlaylistName);
     }
 }
-/* =================================  ====================================== */
+/* ================================= Interact with Playlist ====================================== */
 void Browser::playlist_music(size_t& chosenList)
 {
     int UserOption = 0;
@@ -326,7 +343,7 @@ void Browser::programFlow()
                 default:
                     flag=false;
                     flowID.pop();
-                    // Path = "sa";
+                    FreeAll();
                     break;
             }
         }
