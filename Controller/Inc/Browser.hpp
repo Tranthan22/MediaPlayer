@@ -54,27 +54,41 @@ private:
     /* Player */
     MediaPlayer myPlayer;
     Metadata metaData;
-    PlaylistView playlistView;
+    PlaylistView playListView;
 
 public:
     Browser(/* args */);
     ~Browser();
 
     void setPath();
-    void loadFile();
+    void loadFile();   
+    // void CallbackRegister();
 
     int userInput();
+    string userInputString();
 
 
     void menu();
     void medialist();
-    void playlist();
+    
+    /**/
+    void playlist(size_t& chosenList, size_t& chosenMusic);
+    void playlist_music(size_t& chosenList);
+
+    /*Create Playlist*/
+    void createList();
+    
+    /* Delete playlist */
+    void deleteList();
+
+    /* Rename playlist */
+    void renameList();
+
+    /**/
     void playmusic();
     void programFlow();
 
-    /* Model */
-
-    vector<MediaFile *> getMediaFiles(); /* Ngoc add */
+    
 
 };
 

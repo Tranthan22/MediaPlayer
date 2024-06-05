@@ -31,6 +31,20 @@ int Browser::userInput()
     return choice;
 }
 
+string Browser::userInputString()
+{
+    string userInput;
+    while(userInput.empty())
+    {
+        getline(cin, userInput);
+    }
+    return userInput;
+}
+// void Browser::CallbackRegister()
+// {
+//     Mix_HookMusicFinished(myPlayer.nextMusic);
+// }
+
 void Browser::menu()
 {
     menuView.display_menu();
@@ -120,6 +134,7 @@ void Browser::playmusic()
     bool flagMusic = true;
     while(flagPlaylist)
     {
+        chosenMusic = 0;
         mediaPlayerView.display_PlayMucsic(vPlayList, currentPageList);
         chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPageList);
         if(chosenList != 0)
@@ -145,6 +160,7 @@ void Browser::playmusic()
                     myPlayer.ResumePause();
                     break;
                 default:
+                    /* setlist + play continuously */
                     vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
                     MediaFile * b = (*a)[chosenMusic - 1];
                     myPlayer.playMusic(b->getPath().c_str());
@@ -159,62 +175,114 @@ void Browser::playmusic()
         }
     }
 }
-void Browser::playlist()
+void Browser::playlist(size_t& chosenList, size_t& chosenMusic)
 {
-    size_t currentPageList = 1;
-    size_t currentPageMusic = 1;
-    int chosenList = 0;
-    int chosenMusic = 0;
-    bool flagPlaylist = true;
-    bool flagMusic = true;
-    while(flagPlaylist)
+    int UserOption = 0;
+    playListView.display_Playlist(vPlayList, chosenList);
+    UserOption = playListView.check_choice_PlaylistView(vPlayList, chosenList);
+    switch (UserOption)
     {
-        mediaPlayerView.display_PlayMucsic(vPlayList, currentPageList);
-        chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPageList);
-        if(chosenList != 0)
-        {   
-            flagMusic = true;
-            while(flagMusic)
-            {
-                mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
-                chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
-                
-                switch (chosenMusic)
-                {
-                case 0:
-                    flagMusic = false;
-                    break;
-                case -1:
-                    myPlayer.VolumeUp();
-                    break;
-                case -2:
-                    myPlayer.VolumeDown();
-                    break;
-                case -3:
-                    myPlayer.ResumePause();
-                    break;
-                default:
-                    vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
-                    MediaFile * b = (*a)[chosenMusic - 1];
-                    myPlayer.playMusic(b->getPath().c_str());
-                    break;
-                }
-            }
-        }
-        else
-        {
-            flowID.pop();
-            flagPlaylist = false;
-        }
+    /* Exit */
+    case 0:
+        flowID.pop();
+        break;
+    /* Create playlist */
+    case -1:
+        createList();
+        break;
+
+    case -2:
+        deleteList();
+        break;
+
+    case -3:
+        renameList();
+        break;
+
+    /* Choose list */
+    default:
+        chosenList = (size_t)UserOption;
+        flowID.push(6);
+        break;
+    }
+}
+void Browser::playlist_music(size_t& chosenList)
+{
+    int UserOption = 0;
+    playListView.display_PlaylistName(vPlayList[chosenList - 1]->getPlaylist(), chosenList);
+    UserOption = playListView.check_choice_PlaylistView(vPlayList, chosenList);
+    switch (UserOption)
+    {
+    /* Exit */
+    case 0:
+        flowID.pop();
+        break;
+
+    /* Add Music */
+    case -1:
+        flowID.push(7);
+        break;
+
+    /* Remove Music */
+    case -2:
+        break;
+
+    default:
+        flowID.push(8);
+        break;
+    }
+}
+/*Create Playlist*/
+void Browser::createList()
+{
+    cout << "Name: " ;
+    string newPlaylistName = userInputString();
+    vPlayList.push_back(new Playlist(newPlaylistName));
+}
+
+/* Delete playlist */
+void Browser::deleteList()
+{
+    cout << "Choose list number to delete: " ;
+    int newPlaylistIndex = userInput() - 1;
+    if (newPlaylistIndex < 0 || newPlaylistIndex >= vPlayList.size()) {
+        cout << "Invalid list number." << endl;
+        return;
+    }
+    else
+    {
+        vPlayList.erase(vPlayList.begin() + newPlaylistIndex);
     }
 }
 
+/* Rename playlist */
+void Browser::renameList()
+{
+    cout << "Choose list number to rename: " ;
+    int playlistIndex = userInput() - 1;
+    cout << vPlayList.size();
+    if (playlistIndex < 0 || playlistIndex >= vPlayList.size()) {
+        cout << "Invalid list number." << endl;
+        cin.ignore();
+        return;
+    }
+    else
+    {
+        cout << "New name: " ;
+        string newPlaylistName = userInputString();
+        vPlayList[playlistIndex]->setName(newPlaylistName);
+    }
+}
+
+/* Flow */
 void Browser::programFlow()
 {
     setPath();
     loadFile();
     flowID.push(MENU_ID); // Menu
-    int current_screen;
+    size_t current_screen;
+    size_t chosenList = 1;
+    size_t chosenMusic = 1;
     while(1)
     {
         current_screen = flowID.top();
@@ -227,16 +295,18 @@ void Browser::programFlow()
                 medialist();
                 break;
             case PLAY_LIST_ID:
+                playlist(chosenList, chosenMusic);
                 break;
             case PLAY_MUSIC_ID:
                 playmusic();
-                // cin.ignore();
+                break;
+            case 6:
+                playlist_music(chosenList);
+                break;
+
+            default:
+                flowID.pop();
                 break;
         }
     }
-}
-
-vector<MediaFile *> Browser::getMediaFiles()
-{
-    // return vPlayList[0];
 }

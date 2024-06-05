@@ -21,6 +21,8 @@ public:
     void deleteFile(int file_idx);
 
     string getName();
+    void setName(string name);
+
     int getSize();
     vector<MediaFile*>& getPlaylist();
     vector<MediaFile*>* getPlaylistPointer();

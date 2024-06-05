@@ -19,6 +19,9 @@ string Playlist::getName(){
     return name;
 }
 
+void Playlist::setName(string name){
+    this->name = name;
+}
 vector<MediaFile*>& Playlist::getPlaylist(){
     return pPlaylist;
 }
