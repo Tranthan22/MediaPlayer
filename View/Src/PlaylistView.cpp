@@ -24,10 +24,10 @@ void PlaylistView::display_Playlist(const vector<Playlist*>& plists, size_t &cur
 
 // Ham lay du lieu tu model de truyen du lieu len
 void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size_t &currentpage) {
-    int startIndex = (currentpage - 1) * LIST_SIZE;
+    int startIndex = (int(currentpage) - 1) * LIST_SIZE;
     int endIndex = min(startIndex + LIST_SIZE, static_cast<int>(plists.size()));
     // static_cast<int> chuyen doi sang so int
-    for (size_t i = startIndex; i < endIndex; ++i) {
+    for (int i = startIndex; i < endIndex; ++i) {
         cout << left << setw(10) << i + 1
         // dung de lay ten 
              << left << setw(40) << truncate(plists[i]->getName(), 40)
@@ -61,9 +61,9 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_na
     size_t startIndex = (currentpage - 1) * LIST_NAME_SIZE;
     size_t endIndex = min(startIndex + LIST_NAME_SIZE, plist_name.size());
     for (size_t i = startIndex; i < endIndex; ++i) {
-        string file_name = plist_name[i]->getName();
+        // string file_name = plist_name[i]->getName();
         string file_path = plist_name[i]->getPath();
-        int file_type = plist_name[i]->getType();
+        // size_t file_type = plist_name[i]->getType();
         TagLib::FileRef fileRef(file_path.c_str());
     if (!fileRef.isNull() && fileRef.tag()){
         TagLib::Tag *tag = fileRef.tag();

@@ -27,10 +27,10 @@ void MediaFileView::displaySongsPerPage(vector<MediaFile*>& songs, size_t& curre
     
     size_t startIndex = (currentpage - 1) * PAGE_SIZE;
     size_t endIndex = min(startIndex + PAGE_SIZE, songs.size());
-    for (size_t i = startIndex; i < endIndex; ++i) {
-        string file_name = songs[i]->getName();
+    for (int i = int(startIndex); i < int(endIndex); ++i) {
+        // string file_name = songs[i]->getName();
+        // int file_type = songs[i]->getType(); 
         string file_path = songs[i]->getPath();
-        int file_type = songs[i]->getType();
         TagLib::FileRef fileRef(file_path.c_str());
     if (!fileRef.isNull() && fileRef.tag()){
         TagLib::Tag *tag = fileRef.tag();
@@ -64,8 +64,6 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
                 if (Song_Choice > 0 && Song_Choice <= songs.size())
                 {
                     system("clear");
-                    // display_MediaFile(songs, currentPage);
-                    // setChoice(Song_Choice);
                     return Song_Choice;
                     flag = false;
 
@@ -120,5 +118,6 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
             cout << "Invalid choice. Please enter a valid option." << endl;
         }
     }
+    return -1;
 }
 

@@ -201,4 +201,5 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
             display_ShowPlay(lists_name,currentPage);
         }
     }
+    return 0;
 }
