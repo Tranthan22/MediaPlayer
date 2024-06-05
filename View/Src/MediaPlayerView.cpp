@@ -4,19 +4,19 @@
 void PlayMusicView::display_PlayMucsic(const vector<Playlist*>& plists, size_t& currentpage)
 {
     system("clear");
-    std::cout << "                                           Play Music                                   " << endl;
+    std::cout << "                                        Play Music                                   " << endl;
     std::cout << "============================================================================================\n" << endl;
     cout << left << setw(10) << "No."
          << left << setw(40) << "List Name"
          << left << setw(40) << "Number" << endl;
     display_PlaylistPerPage(plists,currentpage);
     std::cout << "\n============================================================================================" << endl;
-    std::cout << "Total Play list: " << plists.size() << "\n" << endl;
+    std::cout << "Total Play list: " << plists.size() << endl;
     std::cout << "Page: " << currentpage;
-    std::cout << setw(10) << " " << left << setw(25) << "P. Previous"
+    std::cout << setw(15) << " " << left << setw(25) << "P. Previous"
          << left << setw(25) << "N. Next"
          << left << setw(25) << "E. Exit" << endl;
-    std::cout << "\n============================================================================================" << endl;
+    std::cout << "============================================================================================" << endl;
 }
 
 
