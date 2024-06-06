@@ -41,7 +41,9 @@ class PlayMusicView:public PlaylistView
         int check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage);
         void display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage);
         int check_choice_PlayMusicView_ShowPlay(const vector< MediaFile*>& lists_name, size_t& currentPage);
-        void Time_Volume();
+        void Time_Volume(size_t duration, size_t current, size_t volume);
+        // void displayVolume(int volume);
+        // void displayTime(double currentTime, double duration);
 };
 
 
@@ -52,6 +54,7 @@ class PlayMusicView_ShowPlay:public PlayMusicView
     public:
         PlayMusicView_ShowPlay()=default;
         ~PlayMusicView_ShowPlay()=default;
+        
 };
 
 #endif

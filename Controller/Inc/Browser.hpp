@@ -2,7 +2,6 @@
 #include <filesystem>
 #include <vector>
 #include <stack>
-#include <stack>
 
 #include "MediaPlayerView.hpp"
 #include "MediaFileView.hpp"
@@ -16,6 +15,10 @@
 #include "PlaylistView.hpp"
 #include "MediaPlayerView.hpp"
 
+#include <thread>
+#include <mutex>
+#include <atomic>
+#include <chrono>
 
 #define START_PAGE 1
 
@@ -63,6 +66,10 @@ private:
     MediaPlayer myPlayer;
     Metadata metaData;
     PlaylistView playListView;
+    
+    /* Thread */
+    std::chrono::time_point<std::chrono::steady_clock> startTime;
+    std::thread hello;
 
 public:
     Browser(/* args */);
@@ -100,7 +107,9 @@ public:
     /**/
     void programFlow();
 
-    
+    /*thread*/
+    void updatePlayerView();
+    void startStatusUpdate();
 
 };
 

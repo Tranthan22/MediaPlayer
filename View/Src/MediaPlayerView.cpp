@@ -95,12 +95,11 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     display_PlaylistNamePerPage(lists_name,currentpage);
     std::cout<<endl;
     std::cout << left << setw(15)<<" "<< "......................................................................." << endl;
-    // Show time sẽ thay giá trị vào
-    Time_Volume();
-
     cout << "\n======================================================================================================================\n" << endl;
     std::cout << "Total Media list: " << lists_name.size() << "\n" << endl;
     std::cout << "Page: " << currentpage;
+    // Show time sẽ thay giá trị vào
+    Time_Volume(5, 10, 50);
     std::cout << setw(10) << " " << left << setw(25) << "P. Previous"
          << left << setw(25) << "N. Next"
          << left << setw(25) << "E. Exit" << endl;
@@ -108,18 +107,24 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
         << left << setw(25) << "U. UP"
         << left << setw(25) << "D. Down"<<endl;
     std::cout << "\n======================================================================================================================\n" << endl;
-    // std::cout << "\nChoose page to show : ";
+
+    
 }
 
 // Change values => show up
-void PlayMusicView::Time_Volume()
+void PlayMusicView::Time_Volume(size_t duration, size_t current, size_t volume)
 {
+    size_t a = current*duration/30;
     // Show time sẽ thay giá trị vào
     std::cout << left << setw(15) <<" "<< "Time: "
-         << left << setw(80) << "< ###############===================================== >"<<endl;
+         << left << setw(80) << "< " << string(a, '#') + string((30 - a), '#') << ">" <<endl;
     std::cout<<endl;
     std::cout << left << setw(15) <<" "<< "Volume: "
-            << left << setw(80) << "< 100% >"<<endl;
+            << left << setw(80) << "< " << volume << "% >"<<endl;
+
+    /*    == ===================*/
+    
+    // std::cout << "\nChoose page to show : ";
 }
 
 
@@ -152,8 +157,8 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                         {
                             currentPage++;
                         }
-                        system("clear");
-                        display_ShowPlay(lists_name, currentPage);
+                        // system("clear");
+                        // display_ShowPlay(lists_name, currentPage);
                         break;
                     case 'P':
                     case 'p':
@@ -161,8 +166,8 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                         {
                             currentPage--;
                         }
-                        system("clear");
-                        display_ShowPlay(lists_name, currentPage);
+                        // system("clear");
+                        // display_ShowPlay(lists_name, currentPage);
                         break;
                     case 'U':
                     case 'u':
@@ -196,3 +201,10 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
     return 0;
 }
 
+// void PlayMusicView::displayVolume(int volume) {
+//     std::cout << "Volume: " << volume << std::endl;
+// }
+
+// void PlayMusicView::displayTime(double currentTime, double duration) {
+//     std::cout << "Current Time: " << currentTime << " / " << duration << std::endl;
+// }

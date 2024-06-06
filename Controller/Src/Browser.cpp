@@ -3,6 +3,14 @@
 
 #define START_PAGE 1
 
+std::atomic<bool> flagT(false);
+
+
+
+
+
+
+
 Browser::Browser(/* args */)
 {
 }
@@ -128,7 +136,9 @@ void Browser::medialist()
     {
         flowID.pop();
         return;
-    }else{
+    }
+    else
+    {
         while(flag)
         {   
             system("clear");
@@ -292,6 +302,9 @@ void Browser::playmusic(size_t& chosenList)
     {
         myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
         flowID.push(PLAY_MUSIC_PLAYER_ID);
+        startStatusUpdate();
+        
+        // hello.join();
     }
     else
     {
@@ -302,14 +315,14 @@ void Browser::playmusic(size_t& chosenList)
 }
 void Browser::playmusic_player(size_t& chosenList, size_t& chosenMusic)
 {
-    mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list);
+    // mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list);
     chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list);
-    
     switch (chosenMusic)
     {
     case 0:
         list = 1;
         flowID.pop();
+        hello.join();
         break;
     case -1:
         myPlayer.VolumeUp();
@@ -331,6 +344,39 @@ void Browser::playmusic_player(size_t& chosenList, size_t& chosenMusic)
     }
 
 }
+/*============================== Thread ===============================*/
+
+void Browser::updatePlayerView() {
+    size_t current_screen;
+    do
+    {
+        mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list);
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        current_screen = flowID.top();
+    }
+    while(current_screen  == PLAY_MUSIC_PLAYER_ID);
+    cout << "*****************************" << current_screen;
+}
+void Browser::startStatusUpdate()
+{
+    hello = std::thread(&Browser::updatePlayerView, this);
+}
+
+// void MediaPlayer::stopStatusUpdate() {
+//     isPlaying = false;
+//     if (updateThread.joinable()) {
+//         updateThread.join();
+//     }
+// }
+// double MediaPlayer::getMusicPosition() {
+//     if (isMusicPlaying) {
+//         auto currentTime = std::chrono::steady_clock::now();
+//         std::chrono::duration<double> elapsedSeconds = currentTime - startTime;
+//         return elapsedSeconds.count();
+//     }
+//     return 0.0;
+// }
+
 /*========================================== Program Flow =====================================================*/
 void Browser::programFlow()
 {

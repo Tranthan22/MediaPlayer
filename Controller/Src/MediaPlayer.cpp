@@ -52,22 +52,23 @@ int MediaPlayer::playMusic(const char* file)
         else
         {
             Playing = true;
+           // startTime = std::chrono::steady_clock::now(); 
+            // isMusicPlaying = true;
         }
     }
-    // cin.ignore();
+    // startStatusUpdate();
     return 0;
 }
 
 void MediaPlayer:: ResumePause()
 {
-    if(Playing == true)
-    {
+    if (Playing == true) {
         Mix_PauseMusic();
+        // stopStatusUpdate();
         Playing = false;
-    }
-    else
-    {
+    } else {
         Mix_ResumeMusic();
+        // startStatusUpdate();
         Playing = true;
     }
 }
@@ -137,9 +138,41 @@ void MediaPlayer::Exit_play()
     Mix_CloseAudio();
     SDL_Quit();
 }
-// vector<MediaFile *> MediaPlayer::getMediaFiles()
-// {
-//     vector<MediaFile *> a;
-//     // return a;
-//     // return mediaFiles;
+
+
+// void MediaPlayer::updateStatus() {
+//     while (isPlaying) {
+//         {
+//             std::lock_guard<std::mutex> lock(mtx);
+//             // Update time and volume display logic
+//             size_t duration = 180; // Example duration
+//             size_t current = Mix_PlayingMusic() ? getMusicPosition() : 0;
+//             // size_t current = 0;
+
+//             // size_t volume = Mix_VolumeMusic(-1) * 100 / MIX_MAX_VOLUME;
+//             size_t volume = 50;
+
+//             // Call the method to display current status
+//             mediaPlayerView.Time_Volume(duration, current, volume);
+//         }
+//         std::this_thread::sleep_for(std::chrono::seconds(1));
+//     }
+// }
+// void MediaPlayer::startStatusUpdate() {
+//     isPlaying = true;
+//     updateThread = std::thread(&MediaPlayer::updateStatus, this);
+// }
+// void MediaPlayer::stopStatusUpdate() {
+//     isPlaying = false;
+//     if (updateThread.joinable()) {
+//         updateThread.join();
+//     }
+// }
+// double MediaPlayer::getMusicPosition() {
+//     if (isMusicPlaying) {
+//         auto currentTime = std::chrono::steady_clock::now();
+//         std::chrono::duration<double> elapsedSeconds = currentTime - startTime;
+//         return elapsedSeconds.count();
+//     }
+//     return 0.0;
 // }
