@@ -11,6 +11,8 @@ enum MenuChoices
     PLAY_MUSIC
 };
 
+#define tableWidth 120
+
 using namespace std;
 
 class MenuView

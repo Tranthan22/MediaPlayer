@@ -1,20 +1,30 @@
 #include "MediaPathView.hpp"
 
+#define tableWidth 120
 
+/*========================================================================================================================================================*/
+//                                                           SHOW INPUT PATH TO RUN
+/*========================================================================================================================================================*/
 void MediaPathView::display_MediaPath()
 {
     system("clear");
-    std::cout << "                                         Media Path                                   " << std::endl;
-    std::cout << "============================================================================================\n\n\n" << std::endl;
-    std::cout <<"                        Please, input your media path you want to play"<< std::endl;
-    std::cout << "\n\n\n============================================================================================\n" << std::endl;
+    string header = "Media Path";
+    string show_notic ="Please, input your media path you want to play";
+    cout<< string(tableWidth , '=')<<endl;
+    cout<< string(tableWidth / 2-header.length()/2, ' ') << header <<endl;
+    cout<< string(tableWidth, '=')<<endl;
+    cout<<"\n\n"<<endl;
+    cout<< string(tableWidth / 2-show_notic.length()/2, ' ') << show_notic <<endl;
+    cout<<"\n\n"<<endl;
+    cout<< string(tableWidth ,'=')<<endl;
 }
-// Ham nay sep dung o phia controll
+
+// ===================================-===================    INPUT PATH      ============================================================================//
 std::string MediaPathView::input_path()
 {
     display_MediaPath();
-    std::cout << "\nPath : ";
-    std::string directoryPath;
-    getline(std::cin, directoryPath);
+    cout << "\nPath : ";
+    string directoryPath;
+    getline(cin, directoryPath);
     return directoryPath;
 }

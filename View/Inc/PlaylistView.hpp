@@ -15,6 +15,7 @@
 
 #define LIST_SIZE 4
 #define LIST_NAME_SIZE 4
+#define tableWidth 120
 
 enum 
 {

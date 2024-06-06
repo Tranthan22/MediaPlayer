@@ -6,23 +6,37 @@ using namespace std;
 
 void Metadataview::menuMetaView()
 {
-    cout << "                                  Menu Metadata                                " << endl;
-    cout << "==============================================================================\n" << endl;
-    cout << left << setw(30) << "1. Show Metadata"
-         << left << setw(30) << "2. Update Metadata"
-         << left << setw(30) << "0. Back"<<endl;
-    cout << "==============================================================================\n" << endl;
-    cout << "Input your command: " << endl;
+    // cout << "                                  Menu Metadata                                " << endl;
+    // cout << "==============================================================================\n" << endl;
+    // cout << left << setw(30) << "1. Show Metadata"
+    //      << left << setw(30) << "2. Update Metadata"
+    //      << left << setw(30) << "0. Back"<<endl;
+    // cout << "==============================================================================\n" << endl;
+
+    system("clear");
+    string header = "Menu Metadata";
+    cout << string(tableWidth , '=')<<endl;
+    cout << string(tableWidth / 2-header.length()/2, ' ') << header <<endl;
+    cout << string(tableWidth, '=')<<endl;
+    cout<<endl;
+    cout << left << setw(30) << " "
+         << left << setw(tableWidth/4) << "1. Show Metadata"
+         << left << setw(tableWidth/4) << "2. Update Metadata"
+         << left << setw(tableWidth/4) << "0. Back"<<endl;
+    cout <<"\n"<<endl;
+    cout << string(tableWidth, '=')<<endl;
+    cout<<endl;
+    cout << "Input your command: ";
 }
 
 void Metadataview::chooseMetadataField()
 {
-    cout << "Choose a metadata field to modify: " << endl;
+    cout << "Choose a metadata field to modify: " ;
 }
 
 void Metadataview::enterMetadataValue()
 {
-    cout << "Enter new value: " << endl;
+    cout << "Enter new value: " ;
 }
 
 void Metadataview::getMetadataError()
@@ -76,17 +90,15 @@ void Metadataview::listEmpty(int input_case)
 
 void Metadataview::displayAudioFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef)
 {
-    cout << "\n============================================================================================" << endl;
-
     cout << left << setw(30)<< "1. Name:   " << tag->title() << endl;
     cout << left << setw(30)<< "2. Album:   " << tag->album().toCString(true) << endl;
     cout << left << setw(30)<< "3. Artist:  " << tag->artist().toCString(true) << endl;
     cout << left << setw(30)<< "4. Publish Year:    " << tag->year() << endl;
     cout << left << setw(30)<< "5. Genre:   " << tag->genre().toCString(true) << endl;
     cout << left << setw(30)<< "6. Duration: " << fileRef.audioProperties()->lengthInSeconds()<< " seconds" << endl;
-    cout << "\n============================================================================================" << endl;
-    // cout << left << setw(25) << "0. Back" << endl;
-    // cout << "\n============================================================================================" << endl;
+    cout << endl;
+    cout << string(tableWidth, '=')<<endl;
+
 }
 
 void Metadataview::displayVideoFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef, string file_path)
@@ -96,6 +108,7 @@ void Metadataview::displayVideoFileMetadata(TagLib::Tag *tag, TagLib::FileRef fi
     cout << left << setw(30)<< "3. Bit rate: " << fileRef.audioProperties()->bitrate() << " kbps" << endl;
     cout << left << setw(30)<< "4. Duration: " << fileRef.audioProperties()->lengthInSeconds() << " seconds" << endl;
     cout << endl;
+    cout << string(tableWidth, '=')<<endl;
 }
 
 void Metadataview::getMediaFileTypeError()

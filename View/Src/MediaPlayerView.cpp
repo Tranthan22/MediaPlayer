@@ -1,31 +1,44 @@
 #include "MediaPlayerView.hpp"
 
+#define tableWidth 120
+
+//========================================================================================================================================================//
+//                                                                  SHOW PLAYLIST IN  PLAY MUSIC
+//========================================================================================================================================================//
 
 void PlayMusicView::display_PlayMucsic(const vector<Playlist*>& plists, size_t& currentpage)
 {
     system("clear");
-    std::cout << "                                        Play Music                                   " << endl;
-    std::cout << "============================================================================================\n" << endl;
-    cout << left << setw(10) << "No."
-         << left << setw(40) << "List Name"
-         << left << setw(40) << "Number" << endl;
+    string header = "Play Music";
+    cout<< string(tableWidth , '=')<<endl;
+    cout<< string(tableWidth / 2-header.length()/2, ' ') << header <<endl;
+    cout<< string(tableWidth, '=')<<endl;
+    cout<<"|"<< left << setw(10) << " No."
+        <<"|"<< left << setw(tableWidth/3) << "List Name"
+        <<"|"<< left << setw(tableWidth/3) << "Number"<<endl;
+    cout<< string(tableWidth ,'-')<<"\n"<<endl;
+
     display_PlaylistPerPage(plists,currentpage);
-    std::cout << "\n============================================================================================" << endl;
-    std::cout << "Total Play list: " << plists.size() << endl;
-    std::cout << "Page: " << currentpage;
-    std::cout << setw(15) << " " << left << setw(25) << "P. Previous"
+
+    cout<<"\n"<<string(tableWidth, '-')<<endl;
+    cout << "Total Media list: " << plists.size() << endl;
+    cout << "Page: " << currentpage<<endl;
+    cout <<string(tableWidth/4, ' ')
+         << left << setw(25) << "P. Previous"
          << left << setw(25) << "N. Next"
-         << left << setw(25) << "E. Exit" << endl;
-    std::cout << "============================================================================================" << endl;
+         << left << setw(25) << "E. Exit"<< endl;
+    cout<<endl;
+    cout<< string(tableWidth, '=')<<endl;
 }
 
+// ==================================================== CHECK USING FOR SHOW PLAYLIST IN PLAY MUSIC ======================================================//
 
 int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage) {
     string userInput;
     bool flag = true;
-    cout << "Choose option to playlist: " << endl;
     while(flag)
     {   
+        cout << "\nChoose option to playlist: ";
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);
@@ -36,14 +49,14 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
                 {
                     system("clear");
                     return ListChoice;
-                    return ListChoice;
                 }
             }
             else
             {
                 char command = userInput[0];
                 switch (command)
-                {
+                {   
+                    /*NEXT PAGE*/
                     case 'N':
                     case 'n':
                         if (currentPage < (lists.size() + PLIST_SIZE - 1) / PLIST_SIZE)
@@ -52,6 +65,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
                         }
                         display_PlayMucsic(lists,currentPage);
                         break;
+                    /*PREVIOUS PAGE*/
                     case 'P':
                     case 'p':
                         if (currentPage > 1)
@@ -60,6 +74,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
                         }
                         display_PlayMucsic(lists,currentPage);
                         break;
+                    /*EXIT PAGE*/
                     case 'E':
                     case 'e':
                         flag = false;
@@ -76,59 +91,75 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
             cout << "Invalid choice. Please enter a valid option." << endl;
         }
     }
+    /* RETURN MENU */
     return 0;
 }
 
-/*Phan để hiển thị sau khi chọn playlist nhé ae */
+/*========================================================================================================================================================*/
 
 
-//Sau khi chọn 1 playlist để thực hiện chạy chương trình 
+/*========================================================================================================================================================*/
+//                                                          SHOW SONG TO PLAY IN PLAYLIST  <PLAY MUSIC>
+/*========================================================================================================================================================*/
+
 void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage)
 {
     system("clear");
-    std::cout << "                                                      Play Music                                                  " << endl;
-    std::cout << "\n======================================================================================================================\n" << endl;
-    std::cout << left << setw(10) << "No."
-         << left << setw(40) << "Name"
-         << left << setw(30) << "Artist"
-         << left << setw(20) << "Duration"
-         << left << setw(20) << "Publisher"<< endl;
+    string header = "Play Music";
+    cout<< string(tableWidth , '=')<<endl;
+    cout<< string(tableWidth / 2-header.length()/2, ' ') << header <<endl;
+    cout<< string(tableWidth, '=')<<endl;
+    cout <<"|"<< left << setw(10) << " No."
+         <<"|"<< left << setw(tableWidth/3) << "Name"
+         <<"|"<< left << setw(tableWidth/4) << "Artist"
+         <<"|"<< left << setw(tableWidth/8) << "Duration (s)"
+         <<"|"<< left << setw(tableWidth/8) << "Publisher"<<endl;
+    cout << string(tableWidth ,'-')<<"\n"<<endl;
+    
     display_PlaylistNamePerPage(lists_name,currentpage);
-    std::cout<<endl;
-    std::cout << left << setw(15)<<" "<< "......................................................................." << endl;
-    // Show time sẽ thay giá trị vào
+    // ========================================
+
     Time_Volume();
 
-    cout << "\n======================================================================================================================\n" << endl;
-    std::cout << "Total Media list: " << lists_name.size() << "\n" << endl;
-    std::cout << "Page: " << currentpage;
-    std::cout << setw(10) << " " << left << setw(25) << "P. Previous"
+    // ========================================
+    cout<< string(tableWidth , '=')<<endl;
+    cout << "Total Media list: " << lists_name.size() << "\n" << endl;
+    cout << "Page: " << currentpage<<endl;
+    cout <<string(tableWidth/4, ' ')
+         << left << setw(25) << "P. Previous"
          << left << setw(25) << "N. Next"
-         << left << setw(25) << "E. Exit" << endl;
-    std::cout << setw(17) << " " << left << setw(25) << "R. Pause/Resume"
-        << left << setw(25) << "U. UP"
-        << left << setw(25) << "D. Down"<<endl;
-    std::cout << "\n======================================================================================================================\n" << endl;
-    // std::cout << "\nChoose page to show : ";
+         << left << setw(25) << "E. Exit"<< endl;
+    cout<<endl;
+    cout <<string(tableWidth/4, ' ')
+         << left << setw(25) << "U. Up Volume"
+         << left << setw(25) << "D. Down Volume"<< endl;
+    cout<<endl;
+    cout<< string(tableWidth , '=')<<endl;
 }
 
-// Change values => show up
+// ================================================== SHOW CHANGE TIME  - VOLUME - NEXT SONG  - PREVIOUS SONG =========================================== //
+
 void PlayMusicView::Time_Volume()
 {
     // Show time sẽ thay giá trị vào
-    std::cout << left << setw(15) <<" "<< "Time: "
-         << left << setw(80) << "< ###############===================================== >"<<endl;
-    std::cout<<endl;
-    std::cout << left << setw(15) <<" "<< "Volume: "
-            << left << setw(80) << "< 100% >"<<endl;
+    string Play_header =".......................................................................";
+    cout<< string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<endl;
+    cout <<string(tableWidth/4, ' ')<< "Time: "
+         << left << setw(80) << "< ###############=====================================>"<<"\n"<<endl;
+    cout <<string(tableWidth/4, ' ')<< "Volume: "
+            << left << setw(80) << "< 100% >"<<"\n"<<endl;
+    cout <<string(tableWidth/5,' ')
+         << left << setw(28) << "<->. Previous song"
+         << left << setw(28) << "<R>. Pause/ Resume"
+         << left << setw(25) << "<+>. Next song" <<endl;
 }
 
-
+// ================================================== CHECK USING FOR SHOW SONG TO PLAY IN PLAYLIST < PLAY MUSIC >=========================================//
 
 int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>& lists_name, size_t& currentPage) {
     string userInput;
     bool flag = true;
-    cout << "Choose option to play: " << endl;
+    cout << "Choose option to play: ";
     while(flag)
     {
         getline(cin, userInput);
@@ -195,3 +226,4 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
     return 0;
 }
 
+/*========================================================================================================================================================*/

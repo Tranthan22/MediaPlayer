@@ -43,7 +43,8 @@ public:
     
     // Khi khong co lua chon nao dung
     void Invalid_choice();
-    
+    // Yêu cầu người dùng nhập lệnh
+    // void chooseSongToModifie();
     // ham nay co khi dung o phia control.
     int check_choice(vector<MediaFile*>& songs, size_t& currentPage);
     // void setChoice(int choice);
