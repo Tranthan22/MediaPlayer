@@ -210,6 +210,8 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                         return -3;
                     case '+':
                         return -4;
+                    case '-':
+                        return -5;
                     case 'E':
                     case 'e':
                         flag = false;
