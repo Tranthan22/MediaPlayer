@@ -1,4 +1,4 @@
-
+#pragma once
 #include <vector>
 #include <string>
 #include <SDL.h>
@@ -14,7 +14,7 @@
 class MediaPlayer
 {
 private:
-    int SysVolume = MIX_MAX_VOLUME / 2;
+    size_t SysVolume = MIX_MAX_VOLUME / 2;
     std::vector<MediaFile*> *list;
     static bool Playing;
     static size_t fileIndexInList;
@@ -39,9 +39,10 @@ public:
     void nextMusic();
     void setList(std::vector<MediaFile*> *list);
     static void setIndexInList(size_t index);
+    string getPlayingMusicName();
 
     /* Volume */
-    int getVolume();
+    size_t getVolume();
     int VolumeUp();
     int VolumeDown();
     void Exit_play();

@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include <filesystem>
 #include <vector>
@@ -69,7 +70,7 @@ private:
     
     /* Thread */
     std::chrono::time_point<std::chrono::steady_clock> startTime;
-    std::thread hello;
+    std::thread myThread;
 
 public:
     Browser(/* args */);
@@ -109,7 +110,7 @@ public:
 
     /*thread*/
     void updatePlayerView();
-    void startStatusUpdate();
+    inline void startThread();
 
 };
 

@@ -301,7 +301,7 @@ void Browser::playmusic(size_t& chosenList)
     {
         myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
         flowID.push(PLAY_MUSIC_PLAYER_ID);
-        startStatusUpdate();
+        startThread();
         
         // hello.join();
     }
@@ -314,14 +314,13 @@ void Browser::playmusic(size_t& chosenList)
 }
 void Browser::playmusic_player(size_t& chosenList, size_t& chosenMusic)
 {
-    // mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list);
     chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list);
     switch (chosenMusic)
     {
     case 0:
         list = 1;
         flowID.pop();
-        hello.join();
+        myThread.join();
         break;
     case -1:
         myPlayer.VolumeUp();
@@ -347,17 +346,18 @@ void Browser::playmusic_player(size_t& chosenList, size_t& chosenMusic)
 
 void Browser::updatePlayerView() {
     size_t current_screen;
+    
     do
     {
-        mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, 100, 10, myPlayer.getVolume());
+        mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, 100, 10, myPlayer);
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         current_screen = flowID.top();
     }
     while(current_screen  == PLAY_MUSIC_PLAYER_ID);
 }
-void Browser::startStatusUpdate()
+void Browser::startThread()
 {
-    hello = std::thread(&Browser::updatePlayerView, this);
+    myThread = std::thread(&Browser::updatePlayerView, this);
 }
 
 // void MediaPlayer::stopStatusUpdate() {

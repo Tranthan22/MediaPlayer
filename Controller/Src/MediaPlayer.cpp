@@ -98,9 +98,14 @@ void MediaPlayer::setIndexInList(size_t index)
     fileIndexInList = index;
 }
 
+string MediaPlayer::getPlayingMusicName()
+{
+    return (*list)[fileIndexInList]->getName();
+}
+
 
 /*================ Volume ================== */
-int MediaPlayer:: getVolume()
+size_t MediaPlayer:: getVolume()
 {
     return SysVolume;
 }

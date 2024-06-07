@@ -12,6 +12,7 @@
 #include "main.hpp"
 #include "Playlist.hpp"
 #include "PlaylistView.hpp"
+#include "MediaPlayer.hpp"
 
 #define PLIST_SIZE 4
 #define PAGE_SIZE 4 
@@ -39,7 +40,7 @@ class PlayMusicView:public PlaylistView
         void display_PlayMucsic(const vector<Playlist*>& plists, size_t& currentpage);
         // void display_ListsPerPage(const vector<MediaFile*>& songs, size_t currentpage);
         int check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage);
-        void display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t duration, size_t current, const size_t volume);
+        void display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t duration, size_t current, MediaPlayer& myPlayer);
         int check_choice_PlayMusicView_ShowPlay(const vector< MediaFile*>& lists_name, size_t& currentPage);
         void Time_Volume(const size_t duration, const size_t current, const size_t volume) const;
         // void Time_Volume();
