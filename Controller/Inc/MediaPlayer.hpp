@@ -17,8 +17,8 @@ private:
     size_t SysVolume = MIX_MAX_VOLUME / 2;
     std::vector<MediaFile*> *list;
     static bool Playing;
-    static size_t fileIndexInList;
-
+    static int fileIndexInList;
+    bool flagAuto =false;
 
 public:
     Mix_Music *bgm;
@@ -30,8 +30,9 @@ public:
     void ResumePause();
     void nextMusic();
     void preMusic();
+    void autoMusic();
     void setList(std::vector<MediaFile*> *list);
-    static void setIndexInList(size_t index);
+    static void setIndexInList(int index);
     string getPlayingMusicName();
     string getPlayingMusicPath();
     bool isPlaying();
@@ -40,6 +41,9 @@ public:
     int VolumeUp();
     int VolumeDown();
     void Exit_play();
+
+    void setFlagAuto(bool flagAuto);
+    bool getFlagAuto();
 
 
 };

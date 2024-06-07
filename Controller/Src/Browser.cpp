@@ -3,7 +3,7 @@
 
 #define START_PAGE 1
 
-std::atomic<bool> flagT(false);
+// std::atomic<bool> flagAuto(false);
 
 Browser::Browser(/* args */)
 {
@@ -472,8 +472,19 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
     case -4:
         myPlayer.nextMusic();
         break;
-    case -5: 
+    case -5:
         myPlayer.preMusic();
+        break;
+    case -6:
+        // Case auto or update'
+        if(myPlayer.getFlagAuto() ==true)
+        {
+            myPlayer.setFlagAuto(false);
+        }else{
+            myPlayer.setFlagAuto(true);
+        }
+        
+        break;
     default:
         // vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
         // MediaFile * b = (*a)[chosenMusic - 1];
@@ -503,6 +514,7 @@ void Browser::updatePlayerView() {
             {
                 startTime = std::chrono::steady_clock::now();
                 timeElape = std::chrono::duration<double>::zero();
+                myPlayer.autoMusic();
             }
         }
         else
@@ -512,6 +524,7 @@ void Browser::updatePlayerView() {
         progressLong = timeElape.count() / duration * 50;
         
         mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, progressLong, myPlayer);
+
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         current_screen = flowID.top();
     }

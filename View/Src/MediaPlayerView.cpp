@@ -124,9 +124,24 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     string Playing_name = "Playing: "+ myPlayer.getPlayingMusicName();
     cout<< string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name <<endl;
     cout<<endl;
+    
     Time_Volume(progressLong, myPlayer.getVolume());
 
     // ========================================
+    if(myPlayer.getFlagAuto()==true )
+    {
+        cout <<left <<setw(20)<<" "
+         << left << setw(25) << "<->. Previous song"
+         << left << setw(25) << "<R>. Pause/ Resume"
+         << left << setw(18) << "<A>. Repeat"
+         << left << setw(25) << "<+>. Next song" <<endl;
+    }else{
+        cout <<left << setw(20)<<" "
+            << left << setw(25) << "<->. Previous song"
+            << left << setw(25) << "<R>. Pause/ Resume"
+            << left << setw(18) << "<A>. Auto"
+            << left << setw(25) << "<+>. Next song" <<endl;
+    }
     cout<< string(tableWidth , '=')<<endl;
     cout << "Total Media list: " << lists_name.size() << "\n" << endl;
     cout << "Page: " << currentpage<<endl;
@@ -152,10 +167,6 @@ void PlayMusicView::Time_Volume(size_t progressLong, const size_t volume) const
          << left <<setw(10) <<" "<<"<"<< string(progressLong, '#')  << string(50-progressLong, '=') << ">"<<"\n"<<endl;
     cout <<string(tableWidth/5,' ')<<"Volume: "
          << left <<setw(8) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<endl;
-    cout <<string(tableWidth/5,' ')
-         << left << setw(28) << "<->. Previous song"
-         << left << setw(28) << "<R>. Pause/ Resume"
-         << left << setw(25) << "<+>. Next song" <<endl;
 }
 
 // ================================================== CHECK USING FOR SHOW SONG TO PLAY IN PLAYLIST < PLAY MUSIC >=========================================//
@@ -212,6 +223,9 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                         return -4;
                     case '-':
                         return -5;
+                    case 'a':
+                    case 'A':
+                        return -6;
                     case 'E':
                     case 'e':
                         flag = false;

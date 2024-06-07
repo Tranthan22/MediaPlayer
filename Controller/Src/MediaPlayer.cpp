@@ -3,7 +3,7 @@
 
 
 bool MediaPlayer::Playing = false;
-size_t MediaPlayer::fileIndexInList = 0;
+int MediaPlayer::fileIndexInList = 0;
 
 MediaPlayer::MediaPlayer(/* args */)
 {
@@ -64,35 +64,31 @@ void MediaPlayer:: ResumePause()
     // Playing != Playing;
     if(Playing == true)
     {
-        
+        Mix_PauseMusic();
         Playing = false;
     }
     else
     {
+        Mix_ResumeMusic();
         Playing = true;
     }
 }
 
 void MediaPlayer:: nextMusic()
 {
-    // string MusicDir="";
     Mix_HaltMusic();
-    if(++fileIndexInList > list->size()-1)
+    if(++fileIndexInList > (int)(list->size()-1))
     {
         fileIndexInList = 0;
-        // MusicDir = (*list)[fileIndexInList]->getPath();
-        // playMusic(MusicDir.c_str());
     }
     else
     {
         /**/
-        // MusicDir = (*list)[fileIndexInList]->getPath();
-        // playMusic(MusicDir.c_str());
     }
-    // string MusicDir = (*list)[fileIndexInList]->getPath();
+
     playMusic(/*MusicDir.c_str()*/);
-    
 }
+
 void MediaPlayer:: preMusic()
 {
     // string MusicDir="";
@@ -108,11 +104,29 @@ void MediaPlayer:: preMusic()
     playMusic();
 }
 
+void MediaPlayer::autoMusic()
+{
+    if(flagAuto)
+    {
+        nextMusic();
+    }else{
+        /**/
+    }
+}
+void MediaPlayer::setFlagAuto(bool flagAuto)
+{
+    this->flagAuto =flagAuto;
+}
+bool MediaPlayer::getFlagAuto()
+{
+    return flagAuto;
+}
+
 void MediaPlayer::setList(std::vector<MediaFile*> *list)
 {
     this->list = list;
 }
-void MediaPlayer::setIndexInList(size_t index)
+void MediaPlayer::setIndexInList(int index)
 {
     fileIndexInList = index - 1;
 }
