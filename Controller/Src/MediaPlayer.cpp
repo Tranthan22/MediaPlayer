@@ -64,6 +64,7 @@ void MediaPlayer:: ResumePause()
     // Playing != Playing;
     if(Playing == true)
     {
+        
         Playing = false;
     }
     else
