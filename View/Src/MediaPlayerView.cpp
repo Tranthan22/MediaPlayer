@@ -102,7 +102,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
 //                                                          SHOW SONG TO PLAY IN PLAYLIST  <PLAY MUSIC>
 /*========================================================================================================================================================*/
 
-void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t duration, size_t current, MediaPlayer& myPlayer)
+void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t progressLong, MediaPlayer& myPlayer)
 {
     system("clear");
     string header = "Play Music";
@@ -122,7 +122,7 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     cout<< string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<endl;
     cout << "Playing: " << myPlayer.getPlayingMusicName() << endl;
     
-    Time_Volume(duration, current, myPlayer.getVolume());
+    Time_Volume(progressLong, myPlayer.getVolume());
 
     // ========================================
     cout<< string(tableWidth , '=')<<endl;
@@ -143,12 +143,11 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
 
 // ================================================== SHOW CHANGE TIME  - VOLUME - NEXT SONG  - PREVIOUS SONG =========================================== //
 
-void PlayMusicView::Time_Volume(const size_t duration, const size_t current, const size_t volume) const
+void PlayMusicView::Time_Volume(size_t progressLong, const size_t volume) const
 {
-    size_t a = current*duration/50*1.28;
     // Show time sẽ thay giá trị vào
     cout <<string(tableWidth/4, ' ')<< "Time: "
-         << left /*<< setw(80)*/ << "< " << string(a, '#')  << string(50-a, '=') << ">"<<"\n"<<endl;
+         << left /*<< setw(80)*/ << "< " << string(progressLong, '#')  << string(50-progressLong, '=') << ">"<<"\n"<<endl;
     cout <<string(tableWidth/4, ' ')<< "Volume: "
             << left << setw(80) << "<" << volume << "% >"<<"\n"<<endl;
     cout <<string(tableWidth/5,' ')

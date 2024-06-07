@@ -3,7 +3,7 @@
 
 
 bool MediaPlayer::Playing = false;
-size_t MediaPlayer::fileIndexInList;
+size_t MediaPlayer::fileIndexInList = 0;
 
 MediaPlayer::MediaPlayer(/* args */)
 {
@@ -28,9 +28,10 @@ MediaPlayer::~MediaPlayer()
     // SDL_Quit();
 }
 /*=================== Media Player =========================*/
-int MediaPlayer::playMusic(const char* file)
+int MediaPlayer::playMusic(/*const char* file*/)
 {
-    bgm = Mix_LoadMUS(file);
+    // char *file = 
+    bgm = Mix_LoadMUS((*list)[fileIndexInList]->getPath().c_str());
     if (bgm == NULL)
     {
         std::cerr << "Failed to load music! SDL_mixer Error: " << Mix_GetError() << std::endl;
@@ -52,8 +53,6 @@ int MediaPlayer::playMusic(const char* file)
         else
         {
             Playing = true;
-           // startTime = std::chrono::steady_clock::now(); 
-            // isMusicPlaying = true;
         }
     }
     // startStatusUpdate();
@@ -62,13 +61,13 @@ int MediaPlayer::playMusic(const char* file)
 
 void MediaPlayer:: ResumePause()
 {
-    if (Playing == true) {
-        Mix_PauseMusic();
-        // stopStatusUpdate();
+    // Playing != Playing;
+    if(Playing == true)
+    {
         Playing = false;
-    } else {
-        Mix_ResumeMusic();
-        // startStatusUpdate();
+    }
+    else
+    {
         Playing = true;
     }
 }
@@ -76,9 +75,6 @@ void MediaPlayer:: ResumePause()
 void MediaPlayer:: nextMusic()
 {
     Mix_HaltMusic();
-    string MusicDir = (*list)[fileIndexInList]->getPath();
-    playMusic(MusicDir.c_str());
-
     if(++fileIndexInList > list->size()-1)
     {
         fileIndexInList = 0;
@@ -87,6 +83,8 @@ void MediaPlayer:: nextMusic()
     {
         /**/
     }
+    string MusicDir = (*list)[fileIndexInList]->getPath();
+    playMusic(/*MusicDir.c_str()*/);
     
 }
 void MediaPlayer::setList(std::vector<MediaFile*> *list)
@@ -95,14 +93,21 @@ void MediaPlayer::setList(std::vector<MediaFile*> *list)
 }
 void MediaPlayer::setIndexInList(size_t index)
 {
-    fileIndexInList = index;
+    fileIndexInList = index - 1;
 }
 
 string MediaPlayer::getPlayingMusicName()
 {
     return (*list)[fileIndexInList]->getName();
 }
-
+string MediaPlayer::getPlayingMusicPath()
+{
+    return (*list)[fileIndexInList]->getPath();
+}
+bool MediaPlayer::isPlaying()
+{
+    return Playing;
+}
 
 /*================ Volume ================== */
 size_t MediaPlayer:: getVolume()

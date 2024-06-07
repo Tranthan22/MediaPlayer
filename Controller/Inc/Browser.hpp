@@ -3,6 +3,13 @@
 #include <filesystem>
 #include <vector>
 #include <stack>
+#include <taglib/tag.h>
+#include <taglib/fileref.h>
+#include <taglib/taglib.h>
+#include <thread>
+#include <mutex>
+#include <atomic>
+#include <chrono>
 
 #include "MediaPlayerView.hpp"
 #include "MediaFileView.hpp"
@@ -16,10 +23,6 @@
 #include "PlaylistView.hpp"
 #include "MediaPlayerView.hpp"
 
-#include <thread>
-#include <mutex>
-#include <atomic>
-#include <chrono>
 
 #define START_PAGE 1
 
@@ -41,9 +44,9 @@ class Browser
 {
 private:
     std::string Path;
-    size_t current_screen;
-    size_t chosenList = 1;
-    size_t chosenMusic = 1;
+    int current_screen;
+    int chosenList = 1;
+    int chosenMusic = 1;
     size_t list = 1;
     // size_t chosenList_Play = 1;
     // size_t chosenMusic_Play = 1;
@@ -70,7 +73,9 @@ private:
     
     /* Thread */
     std::chrono::time_point<std::chrono::steady_clock> startTime;
+    std::chrono::duration<double> timeElape;
     std::thread myThread;
+    TagLib::FileRef fileRef;
 
 public:
     Browser(/* args */);
@@ -89,8 +94,8 @@ public:
     void medialist();
     
     /**/
-    void playlist(size_t& chosenList, size_t& chosenMusic);
-    void playlist_music(size_t& chosenList);
+    void playlist(int& chosenList, int& chosenMusic);
+    void playlist_music(int& chosenList);
 
     /*Create Playlist*/
     void createList();
@@ -102,8 +107,8 @@ public:
     void renameList();
 
     /**/
-    void playmusic(size_t& chosenList);
-    void playmusic_player(size_t& chosenList, size_t& chosenMusic);
+    void playmusic(int& chosenList);
+    void playmusic_player(int& chosenList, int& chosenMusic);
 
     /**/
     void programFlow();
