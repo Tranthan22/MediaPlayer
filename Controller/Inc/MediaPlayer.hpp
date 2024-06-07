@@ -19,14 +19,6 @@ private:
     static bool Playing;
     static size_t fileIndexInList;
 
-    // std::atomic<bool> isPlaying;
-    // std::thread updateThread;
-    // std::mutex mtx; // to ensure thread safety
-    // PlayMusicView mediaPlayerView; // Declare the mediaPlayerView object
-    // std::chrono::time_point<std::chrono::steady_clock> startTime;
-    // bool isMusicPlaying = false;
-
-    // void updateStatus();
 
 public:
     Mix_Music *bgm;
@@ -34,22 +26,20 @@ public:
     ~MediaPlayer();
 
     /* Media Player */
-    int playMusic(const char* file);
+    int playMusic(/*const char* file*/);
     void ResumePause();
     void nextMusic();
     void preMusic();
     void setList(std::vector<MediaFile*> *list);
     static void setIndexInList(size_t index);
     string getPlayingMusicName();
-
+    string getPlayingMusicPath();
+    bool isPlaying();
     /* Volume */
     size_t getVolume();
     int VolumeUp();
     int VolumeDown();
     void Exit_play();
 
-    // void startStatusUpdate();
-    // void stopStatusUpdate();
 
-    // double getMusicPosition();
 };

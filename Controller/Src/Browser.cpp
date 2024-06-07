@@ -442,8 +442,6 @@ void Browser::playmusic(int& chosenList)
         myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
         flowID.push(PLAY_MUSIC_PLAYER_ID);
         startThread();
-        
-        // hello.join();
     }
     else
     {
@@ -477,10 +475,12 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
     case -5: 
         myPlayer.preMusic();
     default:
-        vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
-        MediaFile * b = (*a)[chosenMusic - 1];
-        myPlayer.playMusic(b->getPath().c_str());
-        myPlayer.setIndexInList(chosenMusic-1);
+        // vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
+        // MediaFile * b = (*a)[chosenMusic - 1];
+        startTime = std::chrono::steady_clock::now();
+        myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
+        myPlayer.setIndexInList(chosenMusic);
+        myPlayer.playMusic(/*b->getPath().c_str()*/);
         break;
     }
 
@@ -489,10 +489,29 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
 
 void Browser::updatePlayerView() {
     size_t current_screen;
-    
+
+    fileRef = TagLib::FileRef(myPlayer.getPlayingMusicPath().c_str());
+    size_t duration = fileRef.audioProperties()->lengthInSeconds();
+
+    size_t progressLong;
     do
     {
-        mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, 100, 10, myPlayer);
+        if(myPlayer.isPlaying())
+        {
+            timeElape = std::chrono::steady_clock::now() - startTime;
+            if(timeElape.count() >= duration)
+            {
+                startTime = std::chrono::steady_clock::now();
+                timeElape = std::chrono::duration<double>::zero();
+            }
+        }
+        else
+        {
+            startTime = std::chrono::steady_clock::now() - std::chrono::duration_cast<std::chrono::steady_clock::duration>(timeElape);
+        }
+        progressLong = timeElape.count() / duration * 50;
+        
+        mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, progressLong, myPlayer);
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         current_screen = flowID.top();
     }

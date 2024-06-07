@@ -3,6 +3,13 @@
 #include <filesystem>
 #include <vector>
 #include <stack>
+#include <taglib/tag.h>
+#include <taglib/fileref.h>
+#include <taglib/taglib.h>
+#include <thread>
+#include <mutex>
+#include <atomic>
+#include <chrono>
 
 #include "MediaPlayerView.hpp"
 #include "MediaFileView.hpp"
@@ -16,10 +23,6 @@
 #include "PlaylistView.hpp"
 #include "MediaPlayerView.hpp"
 
-#include <thread>
-#include <mutex>
-#include <atomic>
-#include <chrono>
 
 #define START_PAGE 1
 
@@ -72,7 +75,9 @@ private:
     
     /* Thread */
     std::chrono::time_point<std::chrono::steady_clock> startTime;
+    std::chrono::duration<double> timeElape;
     std::thread myThread;
+    TagLib::FileRef fileRef;
 
 public:
     Browser(/* args */);
