@@ -40,6 +40,7 @@ enum FlowID
 // C++17 up
 namespace fs = std:: filesystem;
 
+
 class Browser
 {
 private:
@@ -78,6 +79,10 @@ private:
     std::chrono::duration<double> timeElape;
     std::thread myThread;
     TagLib::FileRef fileRef;
+
+    std::mutex mtx1;
+    std::mutex mtx2;
+
 
 public:
     Browser(/* args */);

@@ -91,13 +91,7 @@ void MediaPlayer:: nextMusic()
 void MediaPlayer:: preMusic()
 {
     Mix_HaltMusic();
-    {
-    // std::lock_guard<std::mutex> lock(mtx);
-    --fileIndexInList;
-    }
-    cout << fileIndexInList;
-    cin.ignore();
-    if(fileIndexInList < 0)
+    if(--fileIndexInList < 0)
     {
         fileIndexInList = list->size()-1;
     }

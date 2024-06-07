@@ -473,8 +473,11 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         myPlayer.nextMusic();
         break;
     case -5:
+        {
+        std::lock_guard<std::mutex> lock1(mtx1);
         myPlayer.preMusic();
         break;
+        }
     default:
         // vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
         // MediaFile * b = (*a)[chosenMusic - 1];
@@ -490,13 +493,14 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
 
 void Browser::updatePlayerView() {
     size_t current_screen;
-
-    fileRef = TagLib::FileRef(myPlayer.getPlayingMusicPath().c_str());
-    size_t duration = fileRef.audioProperties()->lengthInSeconds();
-
     size_t progressLong;
     do
     {
+        std::lock_guard<std::mutex> lock1(mtx1);
+        std::lock_guard<std::mutex> lock2(mtx2);
+        fileRef = TagLib::FileRef(myPlayer.getPlayingMusicPath().c_str());
+        size_t duration = fileRef.audioProperties()->lengthInSeconds();
+        
         if(myPlayer.isPlaying())
         {
             timeElape = std::chrono::steady_clock::now() - startTime;
