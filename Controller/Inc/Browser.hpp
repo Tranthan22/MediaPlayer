@@ -55,6 +55,8 @@ private:
     vector<Playlist*> vPlayList;    //vector contains playlist (include vMediaFile)
     // vector<MediaFile*> vMediaFile; // Vector contains files (all file)
 
+    /* ptr Meta*/ 
+    // Metadata* vMetadata; 
 
     /* View declaration */
     MediaPathView mediaPathView;
@@ -84,9 +86,12 @@ public:
     int userInput();
     string userInputString();
 
-
+    /* Menu */ 
     void menu();
+    /*META*/
     void medialist();
+    void viewMetadata(int file_idx);
+    void updateMetadata(int file_idx);
     
     /**/
     void playlist(int& chosenList, int& chosenMusic);
