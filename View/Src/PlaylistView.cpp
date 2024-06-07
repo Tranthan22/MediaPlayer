@@ -161,8 +161,8 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_na
     if (!fileRef.isNull() && fileRef.tag()){
         TagLib::Tag *tag = fileRef.tag();
         cout <<"|"<< left << setw(10) << i + 1
-            <<"|"<< left << setw(tableWidth/3) << truncate(tag->title().toCString(),40)
-            <<"|"<< left << setw(tableWidth/4) << truncate(tag->artist().toCString(),30)
+            <<"|"<< left << setw(tableWidth/3) << truncate(tag->title().toCString(true),40)
+            <<"|"<< left << setw(tableWidth/4) << truncate(tag->artist().toCString(true),30)
             <<"|"<< left << setw(tableWidth/8) << fileRef.audioProperties()->lengthInSeconds()
             <<"|"<< left << setw(tableWidth/8) << tag->year()<<endl;
         cout<<endl;
