@@ -74,16 +74,21 @@ void MediaPlayer:: ResumePause()
 
 void MediaPlayer:: nextMusic()
 {
+    // string MusicDir="";
     Mix_HaltMusic();
     if(++fileIndexInList > list->size()-1)
     {
         fileIndexInList = 0;
+        // MusicDir = (*list)[fileIndexInList]->getPath();
+        // playMusic(MusicDir.c_str());
     }
     else
     {
         /**/
+        // MusicDir = (*list)[fileIndexInList]->getPath();
+        // playMusic(MusicDir.c_str());
     }
-    string MusicDir = (*list)[fileIndexInList]->getPath();
+    // string MusicDir = (*list)[fileIndexInList]->getPath();
     playMusic(/*MusicDir.c_str()*/);
     
 }

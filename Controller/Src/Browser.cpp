@@ -5,12 +5,6 @@
 
 std::atomic<bool> flagT(false);
 
-
-
-
-
-
-
 Browser::Browser(/* args */)
 {
 }
@@ -150,13 +144,13 @@ void Browser::medialist()
             {
                 case SHOW_METADATA:
                     system("clear");
-                    metaData.viewMetadata(vPlayList[0]->getPlaylist(),choose_song);
+                    viewMetadata(choose_song);
                     cout << "Enter to back: " << endl;
                     cin.ignore();
                     break;
                 case UPDATE_METADATA:
                     system("clear");
-                    metaData.updateMetadata(vPlayList[0]->getPlaylist(),choose_song);
+                    updateMetadata(choose_song);
                     break;
                 case BACK_MENU:
                     system("clear");
@@ -170,6 +164,152 @@ void Browser::medialist()
     }
 }
 
+void Browser::viewMetadata(int file_idx)
+{
+    string file_path = vPlayList[0]->getPlaylist()[file_idx-1]->getPath();
+    string file_name = vPlayList[0]->getPlaylist()[file_idx-1]->getName();
+    int file_type = vPlayList[0]->getPlaylist()[file_idx-1]->getType();
+    // get  data from playlist to metaData
+    metaData.set_FilePath(file_path);
+    TagLib::FileRef fileRef=metaData.getfileRef();
+    string header = "Displaying Metadata...";
+    cout << string(tableWidth , '=')<<endl;
+    cout << string(tableWidth / 2-header.length()/2-file_name.length()/2, ' ') << header <<file_name<<endl;
+    cout << string(tableWidth, '=')<<endl;
+    cout << endl;
+    if (!fileRef.isNull() && fileRef.tag())
+    {
+        TagLib::Tag *tag = fileRef.tag();
+        switch (file_type)
+        {
+        case AUDIO_FILE_TYPE:
+            metadataView.displayAudioFileMetadata(tag, fileRef);
+            return;
+            // break;
+        case VIDEO_FILE_TYPE:
+            metadataView.displayVideoFileMetadata(tag, fileRef, file_path);
+            return;
+            // break;
+        default:
+            metadataView.getMediaFileTypeError();
+            return;
+        }
+    }
+    else
+    {
+        metadataView.getMetadataError();
+        return;
+    }
+}
+
+void Browser::updateMetadata(int file_idx)
+{   
+    string file_path = vPlayList[0]->getPlaylist()[file_idx-1]->getPath();
+    string file_name = vPlayList[0]->getPlaylist()[file_idx-1]->getName();
+    int file_type = vPlayList[0]->getPlaylist()[file_idx-1]->getType();
+    // get  data from playlist to metaData
+    metaData.set_FilePath(file_path);
+    TagLib::FileRef fileRef=metaData.getfileRef();
+    TagLib::Tag *tag = fileRef.tag();
+    string new_value;
+    bool flag =true;
+    string header = "Updating Metadata...";
+    int update_opt;
+    while(flag){
+        // ======================================================
+        // Show data file mp3
+        system("clear");
+        cout << string(tableWidth , '=')<<endl;
+        cout << string(tableWidth / 2-header.length()/2 -file_name.length()/2, ' ') << header << file_name<<endl;
+        cout << string(tableWidth, '=')<<endl;
+        cout << endl;
+        metadataView.displayAudioFileMetadata(tag, fileRef);
+        cout<<endl;
+        cout << left << setw(30) << "0. Back" << endl;
+        cout<<endl;
+        cout << string(tableWidth, '=')<<endl;
+        metadataView.chooseMetadataField();
+        update_opt = userInput();
+        // ======================================================
+        if(update_opt == 0)
+        {
+            return;
+            
+        }else if(update_opt<0 || update_opt >6){
+            menuView.InvalidChoiceInterface();
+            cin.ignore();
+        }else{
+        // update_opt = browser->userInput();
+        metadataView.enterMetadataValue();
+        getline(cin, new_value);    
+        if (file_type == AUDIO_FILE_TYPE)
+        {
+                switch (update_opt)
+                {
+                case MODIFY_NAME:
+                    tag->setTitle(new_value.c_str());
+                    flag =false;
+                    break;
+                case MODIFY_ALBUM:
+                    tag->setAlbum(new_value.c_str());
+                    flag =false;
+                    break;
+                case MODIFY_ARTIST:
+                    tag->setArtist(new_value.c_str());
+                    flag =false;
+                    break;
+                case MODIFY_YEAR:
+                    tag->setYear(stoi(new_value));
+                    flag =false;
+                    break;
+                case MODIFY_GENRE:
+                    tag->setGenre(new_value.c_str());
+                    flag =false;
+                    break;
+                case MODIFY_AUDIO_DURATION:
+                    return;
+                default:
+                    menuView.InvalidChoiceInterface();
+                    flag =true;
+                    cin.ignore();
+                    return;
+                }
+            }else{
+                switch (update_opt)
+                {
+                case MODIFY_VIDEO_NAME:
+                    tag->setTitle(new_value.c_str());
+                    flag =false;
+                    break;
+                case MODIFY_SIZE:
+                    metadataView.modifyMetadataError();
+                    cin.ignore();
+                    flag =false;
+                    return;
+                case MODIFY_BIT_RATE:
+                    metadataView.modifyMetadataError();
+                    flag =false;
+                    cin.ignore();
+                    return;
+                case MODIFY_VIDEO_DURATION:
+                    metadataView.modifyMetadataError();
+                    flag =false;
+                    cin.ignore();
+                    return;
+                default:
+                    menuView.InvalidChoiceInterface();
+                    cin.ignore();
+                    flag =true;
+                    return;
+                }
+            }
+        if (fileRef.save() == true){
+            metadataView.modifyMetadataSuccess();
+            return;
+        }
+        }
+    }
+}
 
 /*========================================== Option 2 in Menu =========================================================*/
 void Browser::playlist(int& chosenList, int& chosenMusic)

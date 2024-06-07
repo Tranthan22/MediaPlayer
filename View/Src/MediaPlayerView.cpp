@@ -120,8 +120,10 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     // ========================================
     string Play_header =".......................................................................";
     cout<< string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<endl;
-    cout << "Playing: " << myPlayer.getPlayingMusicName() << endl;
-    
+    cout<<endl;
+    string Playing_name = "Playing: "+ myPlayer.getPlayingMusicName();
+    cout<< string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name <<endl;
+    cout<<endl;
     Time_Volume(progressLong, myPlayer.getVolume());
 
     // ========================================
@@ -146,10 +148,10 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
 void PlayMusicView::Time_Volume(size_t progressLong, const size_t volume) const
 {
     // Show time sẽ thay giá trị vào
-    cout <<string(tableWidth/4, ' ')<< "Time: "
-         << left /*<< setw(80)*/ << "< " << string(progressLong, '#')  << string(50-progressLong, '=') << ">"<<"\n"<<endl;
-    cout <<string(tableWidth/4, ' ')<< "Volume: "
-            << left << setw(80) << "<" << volume << "% >"<<"\n"<<endl;
+    cout <<string(tableWidth/5,' ')<< "Time: "
+         << left <<setw(10) <<" "<<"<"<< string(progressLong, '#')  << string(50-progressLong, '=') << ">"<<"\n"<<endl;
+    cout <<string(tableWidth/5,' ')<<"Volume: "
+         << left <<setw(8) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<endl;
     cout <<string(tableWidth/5,' ')
          << left << setw(28) << "<->. Previous song"
          << left << setw(28) << "<R>. Pause/ Resume"

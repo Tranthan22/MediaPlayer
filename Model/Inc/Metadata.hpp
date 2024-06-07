@@ -32,20 +32,15 @@ enum {
 class Metadata
 {
 private:
-    string file_name;
-    string file_path;
-    int file_type;
-    // MediaFileView view_media_file;
-    Metadataview view_metadata;
-    MenuView view_menu;
+    string file_Path;
+    TagLib::FileRef fileRef;
 
 public:
     Metadata() = default;
     ~Metadata() = default;
 
-    void viewMetadata(vector<MediaFile*>& Songs, int file_idx);
-
-    void updateMetadata(vector<MediaFile*>& Songs, int file_idx);
+    void set_FilePath(string file_Path);
+    TagLib::FileRef getfileRef();
 };
 
 #endif
