@@ -474,6 +474,8 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
     case -4:
         myPlayer.nextMusic();
         break;
+    case -5: 
+        myPlayer.preMusic();
     default:
         vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
         MediaFile * b = (*a)[chosenMusic - 1];

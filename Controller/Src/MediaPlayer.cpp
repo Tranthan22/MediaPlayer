@@ -91,6 +91,25 @@ void MediaPlayer:: nextMusic()
     }
     
 }
+void MediaPlayer:: preMusic()
+{
+    string MusicDir="";
+    Mix_HaltMusic();
+    if(fileIndexInList < 1)
+    {
+        fileIndexInList = list->size()-1;
+        MusicDir = (*list)[fileIndexInList]->getPath();
+        playMusic(MusicDir.c_str());
+    }
+    else
+    {
+        /**/
+        fileIndexInList--;
+        MusicDir = (*list)[fileIndexInList]->getPath();
+        playMusic(MusicDir.c_str());
+    }
+}
+
 void MediaPlayer::setList(std::vector<MediaFile*> *list)
 {
     this->list = list;

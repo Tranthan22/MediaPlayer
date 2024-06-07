@@ -37,6 +37,7 @@ public:
     int playMusic(const char* file);
     void ResumePause();
     void nextMusic();
+    void preMusic();
     void setList(std::vector<MediaFile*> *list);
     static void setIndexInList(size_t index);
     string getPlayingMusicName();
