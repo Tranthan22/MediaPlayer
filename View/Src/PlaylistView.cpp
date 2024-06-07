@@ -163,7 +163,7 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_na
         cout <<"|"<< left << setw(10) << i + 1
             <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),40)
             <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),30)
-            <<"|"<< left << setw(tableWidth/8) << fileRef.audioProperties()->lengthInSeconds()
+            <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
             <<"|"<< left << setw(tableWidth/8) << tag->year()<<endl;
         cout<<endl;
     }

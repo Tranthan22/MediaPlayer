@@ -50,6 +50,19 @@ private:
         result.append(width - length, ' '); // Thêm khoảng trắng cho đủ độ rộng
         return result;
     }
+    std::string secondsToTimeFormat(int seconds) {
+        int hours = seconds / 3600;
+        seconds %= 3600;
+        int minutes = seconds / 60;
+        seconds %= 60;
+
+        std::ostringstream oss;
+        oss << std::setw(2) << std::setfill('0') << hours << ":"
+            << std::setw(2) << std::setfill('0') << minutes << ":"
+            << std::setw(2) << std::setfill('0') << seconds;
+
+        return oss.str();
+    }
 public:
     MediaFileView()=default;
     ~MediaFileView()=default;
