@@ -109,6 +109,7 @@ void MediaPlayer::autoMusic()
     if(flagAuto)
     {
         nextMusic();
+        // Mix_HookMusicFinished()
     }else{
         /**/
     }
