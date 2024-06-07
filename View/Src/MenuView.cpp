@@ -2,17 +2,21 @@
 #include <cstdlib>
 #include <iomanip> // Để sử dụng setw()
 
+
 void MenuView::display_menu()
 {
     system("clear");
-    cout << "                                  Menu                                  " << endl;
-    cout << "==============================================================================\n" << endl;
-    cout << left << setw(30) << "1. Media List"
-         << left << setw(30) << "2. Play list"
-         << left << setw(30) << "3. Play music"<<endl;
-    cout << left<<"\n0. Exit\n";
-    cout << "==============================================================================\n" << endl;
-    cout << "Choose option:" << endl;
+    string header = "Menu";
+    cout<< string(tableWidth , '=')<<endl;
+    cout<< string(tableWidth / 2-header.length()/2, ' ') << header <<endl;
+    cout<< string(tableWidth, '=')<<"\n"<<endl;
+    cout<< left << setw(10)<<" "
+        << left << setw(tableWidth/4) << "1. Media List"
+        << left << setw(tableWidth/4) << "2. Play list"
+        << left << setw(tableWidth/4) << "3. Play music"
+        << left << setw(tableWidth/4) << "0. Exit\n"<<endl;
+    cout<< string(tableWidth, '=')<<endl;
+    cout << "Choose option:";
 }
 
 void MenuView::InvalidChoiceInterface()

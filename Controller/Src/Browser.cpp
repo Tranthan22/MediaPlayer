@@ -64,7 +64,8 @@ int Browser::userInput()
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return choice;
     }
-    return choice;
+    // INPUT WRONG VALUES
+    return -1;
 }
 
 string Browser::userInputString()
@@ -106,7 +107,7 @@ void Browser::menu()
         flowID.push(-1);
         break;
     default:
-        return;
+        break;
     }
 }
 void Browser::loadFile()
@@ -130,8 +131,8 @@ void Browser::medialist()
     int choose_song;
     int user_input;
     mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
+    cout << "\nChoose song to modifie : ";
     choose_song = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
-    // choose_song = mediaFileView.getChoice();
     if(choose_song == -1)
     {
         flowID.pop();
@@ -267,15 +268,14 @@ void Browser::playlist_music(size_t& chosenList)
     case ADD_MUSIC:
         // flowID.push(7);
         mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
-        cout << "\n======================================================================================================================\n" << endl;
         cout<<"\n Choose media to Add: ";
         choose_add = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
-        check_add=playListView.check_choice_PlaylistName_ADD(vPlayList[chosenList - 1]->getPlaylist(),vPlayList[0]->getPlaylist(),choose_add);
-        if(check_add)
-        {
-            vPlayList[chosenList - 1]->getPlaylist().push_back(vPlayList[0]->getPlaylist()[choose_add-1]);
-        }else{
-            
+        if(choose_add != -1){
+            check_add=playListView.check_choice_PlaylistName_ADD(vPlayList[chosenList - 1]->getPlaylist(),vPlayList[0]->getPlaylist(),choose_add);
+            if(check_add){
+                vPlayList[chosenList - 1]->getPlaylist().push_back(vPlayList[0]->getPlaylist()[choose_add-1]);
+                return;
+            }
         }
         break;
     /* Remove Music */
@@ -284,7 +284,6 @@ void Browser::playlist_music(size_t& chosenList)
         playListView.display_PlayNameRemove(vPlayList[chosenList - 1]->getPlaylist(), currentPage);
         choose_remove = playListView.check_choice_PlaylistName_REMOVE(vPlayList[chosenList - 1]->getPlaylist(), currentPage);
         vPlayList[chosenList - 1]->getPlaylist().erase( vPlayList[chosenList - 1]->getPlaylist().begin()+choose_remove-1);
-        /*Thêm hàm để xóa thành phần trong playlist name*/
         break;
     default:
         // flowID.push(8);
@@ -350,12 +349,11 @@ void Browser::updatePlayerView() {
     size_t current_screen;
     do
     {
-        mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list);
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, 100, 10, myPlayer.getVolume());
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         current_screen = flowID.top();
     }
     while(current_screen  == PLAY_MUSIC_PLAYER_ID);
-    cout << "*****************************" << current_screen;
 }
 void Browser::startStatusUpdate()
 {
@@ -382,9 +380,6 @@ void Browser::programFlow()
 {
     while(1)
     {   
-        size_t current_screen;
-        size_t chosenList = 1;
-        size_t chosenMusic = 1;
         setPath();
         loadFile();
         flowID.push(MENU_ID);

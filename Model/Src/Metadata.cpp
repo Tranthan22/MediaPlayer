@@ -8,9 +8,11 @@ void Metadata::viewMetadata(vector<MediaFile*>& Songs, int file_idx)
     file_path = Songs[file_idx-1]->getPath();
     file_type = Songs[file_idx-1]->getType();
     TagLib::FileRef fileRef(file_path.c_str());
-    cout << left << setw(30)<<"Displaying Metadata..." <<file_name<<"\n"<<endl;
-    
-   
+    string header = "Displaying Metadata...";
+    cout << string(tableWidth , '=')<<endl;
+    cout << string(tableWidth / 2-header.length()/2-file_name.length()/2, ' ') << header <<file_name<<endl;
+    cout << string(tableWidth, '=')<<endl;
+    cout << endl;
     if (!fileRef.isNull() && fileRef.tag())
     {
         TagLib::Tag *tag = fileRef.tag();
@@ -43,10 +45,16 @@ void Metadata::updateMetadata(vector<MediaFile*>& Songs, int file_idx)
     TagLib::FileRef fileRef(file_path.c_str());
     TagLib::Tag *tag = fileRef.tag();
     // Show data file mp3
-    cout<< left << setw(30) << "Updating Metadata..." <<file_name<< endl;
+    string header = "Updating Metadata...";
+    cout << string(tableWidth , '=')<<endl;
+    cout << string(tableWidth / 2-header.length()/2 -file_name.length()/2, ' ') << header << file_name<<endl;
+    cout << string(tableWidth, '=')<<endl;
+    cout << endl;
     view_metadata.displayAudioFileMetadata(tag, fileRef);
+    cout<<endl;
     cout << left << setw(30) << "0. Back" << endl;
-    cout << "============================================================================================" << endl;
+    cout<<endl;
+    cout << string(tableWidth, '=')<<endl;
     int update_opt;
     string new_value;
     view_metadata.chooseMetadataField();

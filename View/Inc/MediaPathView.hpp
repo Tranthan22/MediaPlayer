@@ -3,17 +3,20 @@
 
 #include <iostream>
 #include <iomanip>
+#include <string>
+
+using namespace std;
 
 class MediaPathView
 {
 private:
-    std::string directoryPath;
+    string directoryPath;
     
 public:
     MediaPathView()=default;
     ~MediaPathView()=default;
 
-    std::string input_path();
+    string input_path();
     void display_MediaPath();
 };
 

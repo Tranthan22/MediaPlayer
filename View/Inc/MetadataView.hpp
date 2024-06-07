@@ -10,9 +10,9 @@
 #include <filesystem>
 
 using namespace TagLib;
-
 using namespace std;
 
+#define tableWidth 120
 enum {
     BACK_MENU                       =0,
     SHOW_METADATA                   = 1,
