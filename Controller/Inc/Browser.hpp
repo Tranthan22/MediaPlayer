@@ -1,7 +1,7 @@
+#pragma once
 #include <string>
 #include <filesystem>
 #include <vector>
-#include <stack>
 #include <stack>
 
 #include "MediaPlayerView.hpp"
@@ -16,6 +16,10 @@
 #include "PlaylistView.hpp"
 #include "MediaPlayerView.hpp"
 
+#include <thread>
+#include <mutex>
+#include <atomic>
+#include <chrono>
 
 #define START_PAGE 1
 
@@ -25,7 +29,8 @@ enum FlowID
     MEDIA_LIST_ID = 1,
     PLAY_LIST_ID = 2,
     PLAY_MUSIC_ID = 3,
-    PLAY_LIST_MUSIC_ID = 4
+    PLAY_LIST_MUSIC_ID = 4,
+    PLAY_MUSIC_PLAYER_ID = 5,
 };
 
 
@@ -36,6 +41,12 @@ class Browser
 {
 private:
     std::string Path;
+    int current_screen;
+    int chosenList = 1;
+    int chosenMusic = 1;
+    size_t list = 1;
+    // size_t chosenList_Play = 1;
+    // size_t chosenMusic_Play = 1;
 
     /* Stack */
     std::stack<int> flowID;
@@ -56,6 +67,10 @@ private:
     MediaPlayer myPlayer;
     Metadata metaData;
     PlaylistView playListView;
+    
+    /* Thread */
+    std::chrono::time_point<std::chrono::steady_clock> startTime;
+    std::thread myThread;
 
 public:
     Browser(/* args */);
@@ -64,7 +79,7 @@ public:
     void setPath();
     void loadFile();   
     void FreeAll();
-    // void CallbackRegister();
+    void CallbackRegister();
 
     int userInput();
     string userInputString();
@@ -74,8 +89,8 @@ public:
     void medialist();
     
     /**/
-    void playlist(size_t& chosenList, size_t& chosenMusic);
-    void playlist_music(size_t& chosenList);
+    void playlist(int& chosenList, int& chosenMusic);
+    void playlist_music(int& chosenList);
 
     /*Create Playlist*/
     void createList();
@@ -87,10 +102,15 @@ public:
     void renameList();
 
     /**/
-    void playmusic();
+    void playmusic(int& chosenList);
+    void playmusic_player(int& chosenList, int& chosenMusic);
+
+    /**/
     void programFlow();
 
-    
+    /*thread*/
+    void updatePlayerView();
+    inline void startThread();
 
 };
 

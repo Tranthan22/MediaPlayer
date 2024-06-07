@@ -195,7 +195,7 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
     
     while(flag)
     {   
-        cout << "Choose option to play: ";
+        cout << "Choose option to Modifle: ";
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);

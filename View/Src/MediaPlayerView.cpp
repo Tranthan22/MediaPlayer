@@ -102,7 +102,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
 //                                                          SHOW SONG TO PLAY IN PLAYLIST  <PLAY MUSIC>
 /*========================================================================================================================================================*/
 
-void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage)
+void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t duration, size_t current, MediaPlayer& myPlayer)
 {
     system("clear");
     string header = "Play Music";
@@ -118,8 +118,13 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     
     display_PlaylistNamePerPage(lists_name,currentpage);
     // ========================================
-
-    Time_Volume();
+    string Play_header =".......................................................................";
+    cout<< string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<endl;
+    cout<<endl;
+    string Playing_name = "Playing: "+ myPlayer.getPlayingMusicName();
+    cout<< string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name <<endl;
+    cout<<endl;
+    Time_Volume(duration, current, myPlayer.getVolume());
 
     // ========================================
     cout<< string(tableWidth , '=')<<endl;
@@ -135,19 +140,19 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
          << left << setw(25) << "D. Down Volume"<< endl;
     cout<<endl;
     cout<< string(tableWidth , '=')<<endl;
+    cout<< "Choose option to play: " << endl;
 }
 
 // ================================================== SHOW CHANGE TIME  - VOLUME - NEXT SONG  - PREVIOUS SONG =========================================== //
 
-void PlayMusicView::Time_Volume()
+void PlayMusicView::Time_Volume(const size_t duration, const size_t current, const size_t volume) const
 {
+    size_t a = current*duration/50*1.28;
     // Show time sẽ thay giá trị vào
-    string Play_header =".......................................................................";
-    cout<< string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<endl;
-    cout <<string(tableWidth/4, ' ')<< "Time: "
-         << left << setw(80) << "< ###############=====================================>"<<"\n"<<endl;
-    cout <<string(tableWidth/4, ' ')<< "Volume: "
-            << left << setw(80) << "< 100% >"<<"\n"<<endl;
+    cout <<string(tableWidth/5,' ')<< "Time: "
+         << left <<setw(10) <<" "<<"<"<< string(a, '#')  << string(50-a, '=') << ">"<<"\n"<<endl;
+    cout <<string(tableWidth/5,' ')<<"Volume: "
+         << left <<setw(8) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<endl;
     cout <<string(tableWidth/5,' ')
          << left << setw(28) << "<->. Previous song"
          << left << setw(28) << "<R>. Pause/ Resume"
@@ -159,7 +164,6 @@ void PlayMusicView::Time_Volume()
 int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>& lists_name, size_t& currentPage) {
     string userInput;
     bool flag = true;
-    cout << "Choose option to play: ";
     while(flag)
     {
         getline(cin, userInput);
@@ -184,8 +188,8 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                         {
                             currentPage++;
                         }
-                        system("clear");
-                        display_ShowPlay(lists_name, currentPage);
+                        // system("clear");
+                        // display_ShowPlay(lists_name, currentPage);
                         break;
                     case 'P':
                     case 'p':
@@ -193,8 +197,8 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                         {
                             currentPage--;
                         }
-                        system("clear");
-                        display_ShowPlay(lists_name, currentPage);
+                        // system("clear");
+                        // display_ShowPlay(lists_name, currentPage);
                         break;
                     case 'U':
                     case 'u':
@@ -205,22 +209,24 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                     case 'R':
                     case 'r':
                         return -3;
+                    case '+':
+                        return -4;
                     case 'E':
                     case 'e':
                         flag = false;
                         return 0;
                         // break;
                     default:
-                        system("clear");
-                        display_ShowPlay(lists_name,currentPage);
+                        // system("clear");
+                        // display_ShowPlay(lists_name,currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
                 }
             }
         }
         else
         {
-            system("clear");
-            display_ShowPlay(lists_name,currentPage);
+            // system("clear");
+            // display_ShowPlay(lists_name,currentPage);
         }
     }
     return 0;

@@ -3,6 +3,14 @@
 
 #define START_PAGE 1
 
+std::atomic<bool> flagT(false);
+
+
+
+
+
+
+
 Browser::Browser(/* args */)
 {
 }
@@ -69,10 +77,10 @@ string Browser::userInputString()
     }
     return userInput;
 }
-// void Browser::CallbackRegister()
-// {
-//     Mix_HookMusicFinished(myPlayer.nextMusic);
-// }
+void Browser::CallbackRegister()
+{
+    // Mix_HookMusicFinished(myPlayer.nextMusic);
+}
 
 /*===========================================  Menu =========================================================*/
 void Browser::menu()
@@ -129,7 +137,9 @@ void Browser::medialist()
     {
         flowID.pop();
         return;
-    }else{
+    }
+    else
+    {
         while(flag)
         {   
             system("clear");
@@ -162,11 +172,11 @@ void Browser::medialist()
 
 
 /*========================================== Option 2 in Menu =========================================================*/
-void Browser::playlist(size_t& chosenList, size_t& chosenMusic)
+void Browser::playlist(int& chosenList, int& chosenMusic)
 {
     int UserOption = 0;
-    playListView.display_Playlist(vPlayList, chosenList);
-    UserOption = playListView.check_choice_PlaylistView(vPlayList, chosenList);
+    playListView.display_Playlist(vPlayList, list);
+    UserOption = playListView.check_choice_PlaylistView(vPlayList, list);
     switch (UserOption)
     {
     /* Exit */
@@ -238,7 +248,7 @@ void Browser::renameList()
 }
 /* ================================= Interact with Playlist ====================================== */
 
-void Browser::playlist_music(size_t& chosenList)
+void Browser::playlist_music(int& chosenList)
 {
     system("clear");
     int choose_remove;
@@ -283,64 +293,92 @@ void Browser::playlist_music(size_t& chosenList)
 
 
 /*========================================== Option 3 in Menu =========================================================*/
-
-void Browser::playmusic()
+void Browser::playmusic(int& chosenList)
 {
-    size_t currentPageList = 1;
-    size_t currentPageMusic = 1;
-    int chosenList = 0;
-    int chosenMusic = 0;
-    bool flagPlaylist = true;
-    bool flagMusic = true;
-    while(flagPlaylist)
+    mediaPlayerView.display_PlayMucsic(vPlayList, list);
+    chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, list);
+    if(chosenList > 0)
     {
-        chosenMusic = 0;
-        mediaPlayerView.display_PlayMucsic(vPlayList, currentPageList);
-        chosenList = mediaPlayerView.check_choice_PlayMusicView(vPlayList, currentPageList);
-        if(chosenList != 0)
-        {   
-            flagMusic = true;
-            while(flagMusic)
-            {
-                mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
-                chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), currentPageMusic);
-                
-                switch (chosenMusic)
-                {
-                case 0:
-                    flagMusic = false;
-                    break;
-                case -1:
-                    myPlayer.VolumeUp();
-                    break;
-                case -2:
-                    myPlayer.VolumeDown();
-                    break;
-                case -3:
-                    myPlayer.ResumePause();
-                    break;
-                default:
-                    vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
-                    MediaFile * b = (*a)[chosenMusic - 1];
-                    myPlayer.playMusic(b->getPath().c_str());
-                    break;
-                }
-            }
-        }
-        else
-        {
-            flowID.pop();
-            flagPlaylist = false;
-        }
+        myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
+        flowID.push(PLAY_MUSIC_PLAYER_ID);
+        startThread();
+        
+        // hello.join();
+    }
+    else
+    {
+        /* Exit */
+        list = 1;
+        flowID.pop();
     }
 }
+void Browser::playmusic_player(int& chosenList, int& chosenMusic)
+{
+    chosenMusic = mediaPlayerView.check_choice_PlayMusicView_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list);
+    switch (chosenMusic)
+    {
+    case 0:
+        list = 1;
+        flowID.pop();
+        myThread.join();
+        break;
+    case -1:
+        myPlayer.VolumeUp();
+        break;
+    case -2:
+        myPlayer.VolumeDown();
+        break;
+    case -3:
+        myPlayer.ResumePause();
+        break;
+    case -4:
+        myPlayer.nextMusic();
+        break;
+    default:
+        vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
+        MediaFile * b = (*a)[chosenMusic - 1];
+        myPlayer.playMusic(b->getPath().c_str());
+        myPlayer.setIndexInList(chosenMusic-1);
+        break;
+    }
+
+}
+/*============================== Thread ===============================*/
+
+void Browser::updatePlayerView() {
+    size_t current_screen;
+    
+    do
+    {
+        mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, 100, 10, myPlayer);
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        current_screen = flowID.top();
+    }
+    while(current_screen  == PLAY_MUSIC_PLAYER_ID);
+}
+void Browser::startThread()
+{
+    myThread = std::thread(&Browser::updatePlayerView, this);
+}
+
+// void MediaPlayer::stopStatusUpdate() {
+//     isPlaying = false;
+//     if (updateThread.joinable()) {
+//         updateThread.join();
+//     }
+// }
+// double MediaPlayer::getMusicPosition() {
+//     if (isMusicPlaying) {
+//         auto currentTime = std::chrono::steady_clock::now();
+//         std::chrono::duration<double> elapsedSeconds = currentTime - startTime;
+//         return elapsedSeconds.count();
+//     }
+//     return 0.0;
+// }
 
 /*========================================== Program Flow =====================================================*/
 void Browser::programFlow()
 {
-    size_t current_screen;
-    size_t chosenList = 1;
-    size_t chosenMusic = 1;
     while(1)
     {   
         setPath();
@@ -362,10 +400,13 @@ void Browser::programFlow()
                     playlist(chosenList, chosenMusic);
                     break;
                 case PLAY_MUSIC_ID:
-                    playmusic();
+                    playmusic(chosenList);
                     break;
                 case PLAY_LIST_MUSIC_ID:
                     playlist_music(chosenList);
+                    break;
+                case PLAY_MUSIC_PLAYER_ID:
+                    playmusic_player(chosenList, chosenMusic);
                     break;
                 default:
                     flag=false;
