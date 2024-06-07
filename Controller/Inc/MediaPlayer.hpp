@@ -44,8 +44,5 @@ public:
 
     void setFlagAuto(bool flagAuto);
     bool getFlagAuto();
-    // Định nghĩa kiểu cho con trỏ tới hàm thành viên
-    typedef void (MediaPlayer::*FuncPtr)();
-    FuncPtr func =nextMusic;
 
 };
