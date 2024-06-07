@@ -35,7 +35,7 @@ void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size
     // static_cast<int> chuyen doi sang so int
     for (int i = startIndex; i < endIndex; ++i) {
         cout<<"|"<< left << setw(10) << i + 1
-            <<"|"<< left << setw(tableWidth/3) << truncate(plists[i]->getName(), 40)
+            <<"|"<< left << left_align(truncate_utf8(plists[i]->getName(), 35),40)
             <<"|"<< left <<plists[i]->getSize()<<" Songs"<< endl;
     }
 }
@@ -161,8 +161,8 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_na
     if (!fileRef.isNull() && fileRef.tag()){
         TagLib::Tag *tag = fileRef.tag();
         cout <<"|"<< left << setw(10) << i + 1
-            <<"|"<< left << setw(tableWidth/3) << truncate(tag->title().toCString(true),40)
-            <<"|"<< left << setw(tableWidth/4) << truncate(tag->artist().toCString(true),30)
+            <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),40)
+            <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),30)
             <<"|"<< left << setw(tableWidth/8) << fileRef.audioProperties()->lengthInSeconds()
             <<"|"<< left << setw(tableWidth/8) << tag->year()<<endl;
         cout<<endl;

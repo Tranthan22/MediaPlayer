@@ -18,18 +18,37 @@ class MediaFileView:public Metadataview
 private:
     //Path:
     std::string directoryPath;
-    // int choice;
-    // fix size
-    std::string truncate(const string& text, int width)
-    {
-        if ((int)text.length() <= width)
-        {
-            return text;
+    // Hàm tính kích thước chuỗi UTF-8 (số ký tự Unicode)
+    size_t utf8_strlen(const std::string& str) {
+        // Chuyển đổi từ UTF-8 sang wstring (UTF-32)
+        std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> converter;
+        std::u32string u32_str = converter.from_bytes(str);
+        // Trả về kích thước của chuỗi UTF-32
+        return u32_str.length();
+    }
+    // Hàm cắt chuỗi UTF-8 nếu dài hơn độ dài tối đa
+    std::string truncate_utf8(const std::string& str, size_t max_length) {
+        std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> converter;
+        std::u32string u32_str = converter.from_bytes(str);
+        if (u32_str.length() > max_length) {
+            u32_str = u32_str.substr(0, max_length);
         }
-        else
-        {
-            return text.substr(0, width - 3) + "...";
+
+        return converter.to_bytes(u32_str);
+    }
+    // Hàm để căn chỉnh trái một chuỗi UTF-8 với độ rộng cố định
+    std::string left_align(const std::string& str, size_t width) {
+        std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> converter;
+        std::u32string u32_str = converter.from_bytes(str);
+
+        size_t length = u32_str.length();
+        if (length >= width) {
+            return converter.to_bytes(u32_str.substr(0, width));
         }
+
+        std::string result = converter.to_bytes(u32_str);
+        result.append(width - length, ' '); // Thêm khoảng trắng cho đủ độ rộng
+        return result;
     }
 public:
     MediaFileView()=default;
