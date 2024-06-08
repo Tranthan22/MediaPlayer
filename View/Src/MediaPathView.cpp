@@ -22,8 +22,13 @@ void MediaPathView::display_MediaPath()
 std::string MediaPathView::input_path()
 {
     display_MediaPath();
-    cout << "\nPath : ";
+    cout << "Press < x > to Exit programe"<<endl;
+    cout << "Path : ";
     string directoryPath;
     getline(cin, directoryPath);
+    if(directoryPath == "x")
+    {
+        exit(1);     
+    }
     return directoryPath;
 }

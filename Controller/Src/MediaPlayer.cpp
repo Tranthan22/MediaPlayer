@@ -3,6 +3,7 @@
 bool MediaPlayer::Playing = false;
 int MediaPlayer::fileIndexInList = 0;
 
+
 MediaPlayer::MediaPlayer(/* args */)
 {
     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
@@ -67,6 +68,11 @@ int MediaPlayer::playMusic(/*const char* file*/)
     // startStatusUpdate();
     return 0;
 }
+void MediaPlayer::ExitAudio()
+{
+    Mix_PauseMusic();
+    // Mix_CloseAudio();
+}
 
 void MediaPlayer:: ResumePause()
 {
@@ -86,8 +92,7 @@ void MediaPlayer:: ResumePause()
 void MediaPlayer:: nextMusic()
 {
     Mix_HaltMusic();
-    auto futureTime = std::chrono::system_clock::now() + std::chrono::microseconds(10);
-    std::this_thread::sleep_until(futureTime);
+    std::lock_guard<std::mutex> lock(counter_mutex);
     if(++fileIndexInList > (int)(list->size()-1))
     {
         fileIndexInList = 0;
@@ -104,8 +109,7 @@ void MediaPlayer:: preMusic()
 {
     // string MusicDir="";
     Mix_HaltMusic();
-    auto futureTime = std::chrono::system_clock::now() + std::chrono::microseconds(10);
-    std::this_thread::sleep_until(futureTime);
+    std::lock_guard<std::mutex> lock(counter_mutex);
     if(--fileIndexInList < 0)
     {
         fileIndexInList = list->size()-1;

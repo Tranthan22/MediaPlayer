@@ -520,10 +520,7 @@ void Browser::updatePlayerView()
     size_t current_screen;
     do
     {
-        std::lock_guard<std::mutex> lock1(mtx1);
-        std::lock_guard<std::mutex> lock2(mtx2);
         std::string musicPath;
-
         musicPath = myPlayer.getPlayingMusicPath();
         try
         {   
@@ -605,6 +602,7 @@ void Browser::programFlow()
                 default:
                     flag=false;
                     flowID.pop();
+                    myPlayer.ExitAudio();
                     FreeAll();
                     break;
             }
@@ -613,7 +611,3 @@ void Browser::programFlow()
 }
 
 /*==============================================================*/
-// static void callback()
-// {
-    
-// }

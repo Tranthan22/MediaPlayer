@@ -18,7 +18,10 @@ private:
     std::vector<MediaFile*> *list;
     static bool Playing;
     static int fileIndexInList;
-    Mix_Music *bgm;    bool flagAuto =false;
+    Mix_Music *bgm;    
+    bool flagAuto =false;
+    // Mutex
+    std::mutex counter_mutex;
 
 public:
     MediaPlayer(/* args */);
@@ -39,8 +42,7 @@ public:
     size_t getVolume();
     int VolumeUp();
     int VolumeDown();
-    void Exit_play();
-
+    void ExitAudio();
     void setFlagAuto(bool flagAuto);
     bool getFlagAuto();
 
