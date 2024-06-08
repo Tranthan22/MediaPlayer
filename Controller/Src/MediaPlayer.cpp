@@ -136,7 +136,7 @@ string MediaPlayer::getPlayingMusicName()
 }
 string MediaPlayer::getPlayingMusicPath()
 {
-    if(fileIndexInList > (*list).size() - 1)
+    if(fileIndexInList > (int)(*list).size() - 1)
     {
         return "";
     }
