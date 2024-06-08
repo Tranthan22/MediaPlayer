@@ -13,7 +13,7 @@ using namespace std;
 
 
 
-class MediaFileView:public Metadataview
+class MediaFileView
 {
 private:
     //Path:

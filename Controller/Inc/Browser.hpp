@@ -30,10 +30,11 @@ enum FlowID
 {   
     MENU_ID = 0,
     MEDIA_LIST_ID = 1,
-    PLAY_LIST_ID = 2,
-    PLAY_MUSIC_ID = 3,
-    PLAY_LIST_MUSIC_ID = 4,
-    PLAY_MUSIC_PLAYER_ID = 5,
+    METADATA_LIST_ID =2,
+    PLAY_LIST_ID = 3,
+    PLAY_MUSIC_ID = 4,
+    PLAY_LIST_MUSIC_ID = 5,
+    PLAY_MUSIC_PLAYER_ID = 6,
 };
 
 
@@ -51,7 +52,10 @@ private:
     size_t list = 1;
     // size_t chosenList_Play = 1;
     // size_t chosenMusic_Play = 1;
-
+    /*                    SHOW METADATA IN MEDIALIST                       */
+    string file_path = "";
+    string file_name = "";
+    int file_type = 0;
     /* Stack */
     std::stack<int> flowID;
 
@@ -98,10 +102,14 @@ public:
 
     /* Menu */ 
     void menu();
-    /*META*/
+    /*MEDIA*/
     void medialist();
-    void viewMetadata(int file_idx);
-    void updateMetadata(int file_idx);
+    /*META DATA*/
+    void metadatalist();
+    // void viewMetadata(int file_idx);
+    void viewMetadata(const string& file_path,const string& file_name,const int& file_type);
+    // void updateMetadata(int file_idx);
+    void updateMetadata(string& file_path,string& file_name,int& file_type);
     
     /**/
     void playlist(int& chosenList, int& chosenMusic);

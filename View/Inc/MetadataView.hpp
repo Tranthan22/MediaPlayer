@@ -34,13 +34,13 @@ public:
 
     void getMetadataError();
 
-    void metadataChooseFile(int input_case);
+    // void metadataChooseFile(int input_case);
 
     void modifyMetadataError();
 
     void modifyMetadataSuccess();
 
-    void listEmpty(int input_case);
+    // void listEmpty(int input_case);
 
     void displayAudioFileMetadata(Tag *tag, FileRef fileRef);
 

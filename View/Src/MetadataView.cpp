@@ -6,13 +6,6 @@ using namespace std;
 
 void Metadataview::menuMetaView()
 {
-    // cout << "                                  Menu Metadata                                " << endl;
-    // cout << "==============================================================================\n" << endl;
-    // cout << left << setw(30) << "1. Show Metadata"
-    //      << left << setw(30) << "2. Update Metadata"
-    //      << left << setw(30) << "0. Back"<<endl;
-    // cout << "==============================================================================\n" << endl;
-
     system("clear");
     string header = "Menu Metadata";
     cout << string(tableWidth , '=')<<endl;
@@ -44,23 +37,22 @@ void Metadataview::getMetadataError()
     cerr << "Could not open file or retrieve tag." << endl;
 }
 
-void Metadataview::metadataChooseFile(int input_case)
-{
-    switch (input_case)
-    {
-    case SHOW_METADATA:
-        cout << "Enter index of media file that you want to show metadata: " << endl;
-        break;
+// void Metadataview::metadataChooseFile(int input_case)
+// {
+//     switch (input_case)
+//     {
+//     case SHOW_METADATA:
+//         cout << "Enter index of media file that you want to show metadata: " << endl;
+//         break;
 
-    case UPDATE_METADATA:
-        cout << "Enter index of media file that you want to update metadata: " << endl;
-        break;
+//     case UPDATE_METADATA:
+//         cout << "Enter index of media file that you want to update metadata: " << endl;
+//         break;
 
-    default:
-        cerr << "Error!" << endl;
-    }
-}
-
+//     default:
+//         cerr << "Error!" << endl;
+//     }
+// }
 void Metadataview::modifyMetadataError()
 {
     cout << "This field cannot be modify." << endl;
@@ -71,22 +63,22 @@ void Metadataview::modifyMetadataSuccess()
     cout << "Metadata updated succesfully!" << endl;
 }
 
-void Metadataview::listEmpty(int input_case)
-{
-    switch (input_case)
-    {
-    case SHOW_METADATA:
-        cout << "There is nothing to show metadata of. Going back..." << endl;
-        break;
+// void Metadataview::listEmpty(int input_case)
+// {
+//     switch (input_case)
+//     {
+//     case SHOW_METADATA:
+//         cout << "There is nothing to show metadata of. Going back..." << endl;
+//         break;
 
-    case UPDATE_METADATA:
-        cout << "There is nothing to update metadata of. Going back..." << endl;
-        break;
+//     case UPDATE_METADATA:
+//         cout << "There is nothing to update metadata of. Going back..." << endl;
+//         break;
 
-    default:
-        cerr << "Error!" << endl;
-    }
-} 
+//     default:
+//         cerr << "Error!" << endl;
+//     }
+// } 
 
 void Metadataview::displayAudioFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef)
 {

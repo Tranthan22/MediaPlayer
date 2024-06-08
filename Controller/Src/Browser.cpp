@@ -42,8 +42,6 @@ void Browser::FreeAll()
     vPlayList[0] = nullptr;
     vPlayList.clear();
 }
-
-
 int Browser::userInput()
 {
     int choice;
@@ -121,11 +119,9 @@ void Browser::loadFile()
 void Browser::medialist()
 {
     size_t currentPage=START_PAGE;
-    bool flag = true;
     int choose_song;
-    int user_input;
     mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
-    cout << "\nChoose song to modifie : ";
+    metadataView.chooseMetadataField();
     choose_song = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
     if(choose_song == -1)
     {
@@ -134,42 +130,45 @@ void Browser::medialist()
     }
     else
     {
-        while(flag)
-        {   
-            system("clear");
-            mediaFileView.menuMetaView();
-            user_input =userInput();
-            // flowID.push(SHOW_METADATA);
-            switch (user_input)
-            {
-                case SHOW_METADATA:
-                    system("clear");
-                    viewMetadata(choose_song);
-                    cout << "Enter to back: " << endl;
-                    cin.ignore();
-                    break;
-                case UPDATE_METADATA:
-                    system("clear");
-                    updateMetadata(choose_song);
-                    break;
-                case BACK_MENU:
-                    system("clear");
-                    flag = false;
-                    break;
-                default:
-                    break;
-                    cout << "Invalid choice. Please enter a valid option." << endl;
-                }
-        }
+        /*                    SHOW METADATA IN MEDIALIST                       */
+        file_path = vPlayList[0]->getPlaylist()[choose_song-1]->getPath();
+        file_name = vPlayList[0]->getPlaylist()[choose_song-1]->getName();
+        file_type = vPlayList[0]->getPlaylist()[choose_song-1]->getType();
+        flowID.push(METADATA_LIST_ID);
     }
 }
-
-void Browser::viewMetadata(int file_idx)
+/*                            SHOW METADATA                           */
+void Browser::metadatalist()
 {
-    string file_path = vPlayList[0]->getPlaylist()[file_idx-1]->getPath();
-    string file_name = vPlayList[0]->getPlaylist()[file_idx-1]->getName();
-    int file_type = vPlayList[0]->getPlaylist()[file_idx-1]->getType();
-    // get  data from playlist to metaData
+    metadataView.menuMetaView();
+    int user_input =userInput();
+    switch (user_input)
+    {
+        case SHOW_METADATA:
+            system("clear");
+            viewMetadata(file_path,file_name,file_type);
+            cout << "Enter to back: " << endl;
+            cin.ignore();
+            break;
+        case UPDATE_METADATA:
+            system("clear");
+            updateMetadata(file_path,file_name,file_type);
+            break;
+        case BACK_MENU:
+            system("clear");
+            flowID.pop();
+            break;
+        default:       
+            cout << "Invalid choice. Please enter a valid option." << endl;
+            cin.ignore();
+            system("clear");
+            break;
+    }
+    system("clear");
+}
+void Browser::viewMetadata(const string& file_path,const string& file_name,const int& file_type)
+{
+    // // get  data from playlist to metaData
     metaData.set_FilePath(file_path);
     TagLib::FileRef fileRef=metaData.getfileRef();
     string header = "Displaying Metadata...";
@@ -202,11 +201,8 @@ void Browser::viewMetadata(int file_idx)
     }
 }
 
-void Browser::updateMetadata(int file_idx)
+void Browser::updateMetadata(string& file_path,string& file_name,int& file_type)
 {   
-    string file_path = vPlayList[0]->getPlaylist()[file_idx-1]->getPath();
-    string file_name = vPlayList[0]->getPlaylist()[file_idx-1]->getName();
-    int file_type = vPlayList[0]->getPlaylist()[file_idx-1]->getType();
     // get  data from playlist to metaData
     metaData.set_FilePath(file_path);
     TagLib::FileRef fileRef=metaData.getfileRef();
@@ -351,6 +347,21 @@ void Browser::createList()
     cout << "Name: " ;
     string newPlaylistName = userInputString();
     vPlayList.push_back(new Playlist(newPlaylistName));
+    /*IF vPLAYLIST EMPTY ADD SONG */
+    cout<<"Playlist empty. Enter to add songs";
+    cin.ignore();
+    if(vPlayList[vPlayList.size()-1]->getPlaylist().size() == 0)
+    {
+        // flowID.push(7);
+        size_t currentPage=1;
+        mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
+        cout<<"Choose media to Add: ";
+        int choose_add = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
+        if(choose_add != -1){
+                vPlayList[vPlayList.size()-1]->getPlaylist().push_back(vPlayList[0]->getPlaylist()[choose_add-1]);
+        }
+        return;
+    }
 }
 
 /* Delete playlist */
@@ -408,7 +419,7 @@ void Browser::playlist_music(int& chosenList)
     case ADD_MUSIC:
         // flowID.push(7);
         mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
-        cout<<"\n Choose media to Add: ";
+        cout<<"Choose media to Add: ";
         choose_add = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
         if(choose_add != -1){
             check_add=playListView.check_choice_PlaylistName_ADD(vPlayList[chosenList - 1]->getPlaylist(),vPlayList[0]->getPlaylist(),choose_add);
@@ -425,9 +436,12 @@ void Browser::playlist_music(int& chosenList)
         choose_remove = playListView.check_choice_PlaylistName_REMOVE(vPlayList[chosenList - 1]->getPlaylist(), currentPage);
         vPlayList[chosenList - 1]->getPlaylist().erase( vPlayList[chosenList - 1]->getPlaylist().begin()+choose_remove-1);
         break;
+    /* SHOW METADATA SONGS IN PLAYLISTNAME  */
     default:
-        // flowID.push(8);
-        break;
+        file_path = vPlayList[chosenList-1]->getPlaylist()[UserOption-1]->getPath();
+        file_name = vPlayList[chosenList-1]->getPlaylist()[UserOption-1]->getName();
+        file_type = vPlayList[chosenList-1]->getPlaylist()[UserOption-1]->getType();
+        flowID.push(METADATA_LIST_ID);
     }
 }
 
@@ -478,7 +492,7 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         myPlayer.preMusic();
         break;}
     case -6:
-        // Case auto or update'
+        // Case Auto or Repeat'
         if(myPlayer.getFlagAuto() ==true)
         {
             myPlayer.setFlagAuto(false);
@@ -573,6 +587,9 @@ void Browser::programFlow()
                     break;
                 case MEDIA_LIST_ID:
                     medialist();
+                    break;
+                case METADATA_LIST_ID:
+                    metadatalist();
                     break;
                 case PLAY_LIST_ID:
                     playlist(chosenList, chosenMusic);
