@@ -71,10 +71,10 @@ string Browser::userInputString()
     }
     return userInput;
 }
-void Browser::CallbackRegister()
-{
-    // Mix_HookMusicFinished(myPlayer.nextMusic);
-}
+// void Browser::CallbackRegister()
+// {
+//     Mix_HookMusicFinished(myPlayer.nextMusic);
+// }
 
 /*===========================================  Menu =========================================================*/
 void Browser::menu()
@@ -471,18 +471,20 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         break;
     case -4:
         myPlayer.nextMusic();
+        startTime = std::chrono::steady_clock::now();
+        timelapse = std::chrono::duration<double>::zero();
         break;
     case -5:
         {
         std::lock_guard<std::mutex> lock1(mtx1);
         myPlayer.preMusic();
-        break;
         }
-    default:
-        // vector<MediaFile*> *a = vPlayList[chosenList - 1]->getPlaylistPointer();
-        // MediaFile * b = (*a)[chosenMusic - 1];
         startTime = std::chrono::steady_clock::now();
-        myPlayer.setList(vPlayList[chosenList - 1]->getPlaylistPointer());
+        timelapse = std::chrono::duration<double>::zero();
+        break;
+    default:
+        startTime = std::chrono::steady_clock::now();
+        timelapse = std::chrono::duration<double>::zero();
         myPlayer.setIndexInList(chosenMusic);
         myPlayer.playMusic(/*b->getPath().c_str()*/);
         break;
@@ -493,30 +495,42 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
 
 void Browser::updatePlayerView() {
     size_t current_screen;
-    size_t progressLong;
     do
     {
         std::lock_guard<std::mutex> lock1(mtx1);
         std::lock_guard<std::mutex> lock2(mtx2);
-        fileRef = TagLib::FileRef(myPlayer.getPlayingMusicPath().c_str());
-        size_t duration = fileRef.audioProperties()->lengthInSeconds();
-        
-        if(myPlayer.isPlaying())
-        {
-            timeElape = std::chrono::steady_clock::now() - startTime;
-            if(timeElape.count() >= duration)
+        std::string musicPath;
+
+        musicPath = myPlayer.getPlayingMusicPath();
+        try
+        {   
+            if(musicPath == "")
             {
-                startTime = std::chrono::steady_clock::now();
-                timeElape = std::chrono::duration<double>::zero();
+                throw std::runtime_error("The music path is empty.");
             }
+            fileRef = TagLib::FileRef(myPlayer.getPlayingMusicPath().c_str());
+            size_t duration = fileRef.audioProperties()->lengthInSeconds();
+            
+            if(myPlayer.isPlaying())
+            {
+                timelapse = std::chrono::steady_clock::now() - startTime;
+                if(timelapse.count() >= duration)
+                {
+                    startTime = std::chrono::steady_clock::now();
+                    timelapse = std::chrono::duration<double>::zero();
+                }
+            }
+            else
+            {
+                startTime = std::chrono::steady_clock::now() - std::chrono::duration_cast<std::chrono::steady_clock::duration>(timelapse);
+            }
+            mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, timelapse.count(), duration, myPlayer);
         }
-        else
+        // // progressLong = timeElape.count() / duration * 50;
+        catch(const std::exception &e)
         {
-            startTime = std::chrono::steady_clock::now() - std::chrono::duration_cast<std::chrono::steady_clock::duration>(timeElape);
+            mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, 0, 0, myPlayer);
         }
-        progressLong = timeElape.count() / duration * 50;
-        
-        mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, progressLong, myPlayer);
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         current_screen = flowID.top();
     }
@@ -527,20 +541,6 @@ void Browser::startThread()
     myThread = std::thread(&Browser::updatePlayerView, this);
 }
 
-// void MediaPlayer::stopStatusUpdate() {
-//     isPlaying = false;
-//     if (updateThread.joinable()) {
-//         updateThread.join();
-//     }
-// }
-// double MediaPlayer::getMusicPosition() {
-//     if (isMusicPlaying) {
-//         auto currentTime = std::chrono::steady_clock::now();
-//         std::chrono::duration<double> elapsedSeconds = currentTime - startTime;
-//         return elapsedSeconds.count();
-//     }
-//     return 0.0;
-// }
 
 /*========================================== Program Flow =====================================================*/
 void Browser::programFlow()
@@ -583,3 +583,9 @@ void Browser::programFlow()
         }
     }
 }
+
+/*==============================================================*/
+// static void callback()
+// {
+    
+// }

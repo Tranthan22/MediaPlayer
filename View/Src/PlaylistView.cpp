@@ -158,15 +158,15 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_na
         string file_path = plist_name[i]->getPath();
         // size_t file_type = plist_name[i]->getType();
         TagLib::FileRef fileRef(file_path.c_str());
-    if (!fileRef.isNull() && fileRef.tag()){
-        TagLib::Tag *tag = fileRef.tag();
-        cout <<"|"<< left << setw(10) << i + 1
-            <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),40)
-            <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),30)
-            <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
-            <<"|"<< left << setw(tableWidth/8) << tag->year()<<endl;
-        cout<<endl;
-    }
+        if (!fileRef.isNull() && fileRef.tag()){
+            TagLib::Tag *tag = fileRef.tag();
+            cout <<"|"<< left << setw(10) << i + 1
+                <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),40)
+                <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),30)
+                <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
+                <<"|"<< left << setw(tableWidth/8) << tag->year()<<endl;
+            cout<<endl;
+        }
     }
 }
 

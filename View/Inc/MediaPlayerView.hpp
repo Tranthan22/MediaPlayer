@@ -40,12 +40,11 @@ class PlayMusicView:public PlaylistView
         void display_PlayMucsic(const vector<Playlist*>& plists, size_t& currentpage);
         // void display_ListsPerPage(const vector<MediaFile*>& songs, size_t currentpage);
         int check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage);
-        void display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t progressLong, MediaPlayer& myPlayer);
+        void display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t timelapse, size_t duration, MediaPlayer& myPlayer);
         int check_choice_PlayMusicView_ShowPlay(const vector< MediaFile*>& lists_name, size_t& currentPage);
-        void Time_Volume(size_t progressLong, const size_t volume) const;
-        // void Time_Volume();
-        // void displayVolume(int volume);
-        // void displayTime(double currentTime, double duration);
+        void Time_Volume(size_t timelapse, size_t duration, const size_t volume) const;
+        
+        inline string format_time(size_t total_seconds) const;
 };
 
 

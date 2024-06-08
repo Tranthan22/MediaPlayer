@@ -1,7 +1,6 @@
 #include "MediaPlayer.hpp"
 #include <iostream>
 
-
 bool MediaPlayer::Playing = false;
 int MediaPlayer::fileIndexInList = 0;
 
@@ -102,9 +101,9 @@ void MediaPlayer:: preMusic()
 
     playMusic(/*MusicDir.c_str()*/);
 }
-void MediaPlayer::setList(std::vector<MediaFile*> *list)
+void MediaPlayer::setList(std::vector<MediaFile*> *_list)
 {
-    this->list = list;
+    list = _list;
 }
 void MediaPlayer::setIndexInList(int index)
 {
@@ -117,7 +116,14 @@ string MediaPlayer::getPlayingMusicName()
 }
 string MediaPlayer::getPlayingMusicPath()
 {
-    return (*list)[fileIndexInList]->getPath();
+    if(fileIndexInList > (*list).size() - 1)
+    {
+        return "";
+    }
+    else
+    {
+        return (*list)[fileIndexInList]->getPath();
+    }
 }
 bool MediaPlayer::isPlaying()
 {
