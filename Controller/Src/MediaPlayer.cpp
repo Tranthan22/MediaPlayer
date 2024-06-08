@@ -30,7 +30,19 @@ MediaPlayer::~MediaPlayer()
 int MediaPlayer::playMusic(/*const char* file*/)
 {
     // char *file = 
-    bgm = Mix_LoadMUS((*list)[fileIndexInList]->getPath().c_str());
+    if((*list)[fileIndexInList]->getType()== 1)
+    {
+        bgm = Mix_LoadMUS((*list)[fileIndexInList]->getPath().c_str());
+    }
+    // Trích xuất âm thanh từ tệp video MP4 bằng FFmpeg
+    else{
+        // /home/dungdt55/MediaPlayer/Music/ViConLaNguoiTotLyricVideo-gung0cayIndieK-10699062.mp4
+        std::string name_song = (*list)[fileIndexInList]->getPath();
+        std::string command =  "ffmpeg -y -i "+ name_song +" -vn -acodec pcm_s16le -ar 44100 -ac 2 /home/dungdt55/MediaPlayer/Music/output.wav";
+        std::system(command.c_str());
+        // Load và phát âm thanh đã trích xuất bằng SDL2_mixer
+        bgm = Mix_LoadMUS("Music/output.wav");
+    }
     if (bgm == NULL)
     {
         std::cerr << "Failed to load music! SDL_mixer Error: " << Mix_GetError() << std::endl;

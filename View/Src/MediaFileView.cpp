@@ -42,11 +42,12 @@ void MediaFileView::displaySongsPerPage(vector<MediaFile*>& songs, size_t& curre
     size_t endIndex = min(startIndex + PAGE_SIZE, songs.size());
     for (int i = (int)startIndex; i < (int)endIndex; ++i) {
         string file_path = songs[i]->getPath();
+        string file_name = songs[i]->getName();
         TagLib::FileRef fileRef(file_path.c_str());
     if (!fileRef.isNull() && fileRef.tag()){
         TagLib::Tag *tag = fileRef.tag();   
         std::cout <<"|"<< left << setw(10) << i+1
-            <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),tableWidth/3)
+            <<"|"<< left << left_align(truncate_utf8(file_name, 35),tableWidth/3)
             <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),tableWidth/4)
             <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
             <<"|"<< left << setw(tableWidth/8) << tag->year()<< endl;
@@ -67,7 +68,7 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
     bool flag = true;
     while(flag)
     {
-        
+
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);

@@ -154,15 +154,15 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_na
     size_t startIndex = (currentPage - 1) * LIST_NAME_SIZE;
     size_t endIndex = min(startIndex + LIST_NAME_SIZE, plist_name.size());
     for (size_t i = startIndex; i < endIndex; ++i) {
-        // string file_name = plist_name[i]->getName();
+        string file_name = plist_name[i]->getName();
         string file_path = plist_name[i]->getPath();
         // size_t file_type = plist_name[i]->getType();
         TagLib::FileRef fileRef(file_path.c_str());
         if (!fileRef.isNull() && fileRef.tag()){
             TagLib::Tag *tag = fileRef.tag();
             cout <<"|"<< left << setw(10) << i + 1
-                <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),40)
-                <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),30)
+                <<"|"<< left << left_align(truncate_utf8(file_name, 35),tableWidth/3)
+                <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),tableWidth/4)
                 <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
                 <<"|"<< left << setw(tableWidth/8) << tag->year()<<endl;
             cout<<endl;
@@ -205,6 +205,11 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
                 if (MusicChoice > 0 && MusicChoice <= lists_name.size())
                 {
                     return MusicChoice;
+                }
+                else{
+                    system("clear");
+                    display_PlaylistName(lists_name,currentPage);
+                    cout << "Invalid choice. Please enter a valid option." << endl;
                 }
             }
             else

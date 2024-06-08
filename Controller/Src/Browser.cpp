@@ -69,10 +69,7 @@ string Browser::userInputString()
     }
     return userInput;
 }
-// void Browser::CallbackRegister()
-// {
-//     Mix_HookMusicFinished(myPlayer.nextMusic);
-// }
+
 
 /*===========================================  Menu =========================================================*/
 void Browser::menu()
@@ -110,6 +107,9 @@ void Browser::loadFile()
         if (entry.is_regular_file() && entry.path().extension() == ".mp3"){
             int mp3_type =1;
             vPlayList[0]->addFile(new MediaFile(entry.path().filename().string(), entry.path().string(),mp3_type));
+        }else if(entry.is_regular_file() && entry.path().extension() == ".mp4"){
+            int mp4_type =2;
+            vPlayList[0]->addFile(new MediaFile(entry.path().filename().string(), entry.path().string(),mp4_type));
         }
     }
 }
