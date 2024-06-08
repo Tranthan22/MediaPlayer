@@ -58,6 +58,10 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                 if (ListChoice > 0 && ListChoice <= lists.size())
                 {
                     return ListChoice;
+                }else{
+                    display_Playlist(lists,currentPage);
+                    cout << "Invalid choice. Please enter a valid option." << endl;
+                    cin.ignore();
                 }
             }
             else
@@ -71,7 +75,6 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                         {
                             currentPage++;
                         }
-                        system("clear");
                         display_Playlist(lists,currentPage);
                         break;
                     case 'P':
@@ -80,7 +83,6 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                         {
                             currentPage--;
                         }
-                        system("clear");
                         display_Playlist(lists,currentPage);
                         break;
 
@@ -109,6 +111,7 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                     default:
                         display_Playlist(lists,currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
+                        cin.ignore();
                 }
             }
         }
@@ -116,6 +119,7 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
         {
             display_Playlist(lists,currentPage);
             cout << "Invalid choice. Please enter a valid option." << endl;
+            cin.ignore();
         }   
     }
     /* Return Menu */
@@ -161,7 +165,7 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_na
         if (!fileRef.isNull() && fileRef.tag()){
             TagLib::Tag *tag = fileRef.tag();
             cout <<"|"<< left << setw(10) << i + 1
-                <<"|"<< left << left_align(truncate_utf8(file_name, 35),tableWidth/3)
+                <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),tableWidth/3)
                 <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),tableWidth/4)
                 <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
                 <<"|"<< left << setw(tableWidth/8) << tag->year()<<endl;

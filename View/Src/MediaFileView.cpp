@@ -47,7 +47,7 @@ void MediaFileView::displaySongsPerPage(vector<MediaFile*>& songs, size_t& curre
     if (!fileRef.isNull() && fileRef.tag()){
         TagLib::Tag *tag = fileRef.tag();   
         std::cout <<"|"<< left << setw(10) << i+1
-            <<"|"<< left << left_align(truncate_utf8(file_name, 35),tableWidth/3)
+            <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),tableWidth/3)
             <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),tableWidth/4)
             <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
             <<"|"<< left << setw(tableWidth/8) << tag->year()<< endl;

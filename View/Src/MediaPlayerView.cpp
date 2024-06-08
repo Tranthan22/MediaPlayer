@@ -37,8 +37,8 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
     string userInput;
     bool flag = true;
     while(flag)
-    {   
-        cout << "\nChoose option to playlist: ";
+    {      
+        cout << "Choose option to playlist: "; 
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);
@@ -49,6 +49,11 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
                 {
                     system("clear");
                     return ListChoice;
+                }else{
+                    system("clear");
+                    display_PlayMucsic(lists,currentPage);
+                    cout << "Invalid choice. Please enter a valid option." << endl;
+                    cin.ignore();
                 }
             }
             else
@@ -82,6 +87,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
                     default:
                         display_PlayMucsic(lists,currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
+                        cin.ignore();
                 }
             }
         }
@@ -89,6 +95,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
         {
             display_PlayMucsic(lists,currentPage);
             cout << "Invalid choice. Please enter a valid option." << endl;
+            cin.ignore();
         }
     }
     /* RETURN MENU */
@@ -174,18 +181,18 @@ void PlayMusicView::Time_Volume(size_t timelapse, size_t duration, const size_t 
     {
         size_t progressLong = timelapse * 50 / duration;
         // Show time sẽ thay giá trị vào
-        cout <<string(tableWidth/5,' ')<< "Time: "
-            << left <<setw(10) <<" "<<"<" << string(progressLong, '#')  << string((50-progressLong), '=')  << ">"
+        cout <<string(tableWidth/6,' ')<< "Time: "
+            << left <<setw(8) <<" "<<"<" << string(progressLong, '#')  << string((50-progressLong), '=')  << ">"
             << format_time(timelapse) << "/" << format_time(duration) <<"\n"<<endl;
     }
     else
     {
-        cout <<string(tableWidth/5,' ')<< "Time: "
+        cout <<string(tableWidth/6,' ')<< "Time: "
             << left <<setw(10) <<" "<<"<" << string(50, '=')  << ">"
             << format_time(0) << "/" << format_time(0) <<"\n"<<endl;
     }
-    cout <<string(tableWidth/5,' ')<<"Volume: "
-         << left <<setw(8) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<endl;
+    cout <<string(tableWidth/6,' ')<<"Volume: "
+         << left <<setw(6) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<endl;
 }
 
 

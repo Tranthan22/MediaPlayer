@@ -48,14 +48,14 @@ class PlayMusicView:public PlaylistView
 };
 
 
-class PlayMusicView_ShowPlay:public PlayMusicView
-{
-    private:
+// class PlayMusicView_ShowPlay:public PlayMusicView
+// {
+//     private:
 
-    public:
-        PlayMusicView_ShowPlay()=default;
-        ~PlayMusicView_ShowPlay()=default;
+//     public:
+//         PlayMusicView_ShowPlay()=default;
+//         ~PlayMusicView_ShowPlay()=default;
         
-};
+// };
 
 #endif
