@@ -76,6 +76,8 @@ void MediaPlayer:: ResumePause()
 void MediaPlayer:: nextMusic()
 {
     Mix_HaltMusic();
+    auto futureTime = std::chrono::system_clock::now() + std::chrono::microseconds(10);
+    std::this_thread::sleep_until(futureTime);
     if(++fileIndexInList > (int)(list->size()-1))
     {
         fileIndexInList = 0;
@@ -92,8 +94,11 @@ void MediaPlayer:: preMusic()
 {
     // string MusicDir="";
     Mix_HaltMusic();
+    auto futureTime = std::chrono::system_clock::now() + std::chrono::microseconds(10);
+    std::this_thread::sleep_until(futureTime);
     if(--fileIndexInList < 0)
     {
+        // Tạo độ trễ cho đến thời điểm 3 giây kể từ bây giờ
         fileIndexInList = list->size()-1;
     }
     else

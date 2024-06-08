@@ -489,10 +489,10 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         timelapse = std::chrono::duration<double>::zero();
         break;
     case -5:
-        {
-        std::lock_guard<std::mutex> lock1(mtx1);
+        // {
+        // std::lock_guard<std::mutex> lock1(mtx1);
         myPlayer.preMusic();
-        }
+        // }
         startTime = std::chrono::steady_clock::now();
         timelapse = std::chrono::duration<double>::zero();
         break;

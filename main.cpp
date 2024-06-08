@@ -4,8 +4,7 @@
 
 int main()
 {
-    // Thiết lập môi trường mã hóa UTF-8
-    std::setlocale(LC_ALL, "");
+
     Browser myBrowser;
     myBrowser.programFlow();
     return 0;
