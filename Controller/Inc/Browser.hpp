@@ -80,7 +80,7 @@ private:
     
     /* Thread */
     std::chrono::time_point<std::chrono::steady_clock> startTime;
-    std::chrono::duration<double> timeElape;
+    std::chrono::duration<double> timelapse;
     std::thread myThread;
     TagLib::FileRef fileRef;
 
@@ -134,6 +134,5 @@ public:
     /*thread*/
     void updatePlayerView();
     inline void startThread();
-
 };
 

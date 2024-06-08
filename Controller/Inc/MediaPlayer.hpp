@@ -14,14 +14,13 @@
 class MediaPlayer
 {
 private:
-    size_t SysVolume = MIX_MAX_VOLUME / 2;
+    size_t SysVolume = MIX_MAX_VOLUME;
     std::vector<MediaFile*> *list;
     static bool Playing;
     static int fileIndexInList;
-    bool flagAuto =false;
+    Mix_Music *bgm;    bool flagAuto =false;
 
 public:
-    Mix_Music *bgm;
     MediaPlayer(/* args */);
     ~MediaPlayer();
 

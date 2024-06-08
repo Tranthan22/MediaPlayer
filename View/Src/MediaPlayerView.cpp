@@ -102,7 +102,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
 //                                                          SHOW SONG TO PLAY IN PLAYLIST  <PLAY MUSIC>
 /*========================================================================================================================================================*/
 
-void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t progressLong, MediaPlayer& myPlayer)
+void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t timelapse, size_t duration, MediaPlayer& myPlayer)
 {
     system("clear");
     string header = "Play Music";
@@ -121,11 +121,19 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     string Play_header =".......................................................................";
     cout<< string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<endl;
     cout<<endl;
-    string Playing_name = "Playing: "+ myPlayer.getPlayingMusicName();
-    cout<< string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name <<endl;
-    cout<<endl;
-    
-    Time_Volume(progressLong, myPlayer.getVolume());
+    if(duration > 0)
+    {
+        string Playing_name = "Playing: "+ myPlayer.getPlayingMusicName();
+        cout<< string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name <<endl;
+        cout<<endl;
+    }
+    else
+    {
+        string Playing_name = "Playing: UNKNOWN";
+        cout<< string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name <<endl;
+        cout<<endl;
+    }
+    Time_Volume(timelapse, duration, myPlayer.getVolume());
 
     // ========================================
     if(myPlayer.getFlagAuto()==true )
@@ -160,14 +168,39 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
 
 // ================================================== SHOW CHANGE TIME  - VOLUME - NEXT SONG  - PREVIOUS SONG =========================================== //
 
-void PlayMusicView::Time_Volume(size_t progressLong, const size_t volume) const
+void PlayMusicView::Time_Volume(size_t timelapse, size_t duration, const size_t volume) const
 {
-    // Show time sẽ thay giá trị vào
-    cout <<string(tableWidth/5,' ')<< "Time: "
-         << left <<setw(10) <<" "<<"<"<< string(progressLong, '#')  << string(50-progressLong, '=') << ">"<<"\n"<<endl;
+    if(duration > 0)
+    {
+        size_t progressLong = timelapse * 50 / duration;
+        // Show time sẽ thay giá trị vào
+        cout <<string(tableWidth/5,' ')<< "Time: "
+            << left <<setw(10) <<" "<<"<" << string(progressLong, '#')  << string((50-progressLong), '=')  << ">"
+            << format_time(timelapse) << "/" << format_time(duration) <<"\n"<<endl;
+    }
+    else
+    {
+        cout <<string(tableWidth/5,' ')<< "Time: "
+            << left <<setw(10) <<" "<<"<" << string(50, '=')  << ">"
+            << format_time(0) << "/" << format_time(0) <<"\n"<<endl;
+    }
     cout <<string(tableWidth/5,' ')<<"Volume: "
          << left <<setw(8) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<endl;
 }
+
+
+string PlayMusicView::format_time(size_t total_seconds) const
+{
+    size_t hours = total_seconds / 3600;
+    size_t minutes = (total_seconds % 3600) / 60;
+    size_t seconds = total_seconds % 60;
+    std::stringstream ss;
+    ss << std::setfill('0') << std::setw(2) << hours << ":"
+       << std::setfill('0') << std::setw(2) << minutes << ":"
+       << std::setfill('0') << std::setw(2) << seconds;
+    return ss.str();
+}
+
 
 // ================================================== CHECK USING FOR SHOW SONG TO PLAY IN PLAYLIST < PLAY MUSIC >=========================================//
 
@@ -198,8 +231,6 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                         {
                             currentPage++;
                         }
-                        // system("clear");
-                        // display_ShowPlay(lists_name, currentPage);
                         break;
                     case 'P':
                     case 'p':
@@ -207,8 +238,6 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                         {
                             currentPage--;
                         }
-                        // system("clear");
-                        // display_ShowPlay(lists_name, currentPage);
                         break;
                     case 'U':
                     case 'u':
