@@ -3,7 +3,7 @@
 
 #define START_PAGE 1
 
-std::atomic<bool> flagT(false);
+// std::atomic<bool> flagAuto(false);
 
 Browser::Browser(/* args */)
 {
@@ -482,6 +482,16 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         startTime = std::chrono::steady_clock::now();
         timelapse = std::chrono::duration<double>::zero();
         break;
+    case -6:
+        // Case auto or update'
+        if(myPlayer.getFlagAuto() ==true)
+        {
+            myPlayer.setFlagAuto(false);
+        }else{
+            myPlayer.setFlagAuto(true);
+        }
+        
+        break;
     default:
         startTime = std::chrono::steady_clock::now();
         timelapse = std::chrono::duration<double>::zero();
@@ -493,7 +503,8 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
 }
 /*============================== Thread ===============================*/
 
-void Browser::updatePlayerView() {
+void Browser::updatePlayerView()
+{
     size_t current_screen;
     do
     {
@@ -518,6 +529,7 @@ void Browser::updatePlayerView() {
                 {
                     startTime = std::chrono::steady_clock::now();
                     timelapse = std::chrono::duration<double>::zero();
+                    myPlayer.autoMusic();
                 }
             }
             else
@@ -536,6 +548,7 @@ void Browser::updatePlayerView() {
     }
     while(current_screen  == PLAY_MUSIC_PLAYER_ID);
 }
+
 void Browser::startThread()
 {
     myThread = std::thread(&Browser::updatePlayerView, this);

@@ -87,8 +87,10 @@ void MediaPlayer:: nextMusic()
 
     playMusic(/*MusicDir.c_str()*/);
 }
+
 void MediaPlayer:: preMusic()
 {
+    // string MusicDir="";
     Mix_HaltMusic();
     if(--fileIndexInList < 0)
     {
@@ -96,10 +98,28 @@ void MediaPlayer:: preMusic()
     }
     else
     {
+        
+    }
+    playMusic();
+}
+
+void MediaPlayer::autoMusic()
+{
+    if(flagAuto)
+    {
+        nextMusic();
+        // Mix_HookMusicFinished()
+    }else{
         /**/
     }
-
-    playMusic(/*MusicDir.c_str()*/);
+}
+void MediaPlayer::setFlagAuto(bool flagAuto)
+{
+    this->flagAuto =flagAuto;
+}
+bool MediaPlayer::getFlagAuto()
+{
+    return flagAuto;
 }
 void MediaPlayer::setList(std::vector<MediaFile*> *_list)
 {

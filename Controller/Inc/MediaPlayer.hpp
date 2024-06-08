@@ -18,7 +18,7 @@ private:
     std::vector<MediaFile*> *list;
     static bool Playing;
     static int fileIndexInList;
-    Mix_Music *bgm;
+    Mix_Music *bgm;    bool flagAuto =false;
 
 public:
     MediaPlayer(/* args */);
@@ -29,6 +29,7 @@ public:
     void ResumePause();
     void nextMusic();
     void preMusic();
+    void autoMusic();
     void setList(std::vector<MediaFile*> *list);
     static void setIndexInList(int index);
     string getPlayingMusicName();
@@ -40,5 +41,7 @@ public:
     int VolumeDown();
     void Exit_play();
 
+    void setFlagAuto(bool flagAuto);
+    bool getFlagAuto();
 
 };
