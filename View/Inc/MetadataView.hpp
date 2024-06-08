@@ -1,18 +1,9 @@
 #ifndef _METADATA_VIEW_H_
 #define _METADATA_VIEW_H_
 
-#include <taglib/tag.h>
-#include <taglib/fileref.h>
-#include <taglib/taglib.h>
-#include <iostream>
-#include <memory> // For smart pointers
-#include <string.h> // For std::string
-#include <filesystem>
+#include "main.hpp"
 
-using namespace TagLib;
-using namespace std;
 
-#define tableWidth 120
 enum {
     BACK_MENU                       =0,
     SHOW_METADATA                   = 1,
@@ -34,17 +25,13 @@ public:
 
     void getMetadataError();
 
-    // void metadataChooseFile(int input_case);
-
     void modifyMetadataError();
 
     void modifyMetadataSuccess();
 
-    // void listEmpty(int input_case);
+    void displayAudioFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef);
 
-    void displayAudioFileMetadata(Tag *tag, FileRef fileRef);
-
-    void displayVideoFileMetadata(Tag *tag, FileRef fileRef, string file_path);
+    void displayVideoFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef, string file_path);
 
     void getMediaFileTypeError();
 };

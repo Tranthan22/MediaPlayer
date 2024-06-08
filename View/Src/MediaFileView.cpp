@@ -1,10 +1,4 @@
 #include "MediaFileView.hpp"
-#include <cstdlib>
-#include <string>
-
-
-#define tableWidth 120
-
 
 /*========================================================================================================================================================*/
 //                                                                     SHOW SONGS IN MEDIALIST                                                            //
@@ -38,8 +32,8 @@ void MediaFileView::display_MediaFile(vector<MediaFile*>& songs, size_t currentp
 }
 
 void MediaFileView::displaySongsPerPage(vector<MediaFile*>& songs, size_t& currentpage) {
-    size_t startIndex = (currentpage - 1) * PAGE_SIZE;
-    size_t endIndex = min(startIndex + PAGE_SIZE, songs.size());
+    size_t startIndex = (currentpage - 1) * PAGE_SONG_SIZE;
+    size_t endIndex = min(startIndex + PAGE_SONG_SIZE, songs.size());
     for (int i = (int)startIndex; i < (int)endIndex; ++i) {
         string file_path = songs[i]->getPath();
         string file_name = songs[i]->getName();
@@ -94,7 +88,7 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
                     /*NEXT PAGE*/
                     case 'N':
                     case 'n':
-                        if (currentPage < (songs.size() + PAGE_SIZE - 1) / PAGE_SIZE)
+                        if (currentPage < (songs.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
                         {
                             currentPage++;
                         }

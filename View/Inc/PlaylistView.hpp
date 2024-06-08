@@ -1,22 +1,9 @@
 #ifndef PLAYLISTVIEW_HPP
 #define PLAYLISTVIEW_HPP
 
-#include <iostream>
-#include <iomanip> // Để sử dụng setw()
-#include <vector>
-#include <fstream>
-#include <sstream>
 #include "MediaFile.hpp"
 #include "Playlist.hpp"
-#include <filesystem>
-#include <taglib/tag.h>
-#include <taglib/fileref.h>
-#include <taglib/taglib.h>
 #include "main.hpp"
-
-#define LIST_SIZE 4
-#define LIST_NAME_SIZE 4
-#define tableWidth 120
 
 enum 
 {
@@ -26,7 +13,7 @@ enum
     EXIT_MUSIC   = 0,
 };
 
-using namespace std;
+
 class PlaylistView
 {
     private:

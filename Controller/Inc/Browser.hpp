@@ -22,7 +22,7 @@
 #include "Metadata.hpp"
 #include "PlaylistView.hpp"
 #include "MediaPlayerView.hpp"
-
+#include <stack>
 
 #define START_PAGE 1
 

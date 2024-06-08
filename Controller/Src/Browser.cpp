@@ -1,7 +1,4 @@
 #include "Browser.hpp"
-#include <stack>
-
-#define START_PAGE 1
 
 // std::atomic<bool> flagAuto(false);
 

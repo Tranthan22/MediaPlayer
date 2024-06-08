@@ -1,5 +1,4 @@
 #include "MediaPlayer.hpp"
-#include <iostream>
 
 bool MediaPlayer::Playing = false;
 int MediaPlayer::fileIndexInList = 0;

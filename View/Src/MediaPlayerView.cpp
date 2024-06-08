@@ -1,7 +1,5 @@
 #include "MediaPlayerView.hpp"
 
-#define tableWidth 120
-
 //========================================================================================================================================================//
 //                                                                  SHOW PLAYLIST IN  PLAY MUSIC
 //========================================================================================================================================================//
@@ -64,7 +62,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
                     /*NEXT PAGE*/
                     case 'N':
                     case 'n':
-                        if (currentPage < (lists.size() + PLIST_SIZE - 1) / PLIST_SIZE)
+                        if (currentPage < (lists.size() + PAGE_LIST_SIZE - 1) / PAGE_LIST_SIZE)
                         {
                             currentPage++;
                         }
@@ -234,7 +232,7 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                 {
                     case 'N':
                     case 'n':
-                        if (currentPage < (lists_name.size() + PAGE_SIZE - 1) / PAGE_SIZE)
+                        if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
                         {
                             currentPage++;
                         }
@@ -268,8 +266,6 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                         return 0;
                         // break;
                     default:
-                        // system("clear");
-                        // display_ShowPlay(lists_name,currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
                 }
             }

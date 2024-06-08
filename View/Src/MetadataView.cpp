@@ -1,9 +1,9 @@
 #include "MetadataView.hpp"
-#include "main.hpp"
 
 
-using namespace std;
-
+/*========================================================================================================================================================*/
+//                                                              SHOW METADATA 
+/*========================================================================================================================================================*/
 void Metadataview::menuMetaView()
 {
     system("clear");
@@ -36,23 +36,6 @@ void Metadataview::getMetadataError()
 {
     cerr << "Could not open file or retrieve tag." << endl;
 }
-
-// void Metadataview::metadataChooseFile(int input_case)
-// {
-//     switch (input_case)
-//     {
-//     case SHOW_METADATA:
-//         cout << "Enter index of media file that you want to show metadata: " << endl;
-//         break;
-
-//     case UPDATE_METADATA:
-//         cout << "Enter index of media file that you want to update metadata: " << endl;
-//         break;
-
-//     default:
-//         cerr << "Error!" << endl;
-//     }
-// }
 void Metadataview::modifyMetadataError()
 {
     cout << "This field cannot be modify." << endl;
@@ -62,23 +45,6 @@ void Metadataview::modifyMetadataSuccess()
 {
     cout << "Metadata updated succesfully!" << endl;
 }
-
-// void Metadataview::listEmpty(int input_case)
-// {
-//     switch (input_case)
-//     {
-//     case SHOW_METADATA:
-//         cout << "There is nothing to show metadata of. Going back..." << endl;
-//         break;
-
-//     case UPDATE_METADATA:
-//         cout << "There is nothing to update metadata of. Going back..." << endl;
-//         break;
-
-//     default:
-//         cerr << "Error!" << endl;
-//     }
-// } 
 
 void Metadataview::displayAudioFileMetadata(TagLib::Tag *tag, TagLib::FileRef fileRef)
 {

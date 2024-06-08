@@ -5,15 +5,20 @@
 #include <SDL_mixer.h>
 #include <iostream>
 #include <vector>
+#include <cstdlib>
+#include <iomanip> // Để sử dụng setw()
+#include <taglib/tag.h>
+#include <taglib/fileref.h>
+#include <taglib/taglib.h>
+#include <memory> // For smart pointers
+#include <string.h> // For std::string
+#include <filesystem>
 
-#define PAGE_SIZE 4
+using namespace std;
 
-// enum {
-//     SHOW_METADATA                   = 1,
-//     UPDATE_METADATA                 = 2,
-//     ADD_TO_PLAYLIST                 = 3
-// };
+#define PAGE_SONG_SIZE 10
+#define PAGE_LIST_SIZE 10
+#define tableWidth 120
 
 
-
-#endif
+#endif /*MAIN_HPP*/
