@@ -84,4 +84,4 @@ class PlaylistView
         int check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lists_name, size_t& currentPage);
         // int check_choice_PlaylistName_Add(const vector<MediaFile*>& lists_name, size_t& currentPage);
 };
-#endif
+#endif /*PLAYLISTVIEW_HPP*/

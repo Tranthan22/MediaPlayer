@@ -122,7 +122,8 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     cout << string(tableWidth ,'-')<<"\n"<<endl;
     
     display_PlaylistNamePerPage(lists_name,currentpage);
-    // ========================================
+
+    // ======================================== UPDATE TIMESLIDE MUSIC ========================================= // 
     string Play_header =".......................................................................";
     cout<< string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<endl;
     cout<<endl;
@@ -140,7 +141,7 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     }
     Time_Volume(timelapse, duration, myPlayer.getVolume());
 
-    // ========================================
+    // ============================================================================================================
     if(myPlayer.getFlagAuto()==true )
     {
         cout <<left <<setw(20)<<" "

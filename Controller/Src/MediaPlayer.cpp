@@ -35,7 +35,6 @@ int MediaPlayer::playMusic(/*const char* file*/)
     }
     // Trích xuất âm thanh từ tệp video MP4 bằng FFmpeg
     else{
-        // /home/dungdt55/MediaPlayer/Music/ViConLaNguoiTotLyricVideo-gung0cayIndieK-10699062.mp4
         std::string name_song = (*list)[fileIndexInList]->getPath();
         std::string command =  "ffmpeg -y -i "+ name_song +" -vn -acodec pcm_s16le -ar 44100 -ac 2 /home/dungdt55/MediaPlayer/Music/output.wav";
         std::system(command.c_str());
@@ -109,7 +108,6 @@ void MediaPlayer:: preMusic()
     std::this_thread::sleep_until(futureTime);
     if(--fileIndexInList < 0)
     {
-        // Tạo độ trễ cho đến thời điểm 3 giây kể từ bây giờ
         fileIndexInList = list->size()-1;
     }
     else
@@ -124,7 +122,6 @@ void MediaPlayer::autoMusic()
     if(flagAuto)
     {
         nextMusic();
-        // Mix_HookMusicFinished()
     }else{
         /**/
     }
@@ -161,12 +158,13 @@ string MediaPlayer::getPlayingMusicPath()
         return (*list)[fileIndexInList]->getPath();
     }
 }
+
 bool MediaPlayer::isPlaying()
 {
     return Playing;
 }
 
-/*================ Volume ================== */
+/*================ Change Volume ================== */
 size_t MediaPlayer:: getVolume()
 {
     return SysVolume;
@@ -198,48 +196,3 @@ int MediaPlayer:: VolumeDown()
     Mix_VolumeMusic(SysVolume);
     return SysVolume;
 }
-void MediaPlayer::Exit_play()
-{
-    // Mix_CloseAudio();
-    // Em làm mà nó đéo chạy sếp chạy thì nhớ thêm vào nhé
-    Mix_CloseAudio();
-    SDL_Quit();
-}
-
-
-// void MediaPlayer::updateStatus() {
-//     while (isPlaying) {
-//         {
-//             std::lock_guard<std::mutex> lock(mtx);
-//             // Update time and volume display logic
-//             size_t duration = 180; // Example duration
-//             size_t current = Mix_PlayingMusic() ? getMusicPosition() : 0;
-//             // size_t current = 0;
-
-//             // size_t volume = Mix_VolumeMusic(-1) * 100 / MIX_MAX_VOLUME;
-//             size_t volume = 50;
-
-//             // Call the method to display current status
-//             mediaPlayerView.Time_Volume(duration, current, volume);
-//         }
-//         std::this_thread::sleep_for(std::chrono::seconds(1));
-//     }
-// }
-// void MediaPlayer::startStatusUpdate() {
-//     isPlaying = true;
-//     updateThread = std::thread(&MediaPlayer::updateStatus, this);
-// }
-// void MediaPlayer::stopStatusUpdate() {
-//     isPlaying = false;
-//     if (updateThread.joinable()) {
-//         updateThread.join();
-//     }
-// }
-// double MediaPlayer::getMusicPosition() {
-//     if (isMusicPlaying) {
-//         auto currentTime = std::chrono::steady_clock::now();
-//         std::chrono::duration<double> elapsedSeconds = currentTime - startTime;
-//         return elapsedSeconds.count();
-//     }
-//     return 0.0;
-// }

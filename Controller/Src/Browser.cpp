@@ -128,13 +128,14 @@ void Browser::medialist()
     else
     {
         /*                    SHOW METADATA IN MEDIALIST                       */
+        
         file_path = vPlayList[0]->getPlaylist()[choose_song-1]->getPath();
         file_name = vPlayList[0]->getPlaylist()[choose_song-1]->getName();
         file_type = vPlayList[0]->getPlaylist()[choose_song-1]->getType();
         flowID.push(METADATA_LIST_ID);
     }
 }
-/*                            SHOW METADATA                           */
+/*                           SHOW METADATA                           */
 void Browser::metadatalist()
 {
     metadataView.menuMetaView();

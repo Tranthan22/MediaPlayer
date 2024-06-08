@@ -23,4 +23,4 @@ public:
     void InvalidChoiceInterface();
     void exitProgram();
 };
-#endif
+#endif/*MENUVIEW_HPP*/
