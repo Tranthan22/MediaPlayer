@@ -1,9 +1,7 @@
 #include "Browser.hpp"
-#include <stack>
 
 #define START_PAGE 1
 
-// std::atomic<bool> flagAuto(false);
 
 Browser::Browser(/* args */)
 {
@@ -11,10 +9,7 @@ Browser::Browser(/* args */)
 
 Browser::~Browser()
 {
-    for(MediaFile* mediafile : vPlayList[0]->getPlaylist())
-    {
-        delete mediafile;
-    }
+    FreeAll();
 }
 
 void Browser::setPath()
@@ -22,27 +17,93 @@ void Browser::setPath()
     do
     {
         Path = mediaPathView.input_path();
+        if(Path == "0")
+        {
+            flowID.pop();
+            return;
+        }
     }
     while(!(fs::exists(Path) && fs::is_directory(Path)));
+    loadFile();
+    flowID.pop();
+    flowID.push(MENU_ID);
 }
-
+void Browser::setPathView()
+{
+    size_t current_screen = flowID.top();
+    do
+    {
+        usbDeviceScanner.scanDevices();
+        devices = usbDeviceScanner.getUSBMountPoints();
+        mediaPathView.display_MediaPath(devices);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        current_screen = flowID.top();
+    }while(current_screen  == 7);
+}
+void Browser::PathUsbSelection()
+{
+    int option;
+    std::thread PathThread(&Browser::setPathView, this);
+    PathThread.detach();
+    do
+    {
+        option = mediaPathView.PathSelection();
+    }
+    while(option > devices.size() + 1);
+    if(option == 0)
+    {
+        flowID.pop();
+        flowID.push(9);
+    }
+    else if(option == 1)
+    {
+        flowID.push(8);
+    }
+    else
+    {
+        Path = devices[option - 2];
+        loadFile();
+        flowID.push(MENU_ID);
+    }
+}
 void Browser::FreeAll()
 {
-    if(vPlayList[0] != nullptr)
+    if(vPlayList.size() != 0)
     {
-        for(MediaFile* mediafile : vPlayList[0]->getPlaylist())
+        if(vPlayList[0]->getPlaylist().size() != 0)
         {
-            delete mediafile;
+            for(MediaFile* mediafile : vPlayList[0]->getPlaylist())
+            {
+                delete mediafile;
+            }
         }
         for(Playlist* playlist : vPlayList)
         {
             delete playlist;
         }
     }
-    vPlayList[0] = nullptr;
     vPlayList.clear();
 }
 
+void Browser::loadFile()
+{
+    
+    if(Path  != "0")
+    {
+        vPlayList.push_back(new Playlist("All"));
+        for (const auto& entry : fs::directory_iterator(Path))
+        {
+            if (entry.is_regular_file() && entry.path().extension() == ".mp3"){
+                int mp3_type =1;
+                vPlayList[0]->addFile(new MediaFile(entry.path().filename().string(), entry.path().string(),mp3_type));
+            }
+        }
+    }
+    else
+    {
+        return;
+    }
+}
 
 int Browser::userInput()
 {
@@ -71,10 +132,7 @@ string Browser::userInputString()
     }
     return userInput;
 }
-// void Browser::CallbackRegister()
-// {
-//     Mix_HookMusicFinished(myPlayer.nextMusic);
-// }
+
 
 /*===========================================  Menu =========================================================*/
 void Browser::menu()
@@ -97,25 +155,13 @@ void Browser::menu()
         break;
     /*EXIT TO PATH*/
     case EXIT:
+        FreeAll();
         flowID.pop();
-        flowID.push(-1);
         break;
     default:
         break;
     }
 }
-void Browser::loadFile()
-{
-    vPlayList.push_back(new Playlist("All"));
-    for (const auto& entry : fs::directory_iterator(Path))
-    {
-        if (entry.is_regular_file() && entry.path().extension() == ".mp3"){
-            int mp3_type =1;
-            vPlayList[0]->addFile(new MediaFile(entry.path().filename().string(), entry.path().string(),mp3_type));
-        }
-    }
-}
-
 
 /*========================================== Option 1 in Menu =========================================================*/
 void Browser::medialist()
@@ -479,6 +525,7 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         std::lock_guard<std::mutex> lock1(mtx1);
         myPlayer.preMusic();
         }
+        myPlayer.playMusic();
         startTime = std::chrono::steady_clock::now();
         timelapse = std::chrono::duration<double>::zero();
         break;
@@ -508,20 +555,18 @@ void Browser::updatePlayerView()
     size_t current_screen;
     do
     {
-        std::lock_guard<std::mutex> lock1(mtx1);
-        std::lock_guard<std::mutex> lock2(mtx2);
         std::string musicPath;
 
         musicPath = myPlayer.getPlayingMusicPath();
         try
         {   
+            std::lock_guard<std::mutex> lock1(mtx1);
             if(musicPath == "")
             {
                 throw std::runtime_error("The music path is empty.");
             }
             fileRef = TagLib::FileRef(myPlayer.getPlayingMusicPath().c_str());
             size_t duration = fileRef.audioProperties()->lengthInSeconds();
-            
             if(myPlayer.isPlaying())
             {
                 timelapse = std::chrono::steady_clock::now() - startTime;
@@ -538,7 +583,6 @@ void Browser::updatePlayerView()
             }
             mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, timelapse.count(), duration, myPlayer);
         }
-        // // progressLong = timeElape.count() / duration * 50;
         catch(const std::exception &e)
         {
             mediaPlayerView.display_ShowPlay(vPlayList[chosenList - 1]->getPlaylist(), list, 0, 0, myPlayer);
@@ -558,47 +602,43 @@ void Browser::startThread()
 /*========================================== Program Flow =====================================================*/
 void Browser::programFlow()
 {
-    while(1)
-    {   
-        setPath();
-        loadFile();
-        flowID.push(MENU_ID);
-        bool flag =true;
-        while (flag){
-            
-            current_screen = flowID.top();
-            switch(current_screen)
+    flowID.push(7);
+    bool flag =true;
+    while (flag){
+        current_screen = flowID.top();
+        switch(current_screen)
+        {
+            case MENU_ID:
+                menu();
+                break;
+            case MEDIA_LIST_ID:
+                medialist();
+                break;
+            case PLAY_LIST_ID:
+                playlist(chosenList, chosenMusic);
+                break;
+            case PLAY_MUSIC_ID:
+                playmusic(chosenList);
+                break;
+            case PLAY_LIST_MUSIC_ID:
+                playlist_music(chosenList);
+                break;
+            case PLAY_MUSIC_PLAYER_ID:
+                playmusic_player(chosenList, chosenMusic);
+                break;
+            case 7:
             {
-                case MENU_ID:
-                    menu();
-                    break;
-                case MEDIA_LIST_ID:
-                    medialist();
-                    break;
-                case PLAY_LIST_ID:
-                    playlist(chosenList, chosenMusic);
-                    break;
-                case PLAY_MUSIC_ID:
-                    playmusic(chosenList);
-                    break;
-                case PLAY_LIST_MUSIC_ID:
-                    playlist_music(chosenList);
-                    break;
-                case PLAY_MUSIC_PLAYER_ID:
-                    playmusic_player(chosenList, chosenMusic);
-                    break;
-                default:
-                    flag=false;
-                    flowID.pop();
-                    FreeAll();
-                    break;
+                PathUsbSelection();
+                break;
             }
+            case 8:
+                setPath();
+                break;
+            default:
+                flag=false;
+                flowID.pop();
+                FreeAll();
+                break;
         }
     }
 }
-
-/*==============================================================*/
-// static void callback()
-// {
-    
-// }

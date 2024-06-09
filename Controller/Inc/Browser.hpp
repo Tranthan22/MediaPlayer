@@ -10,6 +10,7 @@
 #include <mutex>
 #include <atomic>
 #include <chrono>
+#include <stack>
 
 #include "MediaPlayerView.hpp"
 #include "MediaFileView.hpp"
@@ -22,7 +23,7 @@
 #include "Metadata.hpp"
 #include "PlaylistView.hpp"
 #include "MediaPlayerView.hpp"
-
+#include "USB.hpp"
 
 #define START_PAGE 1
 
@@ -30,10 +31,11 @@ enum FlowID
 {   
     MENU_ID = 0,
     MEDIA_LIST_ID = 1,
-    PLAY_LIST_ID = 2,
-    PLAY_MUSIC_ID = 3,
-    PLAY_LIST_MUSIC_ID = 4,
-    PLAY_MUSIC_PLAYER_ID = 5,
+    METADATA_LIST_ID =2,
+    PLAY_LIST_ID = 3,
+    PLAY_MUSIC_ID = 4,
+    PLAY_LIST_MUSIC_ID = 5,
+    PLAY_MUSIC_PLAYER_ID = 6,
 };
 
 
@@ -51,7 +53,10 @@ private:
     size_t list = 1;
     // size_t chosenList_Play = 1;
     // size_t chosenMusic_Play = 1;
-
+    /*                    SHOW METADATA IN MEDIALIST                       */
+    string file_path = "";
+    string file_name = "";
+    int file_type = 0;
     /* Stack */
     std::stack<int> flowID;
 
@@ -81,14 +86,20 @@ private:
     TagLib::FileRef fileRef;
 
     std::mutex mtx1;
-    std::mutex mtx2;
+    // std::mutex mtx2;
 
+    /* USB */
+    USBDeviceScanner usbDeviceScanner;
+    std::vector<std::string> devices;
 
 public:
     Browser(/* args */);
     ~Browser();
 
     void setPath();
+    void setPathView();
+    void PathUsbSelection();
+
     void loadFile();   
     void FreeAll();
     void CallbackRegister();
@@ -98,9 +109,13 @@ public:
 
     /* Menu */ 
     void menu();
-    /*META*/
+    /*MEDIA*/
     void medialist();
+    /*META DATA*/
     void viewMetadata(int file_idx);
+    // void viewMetadata(int file_idx);
+    void viewMetadata(const string& file_path,const string& file_name,const int& file_type);
+    // void updateMetadata(int file_idx);
     void updateMetadata(int file_idx);
     
     /**/
@@ -127,4 +142,3 @@ public:
     void updatePlayerView();
     inline void startThread();
 };
-

@@ -100,7 +100,7 @@ void MediaPlayer:: preMusic()
     {
         
     }
-    playMusic();
+    // playMusic();
 }
 
 void MediaPlayer::autoMusic()

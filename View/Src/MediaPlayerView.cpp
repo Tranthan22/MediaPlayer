@@ -261,16 +261,13 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                         return 0;
                         // break;
                     default:
-                        // system("clear");
-                        // display_ShowPlay(lists_name,currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
                 }
             }
         }
         else
         {
-            // system("clear");
-            // display_ShowPlay(lists_name,currentPage);
+            /*  */
         }
     }
     return 0;
