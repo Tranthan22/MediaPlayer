@@ -43,7 +43,7 @@ int MediaPlayer::playMusic(/*const char* file*/)
     // Trích xuất âm thanh từ tệp video MP4 bằng FFmpeg
     else{
         std::string name_song = (*list)[fileIndexInList]->getPath();
-        std::string command =  "ffmpeg -y -i "+ name_song +" -vn -acodec pcm_s16le -ar 44100 -ac 2 Music/output.wav";
+        std::string command =  "ffmpeg -y -i "+ name_song +" -vn -acodec pcm_s16le -ar 44100 -ac 2 Music/output.wav > /dev/null 2>&1";
         std::system(command.c_str());
         // Load và phát âm thanh đã trích xuất bằng SDL2_mixer
         bgm = Mix_LoadMUS("./Music/output.wav");
