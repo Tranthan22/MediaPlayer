@@ -1,10 +1,4 @@
 #include "MediaFileView.hpp"
-#include <cstdlib>
-#include <string>
-
-
-#define tableWidth 120
-
 
 /*========================================================================================================================================================*/
 //                                                                     SHOW SONGS IN MEDIALIST                                                            //
@@ -37,29 +31,18 @@ void MediaFileView::display_MediaFile(vector<MediaFile*>& songs, size_t currentp
     cout<< string(tableWidth , '=')<<endl;
 }
 
-// // Hàm tính kích thước chuỗi UTF-8 (số ký tự Unicode)
-// size_t utf8_strlen(const std::string& str) {
-//     // Chuyển đổi từ UTF-8 sang wstring (UTF-32)
-//     std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> converter;
-//     std::u32string u32_str = converter.from_bytes(str);
-
-//     // Trả về kích thước của chuỗi UTF-32
-//     return u32_str.length();
-// }
-
 void MediaFileView::displaySongsPerPage(vector<MediaFile*>& songs, size_t& currentpage) {
-    size_t startIndex = (currentpage - 1) * PAGE_SIZE;
-    size_t endIndex = min(startIndex + PAGE_SIZE, songs.size());
+    size_t startIndex = (currentpage - 1) * PAGE_SONG_SIZE;
+    size_t endIndex = min(startIndex + PAGE_SONG_SIZE, songs.size());
     for (int i = (int)startIndex; i < (int)endIndex; ++i) {
         string file_path = songs[i]->getPath();
+        string file_name = songs[i]->getName();
         TagLib::FileRef fileRef(file_path.c_str());
     if (!fileRef.isNull() && fileRef.tag()){
         TagLib::Tag *tag = fileRef.tag();   
-        // size_t length_title = utf8_strlen(tag->title().toCString(true));
-        // size_t length_artist = utf8_strlen(tag->artist().toCString(true));
         std::cout <<"|"<< left << setw(10) << i+1
-            <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),40)
-            <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),30)
+            <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),tableWidth/3)
+            <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),tableWidth/4)
             <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
             <<"|"<< left << setw(tableWidth/8) << tag->year()<< endl;
         std::cout<<endl;
@@ -67,7 +50,7 @@ void MediaFileView::displaySongsPerPage(vector<MediaFile*>& songs, size_t& curre
     }
 }
 /*========================================================================================================================================================*/
-inline void MediaFileView::Invalid_choice()
+void MediaFileView::Invalid_choice()
 {
     cout << "Invalid choice. Please enter a valid option." << endl;
 }
@@ -79,6 +62,7 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
     bool flag = true;
     while(flag)
     {
+
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);
@@ -95,6 +79,7 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
                     system("clear");
                     display_MediaFile(songs, currentPage);
                     Invalid_choice();
+                    cin.ignore();
                 }
             }else{
                 char command = userInput[0];
@@ -103,7 +88,7 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
                     /*NEXT PAGE*/
                     case 'N':
                     case 'n':
-                        if (currentPage < (songs.size() + PAGE_SIZE - 1) / PAGE_SIZE)
+                        if (currentPage < (songs.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
                         {
                             currentPage++;
                         }

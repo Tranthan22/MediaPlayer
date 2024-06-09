@@ -1,6 +1,5 @@
 #include "MediaPathView.hpp"
 
-#define tableWidth 120
 
 /*========================================================================================================================================================*/
 //                                                           SHOW INPUT PATH TO RUN
@@ -43,7 +42,7 @@ void MediaPathView::display_MediaPath()
 std::string MediaPathView::input_path()
 {
     display_MediaPath();
-    cout << "\nPath : ";
+    cout << "Path : ";
     string directoryPath;
     getline(cin, directoryPath);
     return directoryPath;

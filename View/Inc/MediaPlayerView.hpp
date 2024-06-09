@@ -1,21 +1,12 @@
 #ifndef MEDIAPLAYERVIEW_HPP
 #define MEDIAPLAYERVIEW_HPP
 
-#include <iomanip> // Để sử dụng setw()
-#include <iostream>
-#include <fstream>
-#include <cstdlib> // For std::system
-#include <filesystem>
-#include <vector>
-// namespace fs = std::filesystem;
-#include "main.hpp"
+
 #include "main.hpp"
 #include "Playlist.hpp"
 #include "PlaylistView.hpp"
 #include "MediaPlayer.hpp"
 
-#define PLIST_SIZE 4
-#define PAGE_SIZE 4 
 
 class PlayMusicView:public PlaylistView
 {
@@ -24,19 +15,6 @@ class PlayMusicView:public PlaylistView
     public:
         PlayMusicView()=default;
         ~PlayMusicView()=default;
-
-        // fix size
-        std::string truncate(const std::string& text, int width)
-        {
-            if ((int)text.length() <= width)
-            {
-                return text;
-            }
-            else
-            {
-                return text.substr(0, width - 3) + "...";
-            }
-        }
         void display_PlayMucsic(const vector<Playlist*>& plists, size_t& currentpage);
         // void display_ListsPerPage(const vector<MediaFile*>& songs, size_t currentpage);
         int check_choice_PlayMusicView(const vector<Playlist*>& lists, size_t& currentPage);
@@ -47,15 +25,4 @@ class PlayMusicView:public PlaylistView
         inline string format_time(size_t total_seconds) const;
 };
 
-
-class PlayMusicView_ShowPlay:public PlayMusicView
-{
-    private:
-
-    public:
-        PlayMusicView_ShowPlay()=default;
-        ~PlayMusicView_ShowPlay()=default;
-        
-};
-
-#endif
+#endif/*MEDIAPLAYERVIEW_HPP*/

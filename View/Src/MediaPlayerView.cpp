@@ -1,7 +1,5 @@
 #include "MediaPlayerView.hpp"
 
-#define tableWidth 120
-
 //========================================================================================================================================================//
 //                                                                  SHOW PLAYLIST IN  PLAY MUSIC
 //========================================================================================================================================================//
@@ -37,8 +35,8 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
     string userInput;
     bool flag = true;
     while(flag)
-    {   
-        cout << "\nChoose option to playlist: ";
+    {      
+        cout << "Choose option to playlist: "; 
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);
@@ -49,6 +47,11 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
                 {
                     system("clear");
                     return ListChoice;
+                }else{
+                    system("clear");
+                    display_PlayMucsic(lists,currentPage);
+                    cout << "Invalid choice. Please enter a valid option." << endl;
+                    cin.ignore();
                 }
             }
             else
@@ -59,7 +62,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
                     /*NEXT PAGE*/
                     case 'N':
                     case 'n':
-                        if (currentPage < (lists.size() + PLIST_SIZE - 1) / PLIST_SIZE)
+                        if (currentPage < (lists.size() + PAGE_LIST_SIZE - 1) / PAGE_LIST_SIZE)
                         {
                             currentPage++;
                         }
@@ -82,6 +85,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
                     default:
                         display_PlayMucsic(lists,currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
+                        cin.ignore();
                 }
             }
         }
@@ -89,6 +93,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
         {
             display_PlayMucsic(lists,currentPage);
             cout << "Invalid choice. Please enter a valid option." << endl;
+            cin.ignore();
         }
     }
     /* RETURN MENU */
@@ -117,7 +122,8 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     cout << string(tableWidth ,'-')<<"\n"<<endl;
     
     display_PlaylistNamePerPage(lists_name,currentpage);
-    // ========================================
+
+    // ======================================== UPDATE TIMESLIDE MUSIC ========================================= // 
     string Play_header =".......................................................................";
     cout<< string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<endl;
     cout<<endl;
@@ -135,7 +141,7 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
     }
     Time_Volume(timelapse, duration, myPlayer.getVolume());
 
-    // ========================================
+    // ============================================================================================================
     if(myPlayer.getFlagAuto()==true )
     {
         cout <<left <<setw(20)<<" "
@@ -174,18 +180,18 @@ void PlayMusicView::Time_Volume(size_t timelapse, size_t duration, const size_t 
     {
         size_t progressLong = timelapse * 50 / duration;
         // Show time sẽ thay giá trị vào
-        cout <<string(tableWidth/5,' ')<< "Time: "
-            << left <<setw(10) <<" "<<"<" << string(progressLong, '#')  << string((50-progressLong), '=')  << ">"
+        cout <<string(tableWidth/6,' ')<< "Time: "
+            << left <<setw(8) <<" "<<"<" << string(progressLong, '#')  << string((50-progressLong), '=')  << ">"
             << format_time(timelapse) << "/" << format_time(duration) <<"\n"<<endl;
     }
     else
     {
-        cout <<string(tableWidth/5,' ')<< "Time: "
+        cout <<string(tableWidth/6,' ')<< "Time: "
             << left <<setw(10) <<" "<<"<" << string(50, '=')  << ">"
             << format_time(0) << "/" << format_time(0) <<"\n"<<endl;
     }
-    cout <<string(tableWidth/5,' ')<<"Volume: "
-         << left <<setw(8) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<endl;
+    cout <<string(tableWidth/6,' ')<<"Volume: "
+         << left <<setw(6) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<endl;
 }
 
 
@@ -227,7 +233,7 @@ int PlayMusicView::check_choice_PlayMusicView_ShowPlay(const vector<MediaFile*>&
                 {
                     case 'N':
                     case 'n':
-                        if (currentPage < (lists_name.size() + PAGE_SIZE - 1) / PAGE_SIZE)
+                        if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
                         {
                             currentPage++;
                         }

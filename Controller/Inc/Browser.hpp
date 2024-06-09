@@ -24,8 +24,13 @@
 #include "PlaylistView.hpp"
 #include "MediaPlayerView.hpp"
 #include "USB.hpp"
+#include <stack>
 
-#define START_PAGE 1
+#define START_PAGE                  1
+#define MP3_EXTENSION               ".mp3"
+#define MP4_EXTENSION               ".mp4"
+#define MP3_TYPE                    1
+#define MP4_TYPE                    2
 
 enum FlowID
 {   
@@ -51,8 +56,7 @@ private:
     int chosenList = 1;
     int chosenMusic = 1;
     size_t list = 1;
-    // size_t chosenList_Play = 1;
-    // size_t chosenMusic_Play = 1;
+
     /*                    SHOW METADATA IN MEDIALIST                       */
     string file_path = "";
     string file_name = "";
@@ -102,7 +106,6 @@ public:
 
     void loadFile();   
     void FreeAll();
-    void CallbackRegister();
 
     int userInput();
     string userInputString();
@@ -112,11 +115,11 @@ public:
     /*MEDIA*/
     void medialist();
     /*META DATA*/
-    void viewMetadata(int file_idx);
+    void metadatalist();
     // void viewMetadata(int file_idx);
     void viewMetadata(const string& file_path,const string& file_name,const int& file_type);
     // void updateMetadata(int file_idx);
-    void updateMetadata(int file_idx);
+    void updateMetadata(string& file_path,string& file_name,int& file_type);
     
     /**/
     void playlist(int& chosenList, int& chosenMusic);
@@ -141,4 +144,5 @@ public:
     /*thread*/
     void updatePlayerView();
     inline void startThread();
+    inline void resetTimer();
 };

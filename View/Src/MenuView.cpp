@@ -1,7 +1,9 @@
 #include "MenuView.hpp"
-#include <cstdlib>
-#include <iomanip> // Để sử dụng setw()
 
+
+/*========================================================================================================================================================*/
+//                                                              SHOW MENU
+/*========================================================================================================================================================*/
 
 void MenuView::display_menu()
 {
@@ -17,7 +19,7 @@ void MenuView::display_menu()
         << left << setw(tableWidth/4) << "0. Exit\n"<<endl;
     cout<< string(tableWidth, '=')<<endl;
     cout << "Choose option:";
-}
+} 
 
 void MenuView::InvalidChoiceInterface()
 {

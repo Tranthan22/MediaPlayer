@@ -30,8 +30,8 @@ void PlaylistView::display_Playlist(const vector<Playlist*>& plists, size_t &cur
 }
 
 void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size_t &currentPage) {
-    int startIndex = (int(currentPage) - 1) * LIST_SIZE;
-    int endIndex = min(startIndex + LIST_SIZE, static_cast<int>(plists.size()));
+    int startIndex = (int(currentPage) - 1) * PAGE_LIST_SIZE;
+    int endIndex = min(startIndex + PAGE_LIST_SIZE, static_cast<int>(plists.size()));
     // static_cast<int> chuyen doi sang so int
     for (int i = startIndex; i < endIndex; ++i) {
         cout<<"|"<< left << setw(10) << i + 1
@@ -58,6 +58,10 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                 if (ListChoice > 0 && ListChoice <= lists.size())
                 {
                     return ListChoice;
+                }else{
+                    display_Playlist(lists,currentPage);
+                    cout << "Invalid choice. Please enter a valid option." << endl;
+                    cin.ignore();
                 }
             }
             else
@@ -67,11 +71,10 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                 {
                     case 'N':
                     case 'n':
-                        if (currentPage < (lists.size() + LIST_SIZE - 1) / LIST_SIZE)
+                        if (currentPage < (lists.size() + PAGE_LIST_SIZE - 1) / PAGE_LIST_SIZE)
                         {
                             currentPage++;
                         }
-                        system("clear");
                         display_Playlist(lists,currentPage);
                         break;
                     case 'P':
@@ -80,7 +83,6 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                         {
                             currentPage--;
                         }
-                        system("clear");
                         display_Playlist(lists,currentPage);
                         break;
 
@@ -109,6 +111,7 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                     default:
                         display_Playlist(lists,currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
+                        cin.ignore();
                 }
             }
         }
@@ -116,6 +119,7 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
         {
             display_Playlist(lists,currentPage);
             cout << "Invalid choice. Please enter a valid option." << endl;
+            cin.ignore();
         }   
     }
     /* Return Menu */
@@ -151,18 +155,18 @@ void PlaylistView:: playlistName(const vector<MediaFile*>&plist_name, size_t &cu
 }
 
 void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_name, size_t &currentPage) {
-    size_t startIndex = (currentPage - 1) * LIST_NAME_SIZE;
-    size_t endIndex = min(startIndex + LIST_NAME_SIZE, plist_name.size());
+    size_t startIndex = (currentPage - 1) * PAGE_SONG_SIZE;
+    size_t endIndex = min(startIndex + PAGE_SONG_SIZE, plist_name.size());
     for (size_t i = startIndex; i < endIndex; ++i) {
-        // string file_name = plist_name[i]->getName();
+        string file_name = plist_name[i]->getName();
         string file_path = plist_name[i]->getPath();
         // size_t file_type = plist_name[i]->getType();
         TagLib::FileRef fileRef(file_path.c_str());
         if (!fileRef.isNull() && fileRef.tag()){
             TagLib::Tag *tag = fileRef.tag();
             cout <<"|"<< left << setw(10) << i + 1
-                <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),40)
-                <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),30)
+                <<"|"<< left << left_align(truncate_utf8(tag->title().toCString(true), 35),tableWidth/3)
+                <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),tableWidth/4)
                 <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
                 <<"|"<< left << setw(tableWidth/8) << tag->year()<<endl;
             cout<<endl;
@@ -206,6 +210,11 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
                 {
                     return MusicChoice;
                 }
+                else{
+                    system("clear");
+                    display_PlaylistName(lists_name,currentPage);
+                    cout << "Invalid choice. Please enter a valid option." << endl;
+                }
             }
             else
             {
@@ -215,7 +224,7 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
                     /* Next page */
                     case 'N':
                     case 'n':
-                        if (currentPage < (lists_name.size() + LIST_NAME_SIZE - 1) / LIST_NAME_SIZE)
+                        if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
                         {
                             currentPage++;
                         }
@@ -306,7 +315,7 @@ int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lis
                     /* Next page */
                     case 'N':
                     case 'n':
-                        if (currentPage < (lists_name.size() + LIST_NAME_SIZE - 1) / LIST_NAME_SIZE)
+                        if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
                         {
                             currentPage++;
                         }

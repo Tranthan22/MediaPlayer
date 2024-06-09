@@ -1,12 +1,8 @@
 #ifndef _MEDIAPATHVIEW_HPP_
 #define _MEDIAPATHVIEW_HPP_
 
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <vector>
+#include "main.hpp"
 
-using namespace std;
 
 class MediaPathView
 {

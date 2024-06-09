@@ -1,28 +1,20 @@
 #ifndef MEDIAFILEVIEW_HPP
 #define MEDIAFILEVIEW_HPP
 
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <iomanip> // Để sử dụng setw()
 #include "MediaFile.hpp"
 #include "MetadataView.hpp"
 #include "main.hpp"
-using namespace std;
 
 
-
-class MediaFileView:public Metadataview
+class MediaFileView
 {
 private:
     //Path:
-    std::string directoryPath;
-    // Hàm tính kích thước chuỗi UTF-8 (số ký tự Unicode)
     size_t utf8_strlen(const std::string& str) {
         // Chuyển đổi từ UTF-8 sang wstring (UTF-32)
         std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> converter;
         std::u32string u32_str = converter.from_bytes(str);
+
         // Trả về kích thước của chuỗi UTF-32
         return u32_str.length();
     }
@@ -30,6 +22,7 @@ private:
     std::string truncate_utf8(const std::string& str, size_t max_length) {
         std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> converter;
         std::u32string u32_str = converter.from_bytes(str);
+
         if (u32_str.length() > max_length) {
             u32_str = u32_str.substr(0, max_length);
         }
@@ -70,18 +63,8 @@ public:
     void display_MediaFile(vector<MediaFile*>& songs, size_t currentpage);
     
     void displaySongsPerPage(vector<MediaFile*>& songs, size_t& currentpage);
-    // khi chon page vuot qua so luong bai  
-    // void Invalid_pageNumber();
-    
-    // Khi khong co lua chon nao dung
     void Invalid_choice();
-    // Yêu cầu người dùng nhập lệnh
-    // void chooseSongToModifie();
-    // ham nay co khi dung o phia control.
     int check_choice(vector<MediaFile*>& songs, size_t& currentPage);
-    // void setChoice(int choice);
-    // int getChoice();
-
 };
 
 #endif /*MEDIAFILEVIEW_HPP*/

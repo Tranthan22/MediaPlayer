@@ -1,7 +1,5 @@
 #include "Browser.hpp"
 
-#define START_PAGE 1
-
 
 Browser::Browser(/* args */)
 {
@@ -93,9 +91,11 @@ void Browser::loadFile()
         vPlayList.push_back(new Playlist("All"));
         for (const auto& entry : fs::directory_iterator(Path))
         {
-            if (entry.is_regular_file() && entry.path().extension() == ".mp3"){
-                int mp3_type =1;
-                vPlayList[0]->addFile(new MediaFile(entry.path().filename().string(), entry.path().string(),mp3_type));
+            if (entry.is_regular_file() && entry.path().extension() == MP3_EXTENSION){
+                vPlayList[0]->addFile(new MediaFile(entry.path().filename().string(), entry.path().string(), MP3_TYPE));
+            }
+            else if(entry.is_regular_file() && entry.path().extension() == MP4_EXTENSION){
+                vPlayList[0]->addFile(new MediaFile(entry.path().filename().string(), entry.path().string(), MP4_TYPE));
             }
         }
     }
@@ -134,6 +134,7 @@ string Browser::userInputString()
 }
 
 
+
 /*===========================================  Menu =========================================================*/
 void Browser::menu()
 {
@@ -167,11 +168,9 @@ void Browser::menu()
 void Browser::medialist()
 {
     size_t currentPage=START_PAGE;
-    bool flag = true;
     int choose_song;
-    int user_input;
     mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
-    cout << "\nChoose song to modifie : ";
+    metadataView.chooseMetadataField();
     choose_song = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
     if(choose_song == -1)
     {
@@ -180,42 +179,46 @@ void Browser::medialist()
     }
     else
     {
-        while(flag)
-        {   
-            system("clear");
-            mediaFileView.menuMetaView();
-            user_input =userInput();
-            // flowID.push(SHOW_METADATA);
-            switch (user_input)
-            {
-                case SHOW_METADATA:
-                    system("clear");
-                    viewMetadata(choose_song);
-                    cout << "Enter to back: " << endl;
-                    cin.ignore();
-                    break;
-                case UPDATE_METADATA:
-                    system("clear");
-                    updateMetadata(choose_song);
-                    break;
-                case BACK_MENU:
-                    system("clear");
-                    flag = false;
-                    break;
-                default:
-                    break;
-                    cout << "Invalid choice. Please enter a valid option." << endl;
-                }
-        }
+        /*                    SHOW METADATA IN MEDIALIST                       */
+        
+        file_path = vPlayList[0]->getPlaylist()[choose_song-1]->getPath();
+        file_name = vPlayList[0]->getPlaylist()[choose_song-1]->getName();
+        file_type = vPlayList[0]->getPlaylist()[choose_song-1]->getType();
+        flowID.push(METADATA_LIST_ID);
     }
 }
-
-void Browser::viewMetadata(int file_idx)
+/*                           SHOW METADATA                           */
+void Browser::metadatalist()
 {
-    string file_path = vPlayList[0]->getPlaylist()[file_idx-1]->getPath();
-    string file_name = vPlayList[0]->getPlaylist()[file_idx-1]->getName();
-    int file_type = vPlayList[0]->getPlaylist()[file_idx-1]->getType();
-    // get  data from playlist to metaData
+    metadataView.menuMetaView();
+    int user_input =userInput();
+    switch (user_input)
+    {
+        case SHOW_METADATA:
+            system("clear");
+            viewMetadata(file_path,file_name,file_type);
+            cout << "Enter to back: " << endl;
+            cin.ignore();
+            break;
+        case UPDATE_METADATA:
+            system("clear");
+            updateMetadata(file_path,file_name,file_type);
+            break;
+        case BACK_MENU:
+            system("clear");
+            flowID.pop();
+            break;
+        default:       
+            cout << "Invalid choice. Please enter a valid option." << endl;
+            cin.ignore();
+            system("clear");
+            break;
+    }
+    system("clear");
+}
+void Browser::viewMetadata(const string& file_path,const string& file_name,const int& file_type)
+{
+    // // get  data from playlist to metaData
     metaData.set_FilePath(file_path);
     TagLib::FileRef fileRef=metaData.getfileRef();
     string header = "Displaying Metadata...";
@@ -248,11 +251,8 @@ void Browser::viewMetadata(int file_idx)
     }
 }
 
-void Browser::updateMetadata(int file_idx)
+void Browser::updateMetadata(string& file_path,string& file_name,int& file_type)
 {   
-    string file_path = vPlayList[0]->getPlaylist()[file_idx-1]->getPath();
-    string file_name = vPlayList[0]->getPlaylist()[file_idx-1]->getName();
-    int file_type = vPlayList[0]->getPlaylist()[file_idx-1]->getType();
     // get  data from playlist to metaData
     metaData.set_FilePath(file_path);
     TagLib::FileRef fileRef=metaData.getfileRef();
@@ -357,7 +357,7 @@ void Browser::updateMetadata(int file_idx)
     }
 }
 
-/*========================================== Option 2 in Menu =========================================================*/
+/*=============================================== Option 2 in Menu =========================================================*/
 void Browser::playlist(int& chosenList, int& chosenMusic)
 {
     int UserOption = 0;
@@ -397,6 +397,21 @@ void Browser::createList()
     cout << "Name: " ;
     string newPlaylistName = userInputString();
     vPlayList.push_back(new Playlist(newPlaylistName));
+    /*IF vPLAYLIST EMPTY ADD SONG */
+    cout<<"Playlist empty. Enter to add songs";
+    cin.ignore();
+    if(vPlayList[vPlayList.size()-1]->getPlaylist().size() == 0)
+    {
+        // flowID.push(7);
+        size_t currentPage=1;
+        mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
+        cout<<"Choose media to Add: ";
+        int choose_add = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
+        if(choose_add != -1){
+            vPlayList[vPlayList.size()-1]->getPlaylist().push_back(vPlayList[0]->getPlaylist()[choose_add-1]);
+        }
+        return;
+    }
 }
 
 /* Delete playlist */
@@ -452,13 +467,14 @@ void Browser::playlist_music(int& chosenList)
         break;
     /* Add Music */
     case ADD_MUSIC:
-        // flowID.push(7);
         mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), currentPage);
-        cout<<"\n Choose media to Add: ";
+        cout<<"Choose media to Add: ";
         choose_add = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), currentPage);
-        if(choose_add != -1){
+        if(choose_add != -1)
+        {
             check_add=playListView.check_choice_PlaylistName_ADD(vPlayList[chosenList - 1]->getPlaylist(),vPlayList[0]->getPlaylist(),choose_add);
-            if(check_add){
+            if(check_add)
+            {
                 vPlayList[chosenList - 1]->getPlaylist().push_back(vPlayList[0]->getPlaylist()[choose_add-1]);
                 return;
             }
@@ -471,9 +487,12 @@ void Browser::playlist_music(int& chosenList)
         choose_remove = playListView.check_choice_PlaylistName_REMOVE(vPlayList[chosenList - 1]->getPlaylist(), currentPage);
         vPlayList[chosenList - 1]->getPlaylist().erase( vPlayList[chosenList - 1]->getPlaylist().begin()+choose_remove-1);
         break;
+    /* SHOW METADATA SONGS IN PLAYLISTNAME  */
     default:
-        // flowID.push(8);
-        break;
+        file_path = vPlayList[chosenList-1]->getPlaylist()[UserOption-1]->getPath();
+        file_name = vPlayList[chosenList-1]->getPlaylist()[UserOption-1]->getName();
+        file_type = vPlayList[chosenList-1]->getPlaylist()[UserOption-1]->getType();
+        flowID.push(METADATA_LIST_ID);
     }
 }
 
@@ -517,36 +536,32 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         break;
     case -4:
         myPlayer.nextMusic();
-        startTime = std::chrono::steady_clock::now();
-        timelapse = std::chrono::duration<double>::zero();
+        resetTimer();
         break;
     case -5:
         {
         std::lock_guard<std::mutex> lock1(mtx1);
         myPlayer.preMusic();
         }
-        myPlayer.playMusic();
-        startTime = std::chrono::steady_clock::now();
-        timelapse = std::chrono::duration<double>::zero();
+        resetTimer();
         break;
     case -6:
-        // Case auto or update'
+        // Case Auto or Repeat'
         if(myPlayer.getFlagAuto() ==true)
         {
             myPlayer.setFlagAuto(false);
-        }else{
+        }
+        else
+        {
             myPlayer.setFlagAuto(true);
         }
-        
         break;
     default:
-        startTime = std::chrono::steady_clock::now();
-        timelapse = std::chrono::duration<double>::zero();
+        resetTimer();
         myPlayer.setIndexInList(chosenMusic);
-        myPlayer.playMusic(/*b->getPath().c_str()*/);
+        myPlayer.playMusic();
         break;
     }
-
 }
 /*============================== Thread ===============================*/
 
@@ -556,7 +571,6 @@ void Browser::updatePlayerView()
     do
     {
         std::string musicPath;
-
         musicPath = myPlayer.getPlayingMusicPath();
         try
         {   
@@ -572,8 +586,7 @@ void Browser::updatePlayerView()
                 timelapse = std::chrono::steady_clock::now() - startTime;
                 if(timelapse.count() >= duration)
                 {
-                    startTime = std::chrono::steady_clock::now();
-                    timelapse = std::chrono::duration<double>::zero();
+                    resetTimer();
                     myPlayer.autoMusic();
                 }
             }
@@ -598,6 +611,11 @@ void Browser::startThread()
     myThread = std::thread(&Browser::updatePlayerView, this);
 }
 
+void Browser::resetTimer()
+{
+    startTime = std::chrono::steady_clock::now();
+    timelapse = std::chrono::duration<double>::zero();
+}
 
 /*========================================== Program Flow =====================================================*/
 void Browser::programFlow()
@@ -627,10 +645,8 @@ void Browser::programFlow()
                 playmusic_player(chosenList, chosenMusic);
                 break;
             case 7:
-            {
                 PathUsbSelection();
                 break;
-            }
             case 8:
                 setPath();
                 break;

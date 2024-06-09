@@ -1,7 +1,7 @@
 #ifndef MENUVIEW_HPP
 #define MENUVIEW_HPP
 
-#include <iostream>
+#include "main.hpp"
 
 enum MenuChoices
 {
@@ -10,8 +10,6 @@ enum MenuChoices
     PLAY_LIST,
     PLAY_MUSIC
 };
-
-#define tableWidth 120
 
 using namespace std;
 
@@ -25,4 +23,4 @@ public:
     void InvalidChoiceInterface();
     void exitProgram();
 };
-#endif
+#endif/*MENUVIEW_HPP*/
