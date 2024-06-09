@@ -18,6 +18,7 @@ private:
     std::vector<MediaFile*> *list;
     static bool Playing;
     static int fileIndexInList;
+    static bool checkInitSDL; 
     Mix_Music *bgm;    
     bool flagAuto =false;
     // Mutex
@@ -42,8 +43,11 @@ public:
     size_t getVolume();
     int VolumeUp();
     int VolumeDown();
-    void ExitAudio();
+    
     void setFlagAuto(bool flagAuto);
     bool getFlagAuto();
+
+    void InitSDL();
+    void ExitAudio();
 
 };

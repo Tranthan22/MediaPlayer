@@ -45,9 +45,9 @@ void PlaylistView::display_PlaylistPerPage(const vector<Playlist*>& plists, size
 int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size_t& currentPage) {
     string userInput;
     bool flag = true;
-    
     while(flag)
     {   
+        display_Playlist(lists,currentPage);
         cout << "Choose option to playlist: ";
         getline(cin, userInput);
         if (!userInput.empty()) {
@@ -59,7 +59,6 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                 {
                     return ListChoice;
                 }else{
-                    display_Playlist(lists,currentPage);
                     cout << "Invalid choice. Please enter a valid option." << endl;
                     cin.ignore();
                 }
@@ -75,7 +74,6 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                         {
                             currentPage++;
                         }
-                        display_Playlist(lists,currentPage);
                         break;
                     case 'P':
                     case 'p':
@@ -83,7 +81,6 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                         {
                             currentPage--;
                         }
-                        display_Playlist(lists,currentPage);
                         break;
 
                     /* Create list */
@@ -109,7 +106,6 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
                         flag = false;
                         break;
                     default:
-                        display_Playlist(lists,currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
                         cin.ignore();
                 }
@@ -117,7 +113,7 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
         }
         else
         {
-            display_Playlist(lists,currentPage);
+
             cout << "Invalid choice. Please enter a valid option." << endl;
             cin.ignore();
         }   
@@ -169,7 +165,6 @@ void PlaylistView::display_PlaylistNamePerPage(const vector<MediaFile*>&plist_na
                 <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),tableWidth/4)
                 <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
                 <<"|"<< left << setw(tableWidth/8) << tag->year()<<endl;
-            cout<<endl;
         }
     }
 }
@@ -199,6 +194,7 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
     
     while(flag)
     {   
+        display_PlaylistName(lists_name,currentPage);
         cout << "Choose option to Modifle: ";
         getline(cin, userInput);
         if (!userInput.empty()) {
@@ -211,9 +207,8 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
                     return MusicChoice;
                 }
                 else{
-                    system("clear");
-                    display_PlaylistName(lists_name,currentPage);
                     cout << "Invalid choice. Please enter a valid option." << endl;
+                    cin.ignore();
                 }
             }
             else
@@ -228,8 +223,6 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
                         {
                             currentPage++;
                         }
-                        system("clear");
-                        display_PlaylistName(lists_name, currentPage);
                         break;
 
                     /* Previous page */
@@ -239,8 +232,6 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
                         {
                             currentPage--;
                         }
-                        system("clear");
-                        display_PlaylistName(lists_name, currentPage);
                         break;
 
                     /* Add Music */
@@ -259,16 +250,15 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
                         flag = false;
                         return EXIT_MUSIC;
                     default:
-                        system("clear");
-                        display_PlaylistName(lists_name,currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
+                        cin.ignore();
                 }
             }
         }
         else
         {
-            system("clear");
-            display_PlaylistName(lists_name,currentPage);
+            cout << "Invalid choice. Please enter a valid option." << endl;
+            cin.ignore();
         }
     }
     /* Exit */
@@ -319,7 +309,6 @@ int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lis
                         {
                             currentPage++;
                         }
-                        system("clear");
                         display_PlayNameRemove(lists_name, currentPage);
 
                         break;
@@ -331,7 +320,6 @@ int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lis
                         {
                             currentPage--;
                         }
-                        system("clear");
                         display_PlayNameRemove(lists_name, currentPage);
                         break;
                     /* Exit */
@@ -340,16 +328,16 @@ int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lis
                         flag = false;
                         return EXIT_MUSIC;
                     default:
-                        system("clear");
                         display_PlayNameRemove(lists_name,currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
+                        cin.ignore();
                 }
             }
         }
         else
         {
-            system("clear");
             display_PlayNameRemove(lists_name,currentPage);
+            cin.ignore();
         }
     }
     return 0;

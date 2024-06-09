@@ -2,14 +2,24 @@
 
 bool MediaPlayer::Playing = false;
 int MediaPlayer::fileIndexInList = 0;
-
+bool MediaPlayer::checkInitSDL =true;
 
 MediaPlayer::MediaPlayer(/* args */)
 {
-    if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+    InitSDL();
+}
+
+MediaPlayer::~MediaPlayer()
+{
+    ExitAudio();
+}
+/*=================== Media Player =========================*/
+
+void MediaPlayer::InitSDL()
+{
+     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
         std::cerr << "SDL could not initialize! SDL Error: " << SDL_GetError() << std::endl;
     }
-
     // Khởi tạo SDL_mixer
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         std::cerr << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << std::endl;
@@ -17,16 +27,13 @@ MediaPlayer::MediaPlayer(/* args */)
     }
 }
 
-MediaPlayer::~MediaPlayer()
+void MediaPlayer::ExitAudio()
 {
-    // if(bgm != NULL)
-    // {
-    //     Mix_FreeMusic(bgm);
-    // }
-    // Mix_CloseAudio();
-    // SDL_Quit();
+    Mix_CloseAudio();
+    SDL_Quit();
+    checkInitSDL=false;
 }
-/*=================== Media Player =========================*/
+
 int MediaPlayer::playMusic(/*const char* file*/)
 {
     if((*list)[fileIndexInList]->getType()== 1)
@@ -36,7 +43,7 @@ int MediaPlayer::playMusic(/*const char* file*/)
     // Trích xuất âm thanh từ tệp video MP4 bằng FFmpeg
     else{
         std::string name_song = (*list)[fileIndexInList]->getPath();
-        std::string command =  "ffmpeg -y -i "+ name_song +" -vn -acodec pcm_s16le -ar 44100 -ac 2 ./Music/output.wav";
+        std::string command =  "ffmpeg -y -i "+ name_song +" -vn -acodec pcm_s16le -ar 44100 -ac 2 Music/output.wav";
         std::system(command.c_str());
         // Load và phát âm thanh đã trích xuất bằng SDL2_mixer
         bgm = Mix_LoadMUS("./Music/output.wav");
@@ -65,10 +72,6 @@ int MediaPlayer::playMusic(/*const char* file*/)
         }
     }
     return 0;
-}
-void MediaPlayer::ExitAudio()
-{
-    Mix_PauseMusic();
 }
 
 void MediaPlayer:: ResumePause()

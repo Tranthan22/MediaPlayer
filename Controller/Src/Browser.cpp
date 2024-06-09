@@ -195,30 +195,27 @@ void Browser::metadatalist()
     switch (user_input)
     {
         case SHOW_METADATA:
-            system("clear");
             viewMetadata(file_path,file_name,file_type);
             cout << "Enter to back: " << endl;
             cin.ignore();
             break;
         case UPDATE_METADATA:
-            system("clear");
             updateMetadata(file_path,file_name,file_type);
             break;
         case BACK_MENU:
-            system("clear");
             flowID.pop();
             break;
         default:       
             cout << "Invalid choice. Please enter a valid option." << endl;
             cin.ignore();
-            system("clear");
+
             break;
     }
-    system("clear");
 }
 void Browser::viewMetadata(const string& file_path,const string& file_name,const int& file_type)
 {
     // // get  data from playlist to metaData
+    system("clear");
     metaData.set_FilePath(file_path);
     TagLib::FileRef fileRef=metaData.getfileRef();
     string header = "Displaying Metadata...";
@@ -276,7 +273,7 @@ void Browser::updateMetadata(string& file_path,string& file_name,int& file_type)
         cout << string(tableWidth, '=')<<endl;
         metadataView.chooseMetadataField();
         update_opt = userInput();
-        // ======================================================
+        // ======================================================a
         if(update_opt == 0)
         {
             return;
@@ -451,7 +448,6 @@ void Browser::renameList()
 
 void Browser::playlist_music(int& chosenList)
 {
-    system("clear");
     int choose_remove;
     int choose_add;
     bool check_add;
@@ -473,9 +469,9 @@ void Browser::playlist_music(int& chosenList)
         if(choose_add != -1)
         {
             check_add=playListView.check_choice_PlaylistName_ADD(vPlayList[chosenList - 1]->getPlaylist(),vPlayList[0]->getPlaylist(),choose_add);
-            if(check_add)
-            {
-                vPlayList[chosenList - 1]->getPlaylist().push_back(vPlayList[0]->getPlaylist()[choose_add-1]);
+            if(check_add){
+                MediaFile*new_songs =vPlayList[0]->getPlaylist()[choose_add-1];
+                vPlayList[chosenList - 1]->getPlaylist().push_back(new_songs);
                 return;
             }
         }

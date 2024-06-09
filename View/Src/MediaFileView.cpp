@@ -45,7 +45,6 @@ void MediaFileView::displaySongsPerPage(vector<MediaFile*>& songs, size_t& curre
             <<"|"<< left << left_align(truncate_utf8(tag->artist().toCString(true), 30),tableWidth/4)
             <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
             <<"|"<< left << setw(tableWidth/8) << tag->year()<< endl;
-        std::cout<<endl;
     }
     }
 }
@@ -71,13 +70,10 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
             {
                 if (Song_Choice > 0 && Song_Choice <= songs.size())
                 {
-                    system("clear");
                     return Song_Choice;
                     flag = false;
 
                 }else{
-                    system("clear");
-                    display_MediaFile(songs, currentPage);
                     Invalid_choice();
                     cin.ignore();
                 }
@@ -92,8 +88,6 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
                         {
                             currentPage++;
                         }
-                        system("clear");
-                        display_MediaFile(songs, currentPage);
                         break;
                     /*PRERIOUS PAGE*/
                     case 'P':
@@ -102,8 +96,6 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
                         {
                             currentPage--;
                         }
-                        system("clear");
-                        display_MediaFile(songs, currentPage);
                         break;
                     /*EXIT PAGE*/
                     case 'E':
@@ -112,14 +104,10 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
                         return -1;
                         break;
                     default:
-                        system("clear");
-                        display_MediaFile(songs, currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
                 }
             }
         }else{
-            system("clear");
-            display_MediaFile(songs, currentPage);
             cout << "Invalid choice. Please enter a valid option." << endl;
         }
     }
