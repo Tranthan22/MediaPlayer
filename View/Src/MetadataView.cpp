@@ -6,7 +6,7 @@
 /*========================================================================================================================================================*/
 void Metadataview::menuMetaView()
 {
-    system("clear");
+    // system("clear");
     string header = "Menu Metadata";
     cout << string(tableWidth , '=')<<endl;
     cout << string(tableWidth / 2-header.length()/2, ' ') << header <<endl;

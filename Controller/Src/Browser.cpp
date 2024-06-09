@@ -422,8 +422,9 @@ void Browser::deleteList()
         cout << "Invalid list number." << endl;
         return;
     }
-    else
-    {
+    else{
+    
+        vPlayList[newPlaylistIndex]->getPlaylist().clear();
         vPlayList.erase(vPlayList.begin() + newPlaylistIndex);
     }
 }

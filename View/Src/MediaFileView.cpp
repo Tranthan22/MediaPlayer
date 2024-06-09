@@ -6,7 +6,7 @@
 
 void MediaFileView::display_MediaFile(vector<MediaFile*>& songs, size_t currentpage)
 {
-    system("clear");
+    // system("clear");
     string header = "Media List";
     cout << string(tableWidth , '=')<<endl;
     cout << string(tableWidth / 2-header.length()/2, ' ') << header <<endl;
@@ -61,6 +61,7 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
     bool flag = true;
     while(flag)
     {
+        display_MediaFile(songs,currentPage);
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);
@@ -87,7 +88,6 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
                         {
                             currentPage++;
                         }
-                        display_MediaFile(songs,currentPage);
                         break;
                     /*PRERIOUS PAGE*/
                     case 'P':
@@ -96,7 +96,6 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
                         {
                             currentPage--;
                         }
-                        display_MediaFile(songs,currentPage);
                         break;
                     /*EXIT PAGE*/
                     case 'E':

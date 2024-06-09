@@ -6,7 +6,7 @@
 /*========================================================================================================================================================*/
 void MediaPathView::display_MediaPath(vector<string>& devices)
 {
-    system("clear");
+    // system("clear");
     string header = "Media Path";
     string show_notic ="Choose your option";
     cout<< string(tableWidth , '=')<<endl;
@@ -25,7 +25,7 @@ void MediaPathView::display_MediaPath(vector<string>& devices)
 }
 void MediaPathView::display_MediaPath()
 {
-    system("clear");
+    // system("clear");
     string header = "Media Path";
     string show_notic ="Please, input your media path you want to play";
     cout<< string(tableWidth , '=')<<endl;
