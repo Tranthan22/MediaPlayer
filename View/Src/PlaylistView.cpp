@@ -285,6 +285,7 @@ int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lis
     bool flag = true;
     while(flag)
     {   
+        display_PlayNameRemove(lists_name, currentPage);
         cout<<"Choose media to Remove: ";
         getline(cin, userInput);
         if (!userInput.empty()) {
@@ -309,7 +310,6 @@ int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lis
                         {
                             currentPage++;
                         }
-                        display_PlayNameRemove(lists_name, currentPage);
 
                         break;
 
@@ -320,7 +320,6 @@ int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lis
                         {
                             currentPage--;
                         }
-                        display_PlayNameRemove(lists_name, currentPage);
                         break;
                     /* Exit */
                     case 'E':
@@ -328,7 +327,6 @@ int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lis
                         flag = false;
                         return EXIT_MUSIC;
                     default:
-                        display_PlayNameRemove(lists_name,currentPage);
                         cout << "Invalid choice. Please enter a valid option." << endl;
                         cin.ignore();
                 }
@@ -336,8 +334,7 @@ int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lis
         }
         else
         {
-            display_PlayNameRemove(lists_name,currentPage);
-            cin.ignore();
+            /**/
         }
     }
     return 0;

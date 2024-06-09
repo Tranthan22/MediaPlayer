@@ -64,6 +64,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
                         {
                             currentPage++;
                         }
+                        
                         break;
                     /*PREVIOUS PAGE*/
                     case 'P':

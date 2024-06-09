@@ -10,6 +10,7 @@
 #include <mutex>
 #include <atomic>
 #include <chrono>
+#include <stack>
 
 #include "MediaPlayerView.hpp"
 #include "MediaFileView.hpp"
@@ -22,9 +23,14 @@
 #include "Metadata.hpp"
 #include "PlaylistView.hpp"
 #include "MediaPlayerView.hpp"
+#include "USB.hpp"
 #include <stack>
 
-#define START_PAGE 1
+#define START_PAGE                  1
+#define MP3_EXTENSION               ".mp3"
+#define MP4_EXTENSION               ".mp4"
+#define MP3_TYPE                    1
+#define MP4_TYPE                    2
 
 enum FlowID
 {   
@@ -35,6 +41,8 @@ enum FlowID
     PLAY_MUSIC_ID = 4,
     PLAY_LIST_MUSIC_ID = 5,
     PLAY_MUSIC_PLAYER_ID = 6,
+    PATH_USB_ID =7,
+    SET_PATH_ID =8
 };
 
 
@@ -50,8 +58,7 @@ private:
     int chosenList = 1;
     int chosenMusic = 1;
     size_t list = 1;
-    // size_t chosenList_Play = 1;
-    // size_t chosenMusic_Play = 1;
+
     /*                    SHOW METADATA IN MEDIALIST                       */
     string file_path = "";
     string file_name = "";
@@ -86,17 +93,22 @@ private:
     TagLib::FileRef fileRef;
 
     std::mutex mtx1;
-    std::mutex mtx2;
+    // std::mutex mtx2;
 
+    /* USB */
+    USBDeviceScanner usbDeviceScanner;
+    std::vector<std::string> devices;
 
 public:
     Browser(/* args */);
     ~Browser();
 
     void setPath();
+    void setPathView();
+    void PathUsbSelection();
+
     void loadFile();   
     void FreeAll();
-    void CallbackRegister();
 
     int userInput();
     string userInputString();
@@ -135,5 +147,5 @@ public:
     /*thread*/
     void updatePlayerView();
     inline void startThread();
+    inline void resetTimer();
 };
-

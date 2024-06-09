@@ -57,18 +57,17 @@ void MediaFileView::Invalid_choice()
 // ==================================================== CHECK USING FOR CHOOSE SONG IN MEDIALIST TO MODIFIED =============================================//
 
 int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) {
-    string userInput;
+    string userInput;int Song_Choice;
     bool flag = true;
     while(flag)
     {
-
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);
-            size_t Song_Choice;
+            
             if (ss >> Song_Choice)
             {
-                if (Song_Choice > 0 && Song_Choice <= songs.size())
+                if (Song_Choice > 0 && Song_Choice <= (int)songs.size())
                 {
                     return Song_Choice;
                     flag = false;
@@ -88,6 +87,7 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
                         {
                             currentPage++;
                         }
+                        display_MediaFile(songs,currentPage);
                         break;
                     /*PRERIOUS PAGE*/
                     case 'P':
@@ -96,6 +96,7 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
                         {
                             currentPage--;
                         }
+                        display_MediaFile(songs,currentPage);
                         break;
                     /*EXIT PAGE*/
                     case 'E':
@@ -112,7 +113,7 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
         }
     }
     /*RETURN PAGE*/
-    return -1;
+    return Song_Choice;
 }
 
 /*========================================================================================================================================================*/

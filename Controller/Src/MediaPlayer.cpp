@@ -36,13 +36,6 @@ void MediaPlayer::ExitAudio()
 
 int MediaPlayer::playMusic(/*const char* file*/)
 {
-
-    if(!checkInitSDL)
-    {
-        InitSDL();
-        checkInitSDL = true;
-    }
-    // char *file = 
     if((*list)[fileIndexInList]->getType()== 1)
     {
         bgm = Mix_LoadMUS((*list)[fileIndexInList]->getPath().c_str());
@@ -51,9 +44,9 @@ int MediaPlayer::playMusic(/*const char* file*/)
     else{
         std::string name_song = (*list)[fileIndexInList]->getPath();
         std::string command =  "ffmpeg -y -i "+ name_song +" -vn -acodec pcm_s16le -ar 44100 -ac 2 Music/output.wav > /dev/null 2>&1";
-        system(command.c_str());
+        std::system(command.c_str());
         // Load và phát âm thanh đã trích xuất bằng SDL2_mixer
-        bgm = Mix_LoadMUS("Music/output.wav");
+        bgm = Mix_LoadMUS("./Music/output.wav");
     }
     if (bgm == NULL)
     {
@@ -78,7 +71,6 @@ int MediaPlayer::playMusic(/*const char* file*/)
             Playing = true;
         }
     }
-    // startStatusUpdate();
     return 0;
 }
 
@@ -115,7 +107,6 @@ void MediaPlayer:: nextMusic()
 
 void MediaPlayer:: preMusic()
 {
-    // string MusicDir="";
     Mix_HaltMusic();
     std::lock_guard<std::mutex> lock(counter_mutex);
     if(--fileIndexInList < 0)
@@ -159,6 +150,7 @@ string MediaPlayer::getPlayingMusicName()
 {
     return (*list)[fileIndexInList]->getName();
 }
+
 string MediaPlayer::getPlayingMusicPath()
 {
     if(fileIndexInList > (int)(*list).size() - 1)

@@ -16,8 +16,8 @@
 
 using namespace std;
 
-#define PAGE_SONG_SIZE 10
-#define PAGE_LIST_SIZE 10
+#define PAGE_SONG_SIZE 4
+#define PAGE_LIST_SIZE 4
 #define tableWidth 120
 
 
