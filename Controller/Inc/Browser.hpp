@@ -82,6 +82,7 @@ private:
     std::chrono::time_point<std::chrono::steady_clock> startTime;
     std::chrono::duration<double> timelapse;
     std::thread myThread;
+    std::thread myThread2;
     TagLib::FileRef fileRef;
 
     std::mutex mtx1;
@@ -130,7 +131,7 @@ public:
 
     /**/
     void programFlow();
-
+    void display();
     /*thread*/
     void updatePlayerView();
     inline void startThread();

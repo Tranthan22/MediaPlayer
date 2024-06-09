@@ -8,7 +8,7 @@
 #include "MediaPlayer.hpp"
 
 
-class PlayMusicView:public PlaylistView,public MediaPlayer
+class PlayMusicView:public PlaylistView
 {
     private:
         

@@ -8,25 +8,25 @@ void PlayMusicView::display_PlayMucsic(const vector<Playlist*>& plists, size_t& 
 {
     system("clear");
     string header = "Play Music";
-    cout<< string(tableWidth , '=')<<endl;
-    cout<< string(tableWidth / 2-header.length()/2, ' ') << header <<endl;
-    cout<< string(tableWidth, '=')<<endl;
+    cout<< string(tableWidth , '=')<<std::flush<<endl;;
+    cout<< string(tableWidth / 2-header.length()/2, ' ') << header <<std::flush<<endl;;
+    cout<< string(tableWidth, '=')<<std::flush<<endl;;
     cout<<"|"<< left << setw(10) << " No."
         <<"|"<< left << setw(tableWidth/3) << "List Name"
-        <<"|"<< left << setw(tableWidth/3) << "Number"<<endl;
-    cout<< string(tableWidth ,'-')<<"\n"<<endl;
+        <<"|"<< left << setw(tableWidth/3) << "Number"<<std::flush<<endl;;
+    cout<< string(tableWidth ,'-')<<"\n"<<std::flush<<endl;;
 
     display_PlaylistPerPage(plists,currentpage);
 
-    cout<<"\n"<<string(tableWidth, '-')<<endl;
-    cout << "Total Media list: " << plists.size() << endl;
-    cout << "Page: " << currentpage<<endl;
+    cout<<"\n"<<string(tableWidth, '-')<<std::flush<<endl;;
+    cout << "Total Media list: " << plists.size() << std::flush<<endl;;
+    cout << "Page: " << currentpage<<std::flush<<endl;;
     cout <<string(tableWidth/4, ' ')
          << left << setw(25) << "P. Previous"
          << left << setw(25) << "N. Next"
-         << left << setw(25) << "E. Exit"<< endl;
-    cout<<endl;
-    cout<< string(tableWidth, '=')<<endl;
+         << left << setw(25) << "E. Exit"<< std::flush<<endl;;
+    cout<<std::flush<<endl;;
+    cout<< string(tableWidth, '=')<<std::flush<<endl;;
 }
 
 // ==================================================== CHECK USING FOR SHOW PLAYLIST IN PLAY MUSIC ======================================================//
@@ -120,19 +120,20 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
 
     // ======================================== UPDATE TIMESLIDE MUSIC ========================================= // 
     string Play_header =".......................................................................";
-    cout<< string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<endl;
-    cout<<endl;
+    // std::cout << "\r" << message << " (" << elapsed << "s)" << std::flush;
+    cout<< "\r" << string(tableWidth / 2-Play_header.length()/2, ' ') << Play_header <<std::flush<<endl;;
+    cout<<std::flush<<endl;;
     if(duration > 0)
     {
         string Playing_name = "Playing: "+ myPlayer.getPlayingMusicName();
-        cout<< string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name <<endl;
-        cout<<endl;
+        cout<< "\r" << string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name << std::flush<<endl;;
+        cout<<std::flush<<endl;;
     }
     else
     {
         string Playing_name = "Playing: UNKNOWN";
-        cout<< string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name <<endl;
-        cout<<endl;
+        cout<< string(tableWidth / 2-Playing_name.length()/2, ' ') << Playing_name <<std::flush<<endl;;
+        cout<<std::flush<<endl;;
     }
     Time_Volume(timelapse, duration, myPlayer.getVolume());
 
@@ -143,28 +144,28 @@ void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_
          << left << setw(25) << "<->. Previous song"
          << left << setw(25) << "<R>. Pause/ Resume"
          << left << setw(18) << "<A>. Repeat"
-         << left << setw(25) << "<+>. Next song" <<endl;
+         << left << setw(25) << "<+>. Next song" <<std::flush<<endl;;
     }else{
         cout <<left << setw(20)<<" "
             << left << setw(25) << "<->. Previous song"
             << left << setw(25) << "<R>. Pause/ Resume"
             << left << setw(18) << "<A>. Auto"
-            << left << setw(25) << "<+>. Next song" <<endl;
+            << left << setw(25) << "<+>. Next song" <<std::flush<<endl;;
     }
-    cout<< string(tableWidth , '=')<<endl;
-    cout << "Total Media list: " << lists_name.size() << "\n" << endl;
-    cout << "Page: " << currentpage<<endl;
+    cout<< string(tableWidth , '=')<<std::flush<<endl;;
+    cout << "Total Media list: " << lists_name.size() << "\n" << std::flush<<endl;;
+    cout << "Page: " << currentpage<<std::flush<<endl;;
     cout <<string(tableWidth/4, ' ')
          << left << setw(25) << "P. Previous"
          << left << setw(25) << "N. Next"
-         << left << setw(25) << "E. Exit"<< endl;
-    cout<<endl;
+         << left << setw(25) << "E. Exit"<< std::flush<<endl;;
+    cout<<std::flush<<endl;;
     cout <<string(tableWidth/4, ' ')
          << left << setw(25) << "U. Up Volume"
-         << left << setw(25) << "D. Down Volume"<< endl;
-    cout<<endl;
-    cout<< string(tableWidth , '=')<<endl;
-    cout<< "Choose option to play: " << endl;
+         << left << setw(25) << "D. Down Volume"<< std::flush<<endl;;
+    cout<<std::flush<<endl;;
+    cout<< string(tableWidth , '=')<<std::flush<<endl;;
+    cout<< "Choose option to play: " << std::flush<<endl;;
 }
 
 // ================================================== SHOW CHANGE TIME  - VOLUME - NEXT SONG  - PREVIOUS SONG =========================================== //
@@ -177,16 +178,16 @@ void PlayMusicView::Time_Volume(size_t timelapse, size_t duration, const size_t 
         // Show time sẽ thay giá trị vào
         cout <<string(tableWidth/6,' ')<< "Time: "
             << left <<setw(8) <<" "<<"<" << string(progressLong, '#')  << string((50-progressLong), '=')  << ">"
-            << format_time(timelapse) << "/" << format_time(duration) <<"\n"<<endl;
+            << format_time(timelapse) << "/" << format_time(duration) <<"\n"<<std::flush<<endl;;
     }
     else
     {
         cout <<string(tableWidth/6,' ')<< "Time: "
             << left <<setw(10) <<" "<<"<" << string(50, '=')  << ">"
-            << format_time(0) << "/" << format_time(0) <<"\n"<<endl;
+            << format_time(0) << "/" << format_time(0) <<"\n"<<std::flush<<endl;;
     }
     cout <<string(tableWidth/6,' ')<<"Volume: "
-         << left <<setw(6) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<endl;
+         << left <<setw(6) <<" "<<"<  "<< (volume*100)/128 << "%  >"<<"\n"<<std::flush<<endl;;
 }
 
 

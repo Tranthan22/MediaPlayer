@@ -221,7 +221,7 @@ void Browser::updateMetadata(string& file_path,string& file_name,int& file_type)
         cout << string(tableWidth, '=')<<endl;
         metadataView.chooseMetadataField();
         update_opt = userInput();
-        // ======================================================a
+        // ======================================================
         if(update_opt == 0)
         {
             return;
@@ -396,6 +396,7 @@ void Browser::renameList()
 
 void Browser::playlist_music(int& chosenList)
 {
+    system("clear");
     int choose_remove;
     int choose_add;
     bool check_add;
@@ -426,7 +427,6 @@ void Browser::playlist_music(int& chosenList)
         break;
     /* Remove Music */
     case REMOVE_MUSIC:
-        system("clear");
         playListView.display_PlayNameRemove(vPlayList[chosenList - 1]->getPlaylist(), currentPage);
         choose_remove = playListView.check_choice_PlaylistName_REMOVE(vPlayList[chosenList - 1]->getPlaylist(), currentPage);
         vPlayList[chosenList - 1]->getPlaylist().erase( vPlayList[chosenList - 1]->getPlaylist().begin()+choose_remove-1);
