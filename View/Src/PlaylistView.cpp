@@ -65,54 +65,56 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
             }
             else
             {
-                char command = userInput[0];
-                switch (command)
+                if(userInput.length()<=1)
                 {
-                    case 'N':
-                    case 'n':
-                        if (currentPage < (lists.size() + PAGE_LIST_SIZE - 1) / PAGE_LIST_SIZE)
-                        {
-                            currentPage++;
-                        }
-                        break;
-                    case 'P':
-                    case 'p':
-                        if (currentPage > 1)
-                        {
-                            currentPage--;
-                        }
-                        break;
+                    char command = userInput[0];
+                    switch (command)
+                    {
+                        case 'N':
+                        case 'n':
+                            if (currentPage < (lists.size() + PAGE_LIST_SIZE - 1) / PAGE_LIST_SIZE)
+                            {
+                                currentPage++;
+                            }
+                            break;
+                        case 'P':
+                        case 'p':
+                            if (currentPage > 1)
+                            {
+                                currentPage--;
+                            }
+                            break;
 
-                    /* Create list */
-                    case 'C':
-                    case 'c':
-                        return -1;
-                        break;
+                        /* Create list */
+                        case 'C':
+                        case 'c':
+                            return -1;
+                            break;
 
-                    /* Delete list */
-                    case 'D':
-                    case 'd':
-                        return -2;
-                        break;
+                        /* Delete list */
+                        case 'D':
+                        case 'd':
+                            return -2;
+                            break;
 
-                    /* Rename list*/
-                    case 'R':
-                    case 'r':
-                        return -3;
-                        break;
-                    /* Exit page */
-                    case 'E':
-                    case 'e':
-                        flag = false;
-                        break;
-                    default:
+                        /* Rename list*/
+                        case 'R':
+                        case 'r':
+                            return -3;
+                            break;
+                        /* Exit page */
+                        case 'E':
+                        case 'e':
+                            flag = false;
+                            break;
+                        default:
+                            cout << "Invalid choice. Please enter a valid option." << endl;
+                            cin.ignore();
+                    }
+                }else{
                         cout << "Invalid choice. Please enter a valid option." << endl;
-                        cin.ignore();
-                }
-            }
-        }
-        else
-        {
+                    }
+        }}else{
 
             cout << "Invalid choice. Please enter a valid option." << endl;
             cin.ignore();
@@ -213,50 +215,53 @@ int PlaylistView::check_choice_PlaylistName(const vector<MediaFile*>& lists_name
             }
             else
             {
-                char command = userInput[0];
-                switch (command)
+                if(userInput.length()<=1)
                 {
-                    /* Next page */
-                    case 'N':
-                    case 'n':
-                        if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
-                        {
-                            currentPage++;
-                        }
-                        break;
+                    char command = userInput[0];
+                    switch (command)
+                    {
+                        /* Next page */
+                        case 'N':
+                        case 'n':
+                            if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
+                            {
+                                currentPage++;
+                            }
+                            break;
 
-                    /* Previous page */
-                    case 'P':
-                    case 'p':
-                        if (currentPage > 1)
-                        {
-                            currentPage--;
-                        }
-                        break;
+                        /* Previous page */
+                        case 'P':
+                        case 'p':
+                            if (currentPage > 1)
+                            {
+                                currentPage--;
+                            }
+                            break;
 
-                    /* Add Music */
-                    case 'A':
-                    case 'a':
-                        return ADD_MUSIC;
-                    
-                    /* Remove Music */
-                    case 'R':
-                    case 'r':
-                        return REMOVE_MUSIC;
-                    
-                    /* Exit */
-                    case 'E':
-                    case 'e':
-                        flag = false;
-                        return EXIT_MUSIC;
-                    default:
+                        /* Add Music */
+                        case 'A':
+                        case 'a':
+                            return ADD_MUSIC;
+                        
+                        /* Remove Music */
+                        case 'R':
+                        case 'r':
+                            return REMOVE_MUSIC;
+                        
+                        /* Exit */
+                        case 'E':
+                        case 'e':
+                            flag = false;
+                            return EXIT_MUSIC;
+                        default:
+                            cout << "Invalid choice. Please enter a valid option." << endl;
+                            cin.ignore();
+                    }
+            }else{
                         cout << "Invalid choice. Please enter a valid option." << endl;
-                        cin.ignore();
-                }
+                    }
             }
-        }
-        else
-        {
+        }else{
             cout << "Invalid choice. Please enter a valid option." << endl;
             cin.ignore();
         }
@@ -300,40 +305,42 @@ int PlaylistView::check_choice_PlaylistName_REMOVE(const vector<MediaFile*>& lis
             }
             else
             {
-                char command = userInput[0];
-                switch (command)
+                if(userInput.length()<=1)
                 {
-                    /* Next page */
-                    case 'N':
-                    case 'n':
-                        if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
-                        {
-                            currentPage++;
-                        }
+                    char command = userInput[0];
+                    switch (command)
+                    {
+                        /* Next page */
+                        case 'N':
+                        case 'n':
+                            if (currentPage < (lists_name.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
+                            {
+                                currentPage++;
+                            }
 
-                        break;
+                            break;
 
-                    /* Previous page */
-                    case 'P':
-                    case 'p':
-                        if (currentPage > 1)
-                        {
-                            currentPage--;
-                        }
-                        break;
-                    /* Exit */
-                    case 'E':
-                    case 'e':
-                        flag = false;
-                        return EXIT_MUSIC;
-                    default:
+                        /* Previous page */
+                        case 'P':
+                        case 'p':
+                            if (currentPage > 1)
+                            {
+                                currentPage--;
+                            }
+                            break;
+                        /* Exit */
+                        case 'E':
+                        case 'e':
+                            flag = false;
+                            return EXIT_MUSIC;
+                        default:
+                            cout << "Invalid choice. Please enter a valid option." << endl;
+                            cin.ignore();
+                    }
+                }else{
                         cout << "Invalid choice. Please enter a valid option." << endl;
-                        cin.ignore();
-                }
-            }
-        }
-        else
-        {
+                    }
+        }}else{
             /**/
         }
     }

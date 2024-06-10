@@ -48,20 +48,20 @@ std::string MediaPathView::input_path()
     return directoryPath;
 }
 
-int MediaPathView::PathSelection()
-{
-    int choice;
-    cin >> choice;
-    if (std::cin.fail())
-    {
-        std::cin.clear(); // clear the error flag
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
-    else
-    {
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        return choice;
-    }
-    // INPUT WRONG VALUES
-    return -1;
-}
+// int MediaPathView::PathSelection()
+// {
+//     int choice;
+//     cin >> choice;
+//     if (std::cin.fail())
+//     {
+//         std::cin.clear(); // clear the error flag
+//         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+//     }
+//     else
+//     {
+//         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+//         return choice;
+//     }
+//     // INPUT WRONG VALUES
+//     return -1;
+// }

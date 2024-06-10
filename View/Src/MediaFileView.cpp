@@ -57,63 +57,68 @@ void MediaFileView::Invalid_choice()
 // ==================================================== CHECK USING FOR CHOOSE SONG IN MEDIALIST TO MODIFIED =============================================//
 
 int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) {
-    string userInput;int Song_Choice;
-    bool flag = true;
-    while(flag)
-    {
-        display_MediaFile(songs,currentPage);
-        cout << "Choose a metadata field to modify: " ;
-        getline(cin, userInput);
-        if (!userInput.empty()) {
-            stringstream ss(userInput);
-            
-            if (ss >> Song_Choice)
-            {
-                if (Song_Choice > 0 && Song_Choice <= (int)songs.size())
+        string userInput;int Song_Choice;
+        bool flag = true;
+        while(flag)
+        {
+            display_MediaFile(songs,currentPage);
+            cout << "Choose a metadata field to modify: " ;
+            getline(cin, userInput);
+            if (!userInput.empty()) {
+                stringstream ss(userInput);
+                
+                if (ss >> Song_Choice)
                 {
-                    return Song_Choice;
-                    flag = false;
-
-                }else{
-                    Invalid_choice();
-                    cin.ignore();
-                }
-            }else{
-                char command = userInput[0];
-                switch (command)
-                {
-                    /*NEXT PAGE*/
-                    case 'N':
-                    case 'n':
-                        if (currentPage < (songs.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
-                        {
-                            currentPage++;
-                        }
-                        break;
-                    /*PRERIOUS PAGE*/
-                    case 'P':
-                    case 'p':
-                        if (currentPage > 1)
-                        {
-                            currentPage--;
-                        }
-                        break;
-                    /*EXIT PAGE*/
-                    case 'E':
-                    case 'e':
+                    if (Song_Choice > 0 && Song_Choice <= (int)songs.size())
+                    {
+                        return Song_Choice;
                         flag = false;
-                        return -1;
-                        break;
-                    default:
+
+                    }else{
+                        Invalid_choice();
+                        cin.ignore();
+                    }
+                }else{
+                    if(userInput.length()<=1)
+                    {
+                        char command = userInput[0];
+                        switch (command)
+                        {
+                            /*NEXT PAGE*/
+                            case 'N':
+                            case 'n':
+                                if (currentPage < (songs.size() + PAGE_SONG_SIZE - 1) / PAGE_SONG_SIZE)
+                                {
+                                    currentPage++;
+                                }
+                                break;
+                            /*PRERIOUS PAGE*/
+                            case 'P':
+                            case 'p':
+                                if (currentPage > 1)
+                                {
+                                    currentPage--;
+                                }
+                                break;
+                            /*EXIT PAGE*/
+                            case 'E':
+                            case 'e':
+                                flag = false;
+                                return -1;
+                                break;
+                            default:
+                                cout << "Invalid choice. Please enter a valid option." << endl;
+                        }
+                    }else{
                         cout << "Invalid choice. Please enter a valid option." << endl;
-                }
+                    }
             }
-        }else{
-            cout << "Invalid choice. Please enter a valid option." << endl;
+            }else{
+                cout << "Invalid choice. Please enter a valid option." << endl;
+            }
         }
+        /*RETURN PAGE*/
+        return Song_Choice;
     }
-    /*RETURN PAGE*/
-    return Song_Choice;
-}
 
 /*========================================================================================================================================================*/
