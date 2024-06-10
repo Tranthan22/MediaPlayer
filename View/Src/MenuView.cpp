@@ -7,7 +7,7 @@
 
 void MenuView::display_menu()
 {
-    // system("clear");
+    system("clear");
     string header = "Menu";
     cout<< string(tableWidth , '=')<<endl;
     cout<< string(tableWidth / 2-header.length()/2, ' ') << header <<endl;

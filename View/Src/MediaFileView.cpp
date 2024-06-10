@@ -6,7 +6,7 @@
 
 void MediaFileView::display_MediaFile(vector<MediaFile*>& songs, size_t currentpage)
 {
-    // system("clear");
+    system("clear");
     string header = "Media List";
     cout << string(tableWidth , '=')<<endl;
     cout << string(tableWidth / 2-header.length()/2, ' ') << header <<endl;
@@ -46,7 +46,7 @@ void MediaFileView::displaySongsPerPage(vector<MediaFile*>& songs, size_t& curre
             <<"|"<< left << setw(tableWidth/8) << secondsToTimeFormat(fileRef.audioProperties()->lengthInSeconds())
             <<"|"<< left << setw(tableWidth/8) << tag->year()<< endl;
     }
-    }
+    }   
 }
 /*========================================================================================================================================================*/
 void MediaFileView::Invalid_choice()

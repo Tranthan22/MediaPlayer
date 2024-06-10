@@ -6,7 +6,7 @@
 
 void PlayMusicView::display_PlayMucsic(const vector<Playlist*>& plists, size_t& currentpage)
 {
-    // system("clear");
+    system("clear");
     string header = "Play Music";
     cout<< string(tableWidth , '=')<<std::flush<<endl;;
     cout<< string(tableWidth / 2-header.length()/2, ' ') << header <<std::flush<<endl;;
@@ -105,7 +105,7 @@ int PlayMusicView::check_choice_PlayMusicView(const vector<Playlist*>& lists, si
 
 void PlayMusicView::display_ShowPlay(const vector<MediaFile*>& lists_name, size_t &currentpage, size_t timelapse, size_t duration, MediaPlayer& myPlayer)
 {
-    // system("clear");
+    system("clear");
     string header = "Play Music";
     cout<< string(tableWidth , '=')<<endl;
     cout<< string(tableWidth / 2-header.length()/2, ' ') << header <<endl;

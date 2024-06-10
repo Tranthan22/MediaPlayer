@@ -6,7 +6,7 @@
 /*========================================================================================================================================================*/
 
 void PlaylistView::display_Playlist(const vector<Playlist*>& plists, size_t &currentPage){
-    // system("clear");
+    system("clear");
     string header = "Play List";
     cout<< string(tableWidth , '=')<<endl;
     cout<< string(tableWidth / 2-header.length()/2, ' ') << header <<endl;
@@ -132,7 +132,7 @@ int PlaylistView::check_choice_PlaylistView(const vector<Playlist*>& lists, size
 
 void PlaylistView:: playlistName(const vector<MediaFile*>&plist_name, size_t &currentPage)
 {
-    // system("clear");
+    system("clear");
     string header = "Play List Name";
     cout<< string(tableWidth , '=')<<endl;
     cout<< string(tableWidth / 2-header.length()/2, ' ') << header <<endl;
