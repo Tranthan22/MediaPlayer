@@ -18,11 +18,8 @@ private:
     std::vector<MediaFile*> *list;
     static bool Playing;
     static int fileIndexInList;
-    static bool checkInitSDL; 
     Mix_Music *bgm;    
     bool flagAuto =false;
-    // Mutex
-    std::mutex counter_mutex;
 
 public:
     MediaPlayer(/* args */);

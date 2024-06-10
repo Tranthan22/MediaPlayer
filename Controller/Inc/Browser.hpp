@@ -42,7 +42,8 @@ enum FlowID
     PLAY_LIST_MUSIC_ID = 5,
     PLAY_MUSIC_PLAYER_ID = 6,
     PATH_USB_ID =7,
-    SET_PATH_ID =8
+    SET_PATH_ID =8,
+    CLOSE_PROGRAM =9
 };
 
 

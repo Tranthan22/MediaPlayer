@@ -2,22 +2,10 @@
 
 bool MediaPlayer::Playing = false;
 int MediaPlayer::fileIndexInList = 0;
-bool MediaPlayer::checkInitSDL =true;
 
 MediaPlayer::MediaPlayer(/* args */)
 {
-    InitSDL();
-}
-
-MediaPlayer::~MediaPlayer()
-{
-    ExitAudio();
-}
-/*=================== Media Player =========================*/
-
-void MediaPlayer::InitSDL()
-{
-     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+    if (SDL_Init(SDL_INIT_AUDIO) < 0) {
         std::cerr << "SDL could not initialize! SDL Error: " << SDL_GetError() << std::endl;
     }
     // Khởi tạo SDL_mixer
@@ -27,11 +15,18 @@ void MediaPlayer::InitSDL()
     }
 }
 
-void MediaPlayer::ExitAudio()
+MediaPlayer::~MediaPlayer()
 {
+    // ExitAudio();
     Mix_CloseAudio();
     SDL_Quit();
-    checkInitSDL=false;
+}
+/*=================== Media Player =========================*/
+
+void MediaPlayer::ExitAudio()
+{
+    
+    Mix_HaltMusic();
 }
 
 int MediaPlayer::playMusic(/*const char* file*/)
@@ -43,10 +38,10 @@ int MediaPlayer::playMusic(/*const char* file*/)
     // Trích xuất âm thanh từ tệp video MP4 bằng FFmpeg
     else{
         std::string name_song = (*list)[fileIndexInList]->getPath();
-        std::string command =  "ffmpeg -y -i "+ name_song +" -vn -acodec pcm_s16le -ar 44100 -ac 2 Music/output.wav > /dev/null 2>&1";
+        std::string command =  "ffmpeg -y -i "+ name_song +" -vn -acodec pcm_s16le -ar 44100 -ac 2 output.wav > /dev/null 2>&1";
         std::system(command.c_str());
         // Load và phát âm thanh đã trích xuất bằng SDL2_mixer
-        bgm = Mix_LoadMUS("./Music/output.wav");
+        bgm = Mix_LoadMUS("output.wav");
     }
     if (bgm == NULL)
     {
@@ -92,7 +87,6 @@ void MediaPlayer:: ResumePause()
 void MediaPlayer:: nextMusic()
 {
     Mix_HaltMusic();
-    std::lock_guard<std::mutex> lock(counter_mutex);
     if(++fileIndexInList > (int)(list->size()-1))
     {
         fileIndexInList = 0;
@@ -108,7 +102,6 @@ void MediaPlayer:: nextMusic()
 void MediaPlayer:: preMusic()
 {
     Mix_HaltMusic();
-    std::lock_guard<std::mutex> lock(counter_mutex);
     if(--fileIndexInList < 0)
     {
         fileIndexInList = list->size()-1;

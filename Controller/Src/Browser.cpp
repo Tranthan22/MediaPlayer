@@ -36,7 +36,7 @@ void Browser::setPathView()
         mediaPathView.display_MediaPath(devices);
         std::this_thread::sleep_for(std::chrono::seconds(1));
         current_screen = flowID.top();
-    }while(current_screen  == 7);
+    }while(current_screen  == PATH_USB_ID);
 }
 void Browser::PathUsbSelection()
 {
@@ -45,17 +45,18 @@ void Browser::PathUsbSelection()
     PathThread.detach();
     do
     {
-        option = mediaPathView.PathSelection();
+        option = userInput();
     }
-    while(option > (int)devices.size() + 1);
+    while(option > (int)devices.size() + 1 || option < 0);
+
     if(option == 0)
-    {
+    {   /*CLOSE*/
         flowID.pop();
-        flowID.push(9);
+        flowID.push(CLOSE_PROGRAM);
     }
     else if(option == 1)
     {
-        flowID.push(8);
+        flowID.push(SET_PATH_ID);
     }
     else
     {
@@ -534,15 +535,18 @@ void Browser::playmusic_player(int& chosenList, int& chosenMusic)
         myPlayer.ResumePause();
         break;
     case -4:
+        
+        {
+        std::lock_guard<std::mutex> lock1(mtx1);
         myPlayer.nextMusic();
+        }
         resetTimer();
         break;
     case -5:
-        // {
-        // std::lock_guard<std::mutex> lock1(mtx1);
-        // Em de mutex o trong ham preMusic luon r sep oi
+        {
+        std::lock_guard<std::mutex> lock1(mtx1);
         myPlayer.preMusic();
-        // }
+        }
         resetTimer();
         break;
     case -6:
@@ -657,8 +661,8 @@ void Browser::programFlow()
             default:
                 list = 1;
                 flag=false;
-                // flowID.pop();
-                // FreeAll();
+                flowID.pop();
+                FreeAll();
                 break;
         }
     }
