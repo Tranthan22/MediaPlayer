@@ -171,7 +171,7 @@ void Browser::medialist()
     // size_t currentPage=START_PAGE;
     int choose_song;
     mediaFileView.display_MediaFile(vPlayList[0]->getPlaylist(), list);
-    metadataView.chooseMetadataField();
+    // metadataView.chooseMetadataField();
     choose_song = mediaFileView.check_choice(vPlayList[0]->getPlaylist(), list);
     if(choose_song == -1)
     {
@@ -620,7 +620,7 @@ void Browser::resetTimer()
 /*========================================== Program Flow =====================================================*/
 void Browser::programFlow()
 {
-    flowID.push(7);
+    flowID.push(PATH_USB_ID);
     bool flag =true;
     while (flag){
         
@@ -657,8 +657,8 @@ void Browser::programFlow()
             default:
                 list = 1;
                 flag=false;
-                flowID.pop();
-                FreeAll();
+                // flowID.pop();
+                // FreeAll();
                 break;
         }
     }

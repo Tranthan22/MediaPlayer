@@ -62,6 +62,7 @@ int MediaFileView::check_choice(vector<MediaFile*>& songs, size_t& currentPage) 
     while(flag)
     {
         display_MediaFile(songs,currentPage);
+        cout << "Choose a metadata field to modify: " ;
         getline(cin, userInput);
         if (!userInput.empty()) {
             stringstream ss(userInput);
