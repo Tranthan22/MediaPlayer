@@ -80,11 +80,11 @@ private:
     MenuView menuView;
     MediaFileView mediaFileView;
     Metadataview metadataView;
-
-    /* Player */
-    MediaPlayer myPlayer;
-    Metadata metaData;
     PlaylistView playListView;
+    /* Player */
+    MediaPlayer& myPlayer = MediaPlayer::getMediaPlayer();
+    Metadata metaData;
+    
     
     /* Thread */
     std::chrono::time_point<std::chrono::steady_clock> startTime;
@@ -94,7 +94,6 @@ private:
     TagLib::FileRef fileRef;
 
     std::mutex mtx1;
-    // std::mutex mtx2;
 
     /* USB */
     USBDeviceScanner usbDeviceScanner;

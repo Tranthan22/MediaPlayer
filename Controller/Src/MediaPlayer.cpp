@@ -1,7 +1,11 @@
 #include "MediaPlayer.hpp"
 
-bool MediaPlayer::Playing = false;
-int MediaPlayer::fileIndexInList = 0;
+
+MediaPlayer& MediaPlayer::getMediaPlayer()
+{
+    static MediaPlayer myMediaPlayer = MediaPlayer();
+    return myMediaPlayer;
+}
 
 MediaPlayer::MediaPlayer(/* args */)
 {

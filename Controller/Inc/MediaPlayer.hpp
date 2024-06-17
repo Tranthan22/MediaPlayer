@@ -16,15 +16,15 @@ class MediaPlayer
 private:
     size_t SysVolume = MIX_MAX_VOLUME;
     std::vector<MediaFile*> *list;
-    static bool Playing;
-    static int fileIndexInList;
+    bool Playing=false;
+    int fileIndexInList=0;
     Mix_Music *bgm;    
     bool flagAuto =false;
+    MediaPlayer(/* args */);
 
 public:
-    MediaPlayer(/* args */);
+    static MediaPlayer& getMediaPlayer();
     ~MediaPlayer();
-
     /* Media Player */
     int playMusic(/*const char* file*/);
     void ResumePause();
@@ -32,7 +32,7 @@ public:
     void preMusic();
     void autoMusic();
     void setList(std::vector<MediaFile*> *list);
-    static void setIndexInList(int index);
+    void setIndexInList(int index);
     string getPlayingMusicName();
     string getPlayingMusicPath();
     bool isPlaying();
@@ -43,8 +43,6 @@ public:
     
     void setFlagAuto(bool flagAuto);
     bool getFlagAuto();
-
-    void InitSDL();
     void ExitAudio();
 
 };

@@ -3,6 +3,7 @@
 
 Browser::Browser(/* args */)
 {
+    
 }
 
 Browser::~Browser()
@@ -157,6 +158,7 @@ void Browser::menu()
         break;
     /*EXIT TO PATH*/
     case EXIT:
+        myPlayer.ExitAudio();
         FreeAll();
         flowID.pop();
         list = 1;
@@ -270,7 +272,7 @@ void Browser::updateMetadata(string& file_path,string& file_name,int& file_type)
         cout << endl;
         metadataView.displayAudioFileMetadata(tag, fileRef);
         cout<<endl;
-        cout << left << setw(30) << "0. Back" << endl;
+        cout << left << setw(30) << "[ 0 ]. Back" << endl;
         cout<<endl;
         cout << string(tableWidth, '=')<<endl;
         metadataView.chooseMetadataField();
@@ -477,8 +479,10 @@ void Browser::playlist_music(int& chosenList)
             if(check_add){
                 MediaFile*new_songs =vPlayList[0]->getPlaylist()[choose_add-1];
                 vPlayList[chosenList - 1]->getPlaylist().push_back(new_songs);
+                list =1;
                 return;
             }
+            list =1;
         }
         break;
     /* Remove Music */
@@ -661,8 +665,8 @@ void Browser::programFlow()
             default:
                 list = 1;
                 flag=false;
-                flowID.pop();
-                FreeAll();
+                // flowID.pop();
+                // FreeAll();
                 break;
         }
     }
