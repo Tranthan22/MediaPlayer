@@ -1,7 +1,0 @@
-
-
-
-
-chứa hàm thêm bớt list.....
-
-controller sẽ gọi các hàm này
